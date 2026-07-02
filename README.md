@@ -2,7 +2,7 @@
 
 An interactive one-page webapp that lays out the investment case for SpaceX (SPCX) in numbers your friends and family can actually play with. It answers one question: **is $2 trillion today a bubble, or the entry point?**
 
-**Live demo:** _link here after GitHub Pages is enabled_  
+**Live demo:** https://vanmsft.github.io/spacex-opportunity/  
 **Local preview:** just double-click `index.html`.
 
 ## What's inside
