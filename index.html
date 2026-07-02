@@ -1922,9 +1922,9 @@
       </div>
       <div class="stat seg-compute">
         <div class="seg-tier">Space Data Centers</div>
-        <div class="num">$600B</div>
+        <div class="num" id="hero_compute_ev">$600B</div>
         <div class="label">Year-5 EV</div>
-        <div class="note">Rent GPUs at $2.50/hr · &lt;2 yr payback</div>
+        <div class="note" id="hero_compute_note">Rent GPUs at $2.50/hr · &lt;2 yr payback</div>
       </div>
       <div class="stat seg-launch">
         <div class="seg-tier">Launch · Starship</div>
@@ -3032,6 +3032,11 @@
           <input type="range" id="c_margin" min="30" max="90" step="1" value="70" />
           <div class="val" id="c_margin_v">70%</div>
         </div>
+        <div class="slider-row">
+          <label>Cumulative AI1 launches by Y5</label>
+          <input type="range" id="c_launches" min="20" max="2000" step="20" value="500" />
+          <div class="val" id="c_launches_v">500</div>
+        </div>
       </div>
 
       <div class="compute-output">
@@ -3075,11 +3080,11 @@
     </div>
 
     <div class="callout" style="margin-top: 32px;">
-      <strong>The business, in one sentence.</strong> Every Starship launch of AI1 satellites deploys ~$170M of GPU capex + $18.5M of launch cost. That fleet generates <strong>~$100M/year in rental revenue</strong> at commodity pricing, pays itself back in under 2 years, and throws off <strong>~$70M/year in gross profit for 3–8 more years</strong>. Do that 100 times a year and it's a $10B/year revenue line — and that's before the price premium orbital compute can charge for zero-carbon, physically-isolated, latency-tolerant training workloads. This is why "AI Compute · $600B Y5 EV" is on the hero tile, and why the sum-of-parts base case has $60B revenue by 2031. It's not vaporware; it's a rental business with real payback math.
+      <strong>The business, in one sentence.</strong> Every Starship launch of AI1 satellites deploys ~<span id="callout_capex">$170M</span> of GPU capex + <span id="callout_launchcost">$18.5M</span> of launch cost. That fleet generates <strong>~<span id="callout_annual_rev">$106M</span>/year in rental revenue</strong> at commodity pricing, pays itself back in <strong id="callout_payback_yrs">1.8 years</strong>, and throws off <strong>~<span id="callout_annual_profit">$74M</span>/year in gross profit for 3–8 more years</strong>. Do that <span id="callout_launches">500</span> times cumulative by Y5 and it's a <strong id="callout_fleet_rev">$53B/year</strong> revenue line — and that's before the price premium orbital compute can charge for zero-carbon, physically-isolated, latency-tolerant training workloads. This is why the AI Compute segment lives on the hero tile, and why the sum-of-parts base case has real revenue by 2031. It's not vaporware; it's a rental business with real payback math.
     </div>
 
     <div class="callout" style="margin-top: 20px; border-left-color: var(--gain); background: rgba(52, 211, 153, 0.06);">
-      <strong>The S-1 reversal — why today's "loss" flips to profit fast.</strong> The bear case above (Bear #2, Bear #3) leans on the S-1's <strong>−$2.58B consolidated operating loss</strong> and calls the AI segment a "capital incinerator." But re-read the loss line with the calculator above in view: SpaceX isn't burning $2.58B — it's spending it on <strong>GPU racks and launch infrastructure that pay themselves back in under 2 years</strong>. Every 20 AI1 launches per year adds a <strong>~$2B annual revenue line</strong> — enough to erase the entire current consolidated operating loss with a single year of orbital compute deployment. Run 100 launches/year (well within Starfactory's 1,000/yr design capacity and Falcon 9's proven 138/yr cadence) and the AI segment stops being a "capital incinerator" and turns into a <strong>$10B+ revenue business at ~70% gross margin</strong>. That's Amazon 2000 or Netflix 2012 — an income-statement loss today masking a rental business whose payback math has already been proven at Earth data centers, now applied to a lower-cost operating environment. The S-1 shows the cost. The 2028 P&amp;L will show the payoff.
+      <strong>The S-1 reversal — why today's "loss" flips to profit fast.</strong> The bear case above (Bear #2, Bear #3) leans on the S-1's <strong>−$2.58B consolidated operating loss</strong> and calls the AI segment a "capital incinerator." But re-read the loss line with the calculator above in view: SpaceX isn't burning $2.58B — it's spending it on <strong>GPU racks and launch infrastructure that pay themselves back in <span id="callout_payback_short">under 2 years</span></strong>. Every 20 AI1 launches per year adds a <strong>~<span id="callout_20_rev">$2.1B</span> annual revenue line</strong> — enough to erase the entire current consolidated operating loss with a single year of orbital compute deployment. Run 100 launches/year (well within Starfactory's 1,000/yr design capacity and Falcon 9's proven 138/yr cadence) and the AI segment turns into a <strong>~<span id="callout_100_rev">$11B</span>+ revenue business at ~<span id="callout_gross_margin">70%</span> gross margin</strong>. That's Amazon 2000 or Netflix 2012 — an income-statement loss today masking a rental business whose payback math has already been proven at Earth data centers, now applied to a lower-cost operating environment. The S-1 shows the cost. The 2028 P&amp;L will show the payoff.
     </div>
 
     <div class="kpi-grid" style="margin-top: 32px;">
@@ -3146,11 +3151,11 @@
         </tr>
         <tr>
           <td>AI Compute in orbit <span style="color: var(--muted); font-weight: 400;">(rent GPUs to hyperscalers · &lt;2 yr payback per launch)</span></td>
-          <td>$60B</td>
-          <td>50%</td>
-          <td>$30B</td>
-          <td>20×</td>
-          <td>$600B</td>
+          <td id="sop_ai_rev">$60B</td>
+          <td id="sop_ai_margin">50%</td>
+          <td id="sop_ai_ebitda">$30B</td>
+          <td id="sop_ai_mult">20×</td>
+          <td id="sop_ai_ev">$600B</td>
         </tr>
         <tr>
           <td>Starshield / Defense <span style="color: var(--muted); font-weight: 400;">(DoD constellation + ISR)</span></td>
@@ -3431,6 +3436,7 @@ const DEFAULTS = {
   c_util: 85,
   c_life: 5,
   c_margin: 70,
+  c_launches: 500,
 };
 
 /* --- FORMATTERS --- */
@@ -4012,14 +4018,14 @@ function updateValuation() {
   }
 
   // Drive the hero: Starlink Y5 EV + sum-of-parts + discount
-  // Other segment EVs come from the sum-of-parts table (compute+launch+defense+grok+options = $993B)
-  const OTHER_SEGMENTS_EV = (600 + 180 + 75 + 38 + 100) * 1e9; // $993B
-  const OTHER_SEGMENTS_REV = (30 + 60 + 10 + 25) * 1e9;        // $125B (Space+Compute+Defense+Grok, no Mars)
-  const OTHER_SEGMENTS_EBITDA = (12 + 30 + 5 + 2.5) * 1e9;     // $49.5B
+  // Compute segment values flow in from updateComputePerLaunch(); others held constant
+  const NON_COMPUTE_OTHER_EV = (180 + 75 + 38 + 100) * 1e9;    // $393B  (Launch + Defense + Grok + Options)
+  const NON_COMPUTE_OTHER_REV = (30 + 10 + 25) * 1e9;          // $65B   (Launch + Defense + Grok, no Mars)
+  const NON_COMPUTE_OTHER_EBITDA = (12 + 5 + 2.5) * 1e9;       // $19.5B
   const SPCX_MARKET_CAP = 2.075e12;
-  const sop = ev + OTHER_SEGMENTS_EV;
-  const sopRev = endRevenue + OTHER_SEGMENTS_REV;
-  const sopEbitda = endEbitda + OTHER_SEGMENTS_EBITDA;
+  const sop = ev + computeSegmentEV + NON_COMPUTE_OTHER_EV;
+  const sopRev = endRevenue + computeSegmentRevenue + NON_COMPUTE_OTHER_REV;
+  const sopEbitda = endEbitda + computeSegmentEbitda + NON_COMPUTE_OTHER_EBITDA;
   const discountPct = (SPCX_MARKET_CAP / sop) * 100;
 
   const heroStarlinkEv = document.getElementById('hero_starlink_ev');
@@ -4290,6 +4296,15 @@ function updateOnePlan() {
 /* ============================================================
    COMPUTE PER STARSHIP CALCULATOR
    ============================================================ */
+/* ============================================================
+   COMPUTE PER STARSHIP CALCULATOR
+   ============================================================ */
+// Module-level state for compute-segment values so updateValuation() can read them
+let computeSegmentEV = 600e9;
+let computeSegmentRevenue = 60e9;
+let computeSegmentEbitda = 30e9;
+const AI_COMPUTE_EV_MULTIPLE = 20;
+
 function updateComputePerLaunch() {
   const payloadT = +document.getElementById('c_payload').value;
   const costkg = +document.getElementById('c_costkg').value;
@@ -4301,6 +4316,7 @@ function updateComputePerLaunch() {
   const utilPct = +document.getElementById('c_util').value / 100;
   const lifeYrs = +document.getElementById('c_life').value;
   const grossMargin = +document.getElementById('c_margin').value / 100;
+  const launchesCum = +document.getElementById('c_launches').value;
 
   document.getElementById('c_payload_v').textContent = payloadT + ' t';
   document.getElementById('c_costkg_v').textContent = '$' + costkg;
@@ -4312,6 +4328,7 @@ function updateComputePerLaunch() {
   document.getElementById('c_util_v').textContent = (utilPct * 100).toFixed(0) + '%';
   document.getElementById('c_life_v').textContent = lifeYrs + ' yr';
   document.getElementById('c_margin_v').textContent = (grossMargin * 100).toFixed(0) + '%';
+  document.getElementById('c_launches_v').textContent = fmtNum(launchesCum);
 
   const payloadKg = payloadT * 1000;
   const effectiveMassPerGpu = gpuMass * overhead;
@@ -4323,14 +4340,26 @@ function updateComputePerLaunch() {
   const totalCapex = gpuCapex + launchCost;
   const launchPct = totalCapex > 0 ? (launchCost / totalCapex) * 100 : 0;
 
-  // Rental economics — the missing revenue side
+  // Per-launch rental economics
   const hoursPerYear = 24 * 365;
   const annualRevPerGpu = rentalHr * hoursPerYear * utilPct;
   const annualRevPerLaunch = annualRevPerGpu * gpuCount;
   const lifetimeRev = annualRevPerLaunch * lifeYrs;
   const paybackYrs = annualRevPerLaunch > 0 ? totalCapex / annualRevPerLaunch : Infinity;
   const lifetimeProfit = lifetimeRev * grossMargin - totalCapex;
+  const annualProfitPerLaunch = annualRevPerLaunch * grossMargin;
 
+  // Segment-level economics (Y5 fleet run-rate)
+  const segmentRevenue = annualRevPerLaunch * launchesCum;
+  const segmentEbitda = segmentRevenue * grossMargin;
+  const segmentEV = segmentEbitda * AI_COMPUTE_EV_MULTIPLE;
+
+  // Store for updateValuation to consume
+  computeSegmentRevenue = segmentRevenue;
+  computeSegmentEbitda = segmentEbitda;
+  computeSegmentEV = segmentEV;
+
+  // Per-launch output
   document.getElementById('c_gpus').textContent = fmtNum(gpuCount);
   document.getElementById('c_flops').textContent = totalEflops.toFixed(1) + ' EFLOPS';
   document.getElementById('c_gpu_value').textContent = fmtBig(gpuCapex);
@@ -4340,6 +4369,33 @@ function updateComputePerLaunch() {
   document.getElementById('c_lifetime_rev').textContent = fmtBig(lifetimeRev);
   document.getElementById('c_payback').textContent = isFinite(paybackYrs) ? paybackYrs.toFixed(1) + ' yr' : '—';
   document.getElementById('c_lifetime_profit').textContent = fmtBig(lifetimeProfit);
+
+  // Update the callout math
+  const setText = (id, text) => { const el = document.getElementById(id); if (el) el.textContent = text; };
+  setText('callout_capex', fmtBig(gpuCapex));
+  setText('callout_launchcost', fmtBig(launchCost));
+  setText('callout_annual_rev', fmtBig(annualRevPerLaunch));
+  setText('callout_annual_profit', fmtBig(annualProfitPerLaunch));
+  setText('callout_payback_yrs', isFinite(paybackYrs) ? paybackYrs.toFixed(1) + ' years' : 'N/A');
+  setText('callout_payback_short', isFinite(paybackYrs) && paybackYrs < 2 ? 'under 2 years' : `~${paybackYrs.toFixed(1)} years`);
+  setText('callout_launches', fmtNum(launchesCum));
+  setText('callout_fleet_rev', fmtBig(segmentRevenue) + '/year');
+  setText('callout_20_rev', fmtBig(annualRevPerLaunch * 20));
+  setText('callout_100_rev', fmtBig(annualRevPerLaunch * 100));
+  setText('callout_gross_margin', (grossMargin * 100).toFixed(0) + '%');
+
+  // Update the hero Space DCs tile
+  setText('hero_compute_ev', fmtBig(segmentEV));
+  setText('hero_compute_note', `${fmtNum(launchesCum)} launches by Y5 · $${rentalHr.toFixed(2)}/hr GPU rental`);
+
+  // Update the sum-of-parts AI Compute row
+  setText('sop_ai_rev', fmtBig(segmentRevenue));
+  setText('sop_ai_margin', (grossMargin * 100).toFixed(0) + '%');
+  setText('sop_ai_ebitda', fmtBig(segmentEbitda));
+  setText('sop_ai_ev', fmtBig(segmentEV));
+
+  // Cascade to updateValuation so hero SoP + Base case + KPIs + total row all recompute
+  if (typeof updateValuation === 'function') updateValuation();
 }
 
 /* ============================================================
@@ -4371,7 +4427,7 @@ function bindInputs() {
     document.getElementById(id).addEventListener('input', updateOnePlan);
   });
 
-  ['c_payload', 'c_costkg', 'c_gpumass', 'c_pflops', 'c_gpucost', 'c_overhead', 'c_rental', 'c_util', 'c_life', 'c_margin'].forEach(id => {
+  ['c_payload', 'c_costkg', 'c_gpumass', 'c_pflops', 'c_gpucost', 'c_overhead', 'c_rental', 'c_util', 'c_life', 'c_margin', 'c_launches'].forEach(id => {
     document.getElementById(id).addEventListener('input', updateComputePerLaunch);
   });
 
@@ -4471,11 +4527,10 @@ document.addEventListener('DOMContentLoaded', () => {
   buildTamDonut();
   bindInputs();
   updateCalculator();
-  updateValuation();
-  updateTam();
   updateUnitEcon();
   updateOnePlan();
-  updateComputePerLaunch();
+  updateComputePerLaunch(); // Sets computeSegmentEV/Rev/Ebitda + calls updateValuation()
+  updateTam();
 });
 
 </script>

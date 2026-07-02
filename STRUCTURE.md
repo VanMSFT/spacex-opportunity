@@ -64,7 +64,7 @@ Search HTML for the `<!-- SECTION NAME -->` comments to jump to each one. Approx
 | 10 | Starlink valuation | `#valuation` | ✅ 4 scenarios + 7 sliders | 2450–2521, ...–2790 |
 | 11 | Global TAM & underserved | `#tam` | ✅ 3 sliders + donut | 2705–2904 |
 | 12 | Unit econ + One Plan Everywhere | `#unit-econ` | ✅ 9 sliders | 2791–3057 |
-| 13 | Space data centers | `#compute` | ✅ 10 sliders (payload/cost + rental economics) | 2905–3057 |
+| 13 | Space data centers | `#compute` | ✅ 11 sliders (payload/cost + rental economics + fleet size) | 2905–3057 |
 | 14 | Bull thesis sum-of-parts | `#bull` | No (static table + 3 cases) | 3058–3190 |
 | 15 | What $0.10/Mbps unlocks | `#unlocks` | No | 3191–3255 |
 | 16 | Sources | `#sources` | No | 3256–end |
