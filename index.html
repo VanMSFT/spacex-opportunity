@@ -3129,12 +3129,12 @@
       </thead>
       <tbody>
         <tr>
-          <td>Starlink Connectivity <span style="color: var(--muted); font-weight: 400;">(base case, 120M subs, $90 ARPU)</span></td>
-          <td>$130B</td>
-          <td>63%</td>
-          <td>$82B</td>
-          <td>18×</td>
-          <td>$1,476B</td>
+          <td>Starlink Connectivity <span style="color: var(--muted); font-weight: 400;">(from the valuation model above)</span></td>
+          <td id="sop_star_rev">$130B</td>
+          <td id="sop_star_margin">63%</td>
+          <td id="sop_star_ebitda">$82B</td>
+          <td id="sop_star_mult">18×</td>
+          <td id="sop_star_ev">$1,476B</td>
         </tr>
         <tr>
           <td>Space / Launch <span style="color: var(--muted); font-weight: 400;">(Starship monopoly + defense)</span></td>
@@ -3180,11 +3180,11 @@
       <tfoot>
         <tr>
           <td>Total sum-of-parts EV at Year 5</td>
-          <td>$255B rev</td>
+          <td id="sop_total_rev">$255B rev</td>
           <td>—</td>
-          <td>$132B EBITDA</td>
+          <td id="sop_total_ebitda">$132B EBITDA</td>
           <td>—</td>
-          <td>$2,469B</td>
+          <td id="sop_total_ev">$2,469B</td>
         </tr>
       </tfoot>
     </table>
@@ -3203,8 +3203,8 @@
       </div>
       <div class="sop-case base">
         <div class="case-name">Base case · SoP above</div>
-        <div class="case-val">$2.5T</div>
-        <div class="case-lbl">Year 5 EV · 20% above today</div>
+        <div class="case-val" id="case_base_val">$2.5T</div>
+        <div class="case-lbl" id="case_base_lbl">Year 5 EV · 20% above today</div>
         <p class="case-desc">Starship hits $60–100/kg. Starlink reaches 120M subs. AI compute reaches $60B revenue by 2031. Grok breaks even. Defense contracts scale. Market is roughly pricing this in.</p>
       </div>
       <div class="sop-case bull">
@@ -3216,7 +3216,7 @@
     </div>
 
     <div class="callout" style="margin-top: 32px; border-left-color: var(--gain); background: rgba(52, 211, 153, 0.06);">
-      <strong>The bull's punchline.</strong> At $2.075T market cap today, the market is essentially pricing in the base-case sum-of-parts with modest execution risk — <strong>roughly 82% probability of execution</strong> (2.075 / 2.5 ≈ 83%). That's aggressive but not insane if you believe in the physics is solved thesis. The bear thinks the execution success rate is closer to 30%. The bull thinks it's 95%+ and thinks the market is missing the AI compute upside entirely. Reasonable people disagree because the physics is settled and the engineering isn't — and the market has to price a probability distribution, not a certainty.
+      <strong>The bull's punchline.</strong> At $2.075T market cap today, the market is essentially pricing in the base-case sum-of-parts with modest execution risk — <strong>roughly <span id="punchline_pct">82%</span> probability of execution</strong> (2.075 / <span id="punchline_base">2.5</span>T ≈ same %). That's aggressive but not insane if you believe in the physics-is-solved thesis. The bear thinks the execution success rate is closer to 30%. The bull thinks it's 95%+ and thinks the market is missing the AI compute upside entirely. Reasonable people disagree because the physics is settled and the engineering isn't — and the market has to price a probability distribution, not a certainty.
     </div>
 
     <div class="kpi-grid" style="margin-top: 32px;">
@@ -3225,11 +3225,11 @@
         <div class="kpi-lbl">Market cap today</div>
       </div>
       <div class="kpi">
-        <div class="kpi-num">$2.5T</div>
+        <div class="kpi-num" id="kpi_base_sop">$2.5T</div>
         <div class="kpi-lbl">Base-case Y5 sum-of-parts</div>
       </div>
       <div class="kpi">
-        <div class="kpi-num">82%</div>
+        <div class="kpi-num" id="kpi_implied_pct">82%</div>
         <div class="kpi-lbl">Implied execution probability</div>
       </div>
       <div class="kpi">
@@ -4014,8 +4014,12 @@ function updateValuation() {
   // Drive the hero: Starlink Y5 EV + sum-of-parts + discount
   // Other segment EVs come from the sum-of-parts table (compute+launch+defense+grok+options = $993B)
   const OTHER_SEGMENTS_EV = (600 + 180 + 75 + 38 + 100) * 1e9; // $993B
+  const OTHER_SEGMENTS_REV = (30 + 60 + 10 + 25) * 1e9;        // $125B (Space+Compute+Defense+Grok, no Mars)
+  const OTHER_SEGMENTS_EBITDA = (12 + 30 + 5 + 2.5) * 1e9;     // $49.5B
   const SPCX_MARKET_CAP = 2.075e12;
   const sop = ev + OTHER_SEGMENTS_EV;
+  const sopRev = endRevenue + OTHER_SEGMENTS_REV;
+  const sopEbitda = endEbitda + OTHER_SEGMENTS_EBITDA;
   const discountPct = (SPCX_MARKET_CAP / sop) * 100;
 
   const heroStarlinkEv = document.getElementById('hero_starlink_ev');
@@ -4028,7 +4032,6 @@ function updateValuation() {
   if (heroSop) heroSop.textContent = fmtBig(sop);
   if (heroDiscount) {
     heroDiscount.textContent = discountPct.toFixed(0) + '%';
-    // Color: green if buying below base (< 100%), amber if paying premium
     heroDiscount.style.color = discountPct <= 100 ? 'var(--gain)' : 'var(--warn)';
   }
   if (heroDiscountNote) {
@@ -4037,6 +4040,30 @@ function updateValuation() {
       ? `of base-case value · ${gap.toFixed(0)}% discount`
       : `of base-case value · paying ${(-gap).toFixed(0)}% premium`;
   }
+
+  // Drive the bull-thesis sum-of-parts table Starlink row + total row
+  const setText = (id, text) => { const el = document.getElementById(id); if (el) el.textContent = text; };
+  setText('sop_star_rev', fmtBig(endRevenue));
+  setText('sop_star_margin', (margin * 100).toFixed(0) + '%');
+  setText('sop_star_ebitda', fmtBig(endEbitda));
+  setText('sop_star_mult', multiple + '×');
+  setText('sop_star_ev', fmtBig(ev));
+  setText('sop_total_rev', fmtBig(sopRev) + ' rev');
+  setText('sop_total_ebitda', fmtBig(sopEbitda) + ' EBITDA');
+  setText('sop_total_ev', fmtBig(sop));
+
+  // Drive the "Base case" scenario card
+  const baseVsTodayPct = ((sop / SPCX_MARKET_CAP) - 1) * 100;
+  setText('case_base_val', fmtBig(sop));
+  setText('case_base_lbl', baseVsTodayPct >= 0
+    ? `Year 5 EV · ${baseVsTodayPct.toFixed(0)}% above today`
+    : `Year 5 EV · ${(-baseVsTodayPct).toFixed(0)}% below today`);
+
+  // Drive the punchline callout + KPI grid
+  setText('punchline_pct', discountPct.toFixed(0) + '%');
+  setText('punchline_base', (sop / 1e12).toFixed(1));
+  setText('kpi_base_sop', fmtBig(sop));
+  setText('kpi_implied_pct', discountPct.toFixed(0) + '%');
 }
 
 /* ============================================================
