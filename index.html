@@ -1,0 +1,4352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SpaceX Opportunity — The $/Mbps Story</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg-0: #05060a;
+    --bg-1: #0b0e17;
+    --bg-2: #131829;
+    --bg-3: #1c2340;
+    --line: #2a3358;
+    --text: #eef2ff;
+    --muted: #9aa3c7;
+    --dim: #6b739a;
+    --falcon: #4fc3f7;
+    --starship: #ff7a4a;
+    --starlink: #b39dff;
+    --gain: #34d399;
+    --warn: #fbbf24;
+    --danger: #f87171;
+    --grad-hero: linear-gradient(135deg, #1a1f3d 0%, #0b0e17 50%, #1a0f2e 100%);
+    --grad-accent: linear-gradient(135deg, #4fc3f7 0%, #b39dff 50%, #ff7a4a 100%);
+    --grad-falcon: linear-gradient(135deg, #4fc3f7 0%, #2a86c9 100%);
+    --grad-starship: linear-gradient(135deg, #ff7a4a 0%, #ff4a6e 100%);
+    --shadow-card: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.04);
+    --radius: 14px;
+    --font-mono: "SF Mono", "JetBrains Mono", "Fira Code", ui-monospace, Consolas, monospace;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, system-ui, sans-serif;
+    background: var(--bg-0);
+    color: var(--text);
+    line-height: 1.55;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 10%, rgba(79, 195, 247, 0.06) 0%, transparent 40%),
+      radial-gradient(ellipse at 80% 60%, rgba(255, 122, 74, 0.06) 0%, transparent 40%),
+      radial-gradient(ellipse at 50% 90%, rgba(179, 157, 255, 0.05) 0%, transparent 40%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  main { position: relative; z-index: 1; }
+
+  /* NAV */
+  nav.top {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(18px);
+    background: rgba(5, 6, 10, 0.75);
+    border-bottom: 1px solid var(--line);
+  }
+  nav.top .inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 14px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  nav.top .brand {
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  nav.top .brand .dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--grad-accent);
+    box-shadow: 0 0 12px rgba(255, 122, 74, 0.6);
+  }
+  nav.top .links { display: flex; gap: 4px; flex-wrap: wrap; }
+  nav.top a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: all 0.15s ease;
+  }
+  nav.top a:hover { color: var(--text); background: rgba(255, 255, 255, 0.05); }
+
+  /* LAYOUT */
+  section { padding: 80px 32px; position: relative; }
+  .wrap { max-width: 1280px; margin: 0 auto; }
+  .eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  h1, h2, h3 { margin: 0 0 16px; font-weight: 700; letter-spacing: -0.02em; }
+  h1 { font-size: clamp(40px, 6vw, 72px); line-height: 1.02; }
+  h2 { font-size: clamp(28px, 3.6vw, 44px); line-height: 1.1; }
+  h3 { font-size: 20px; }
+  p { margin: 0 0 14px; color: var(--muted); font-size: 15.5px; }
+  p.lead { font-size: 18px; color: var(--text); max-width: 780px; }
+  .em { color: var(--text); font-weight: 500; }
+
+  /* HERO */
+  #hero {
+    padding: 120px 32px 100px;
+    background: var(--grad-hero);
+    border-bottom: 1px solid var(--line);
+  }
+  #hero h1 span.grad {
+    background: var(--grad-accent);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+  #hero .kicker {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 100px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--line);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 24px;
+    font-weight: 600;
+  }
+  #hero .subhead {
+    font-size: 20px;
+    max-width: 780px;
+    color: var(--muted);
+    margin-top: 24px;
+    line-height: 1.55;
+  }
+  #hero .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-top: 56px;
+  }
+  #hero .stat {
+    padding: 24px;
+    background: rgba(19, 24, 41, 0.6);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    backdrop-filter: blur(8px);
+  }
+  #hero .stat .num {
+    font-family: var(--font-mono);
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    background: var(--grad-accent);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    line-height: 1.05;
+  }
+  #hero .stat .label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--dim);
+    margin-top: 8px;
+    font-weight: 600;
+  }
+  #hero .stat .note { font-size: 12px; color: var(--muted); margin-top: 6px; }
+
+  /* Hero segment tiles (investment thesis) */
+  #hero .stat .seg-tier {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-weight: 700;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+  #hero .stat.seg-starlink { border-top: 3px solid var(--falcon); }
+  #hero .stat.seg-starlink .seg-tier { color: var(--falcon); }
+  #hero .stat.seg-starlink .num {
+    background: linear-gradient(135deg, #4fc3f7 0%, #2a86c9 100%);
+    background-clip: text; -webkit-background-clip: text;
+  }
+  #hero .stat.seg-compute { border-top: 3px solid var(--starlink); }
+  #hero .stat.seg-compute .seg-tier { color: var(--starlink); }
+  #hero .stat.seg-compute .num {
+    background: linear-gradient(135deg, #b39dff 0%, #7b5cff 100%);
+    background-clip: text; -webkit-background-clip: text;
+  }
+  #hero .stat.seg-launch { border-top: 3px solid var(--starship); }
+  #hero .stat.seg-launch .seg-tier { color: var(--starship); }
+  #hero .stat.seg-launch .num {
+    background: linear-gradient(135deg, #ff7a4a 0%, #ff4a6e 100%);
+    background-clip: text; -webkit-background-clip: text;
+  }
+  #hero .stat.seg-defense { border-top: 3px solid var(--gain); }
+  #hero .stat.seg-defense .seg-tier { color: var(--gain); }
+  #hero .stat.seg-defense .num {
+    background: linear-gradient(135deg, #34d399 0%, #059669 100%);
+    background-clip: text; -webkit-background-clip: text;
+  }
+
+  /* Hero summary strip (Sum-of-parts → Market cap → Discount) */
+  .hero-summary {
+    margin-top: 40px;
+    padding: 24px 28px;
+    background: rgba(19, 24, 41, 0.7);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+    gap: 24px;
+    align-items: center;
+  }
+  .hero-summary .sum-lbl {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .hero-summary .sum-val {
+    font-family: var(--font-mono);
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-top: 6px;
+  }
+  .hero-summary .sum-note { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .hero-summary .sum-arrow {
+    font-family: var(--font-mono);
+    font-size: 28px;
+    color: var(--dim);
+    font-weight: 300;
+  }
+
+  .hero-flex {
+    margin-top: 28px;
+    padding: 20px 24px;
+    background: rgba(0, 0, 0, 0.25);
+    border-left: 3px solid var(--warn);
+    border-radius: 10px;
+    font-size: 14.5px;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+  .hero-flex strong { color: var(--text); }
+
+  @media (max-width: 900px) {
+    .hero-summary { grid-template-columns: 1fr; gap: 14px; text-align: left; }
+    .hero-summary .sum-arrow { display: none; }
+    .hero-summary .sum-val { font-size: 30px; }
+  }
+
+  @media (max-width: 900px) {
+    #hero .stats { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 520px) {
+    #hero .stats { grid-template-columns: 1fr; }
+  }
+
+  /* TIMELINE — 3 ERAS */
+  .eras {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 40px;
+  }
+  .era {
+    padding: 28px;
+    background: var(--bg-1);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    position: relative;
+    overflow: hidden;
+  }
+  .era::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .era.past::before { background: linear-gradient(90deg, #444, #666); }
+  .era.now::before { background: var(--grad-falcon); }
+  .era.future::before { background: var(--grad-starship); }
+  .era .tag {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--dim);
+    font-weight: 700;
+  }
+  .era.now .tag { color: var(--falcon); }
+  .era.future .tag { color: var(--starship); }
+  .era h3 { margin: 8px 0 16px; font-size: 22px; }
+  .era .metric {
+    font-family: var(--font-mono);
+    font-size: 32px;
+    font-weight: 700;
+    margin: 16px 0 4px;
+  }
+  .era.past .metric { color: #888; }
+  .era.now .metric { color: var(--falcon); }
+  .era.future .metric { color: var(--starship); }
+  .era .metric-label { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+  .era p { font-size: 14px; margin-bottom: 8px; }
+
+  @media (max-width: 900px) {
+    .eras { grid-template-columns: 1fr; }
+  }
+
+  /* CALCULATOR */
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 40px;
+    align-items: stretch;
+  }
+  .calc-card {
+    padding: 28px;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    background: var(--bg-1);
+    box-shadow: var(--shadow-card);
+    display: flex;
+    flex-direction: column;
+  }
+  .calc-card.falcon { background: linear-gradient(180deg, rgba(79, 195, 247, 0.06), var(--bg-1)); border-color: rgba(79, 195, 247, 0.25); }
+  .calc-card.starship { background: linear-gradient(180deg, rgba(255, 122, 74, 0.06), var(--bg-1)); border-color: rgba(255, 122, 74, 0.25); }
+  .calc-card h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .calc-card h3 .pill {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 100px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .calc-card.falcon h3 .pill { background: rgba(79, 195, 247, 0.15); color: var(--falcon); }
+  .calc-card.starship h3 .pill { background: rgba(255, 122, 74, 0.15); color: var(--starship); }
+
+  .input-row {
+    display: grid;
+    grid-template-columns: 1fr 130px;
+    gap: 12px;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.06);
+  }
+  .input-row:last-of-type { border-bottom: none; }
+  .input-row label {
+    font-size: 13.5px;
+    color: var(--muted);
+  }
+  .input-row label .hint {
+    display: block;
+    font-size: 11px;
+    color: var(--dim);
+    margin-top: 2px;
+  }
+  .input-row label .hint .convert {
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-weight: 600;
+    margin-left: 4px;
+  }
+  .calc-card.falcon .input-row label .hint .convert { color: var(--falcon); }
+  .calc-card.starship .input-row label .hint .convert { color: var(--starship); }
+  .input-row input[type="number"] {
+    width: 100%;
+    padding: 8px 12px;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    text-align: right;
+    transition: border 0.15s ease;
+  }
+  .input-row input[type="number"]:focus {
+    outline: none;
+    border-color: var(--falcon);
+    box-shadow: 0 0 0 3px rgba(79, 195, 247, 0.15);
+  }
+  .calc-card.starship .input-row input[type="number"]:focus {
+    border-color: var(--starship);
+    box-shadow: 0 0 0 3px rgba(255, 122, 74, 0.15);
+  }
+
+  .result-block {
+    padding: 16px 14px;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.28);
+    border: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: 108px;
+  }
+  .result-block .result-label {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--dim);
+    font-weight: 600;
+  }
+  .result-block .result-value {
+    font-family: var(--font-mono);
+    font-size: 24px;
+    font-weight: 700;
+    margin: 6px 0 4px;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  .calc-card.falcon .result-value { color: var(--falcon); }
+  .calc-card.starship .result-value { color: var(--starship); }
+  .result-block .result-sub {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    margin-top: auto;
+    line-height: 1.3;
+  }
+
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 20px;
+  }
+  @media (max-width: 520px) {
+    .results-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Info row (Falcon 9 status — visually matches .presets row on Starship) */
+  .calc-status {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    margin: -4px 0 18px;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    border: 1px solid var(--line);
+  }
+  .calc-status .status-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--dim);
+    font-weight: 600;
+    padding: 6px 8px 6px 4px;
+    align-self: center;
+  }
+  .calc-status .status-chip {
+    padding: 6px 12px;
+    font-size: 12px;
+    background: rgba(79, 195, 247, 0.12);
+    color: var(--falcon);
+    border: 1px solid rgba(79, 195, 247, 0.35);
+    border-radius: 100px;
+    font-weight: 600;
+    cursor: default;
+  }
+  .calc-status .status-info {
+    flex: 1 0 100%;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 6px;
+    padding: 0 4px;
+  }
+
+  .comparison-bar {
+    margin-top: 32px;
+    padding: 28px;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    background: linear-gradient(90deg, rgba(79, 195, 247, 0.05) 0%, rgba(255, 122, 74, 0.05) 100%);
+    text-align: center;
+  }
+  .comparison-bar .big-num {
+    font-family: var(--font-mono);
+    font-size: 64px;
+    font-weight: 700;
+    background: var(--grad-accent);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .comparison-bar .big-label {
+    font-size: 14px;
+    color: var(--muted);
+    margin-top: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+
+  @media (max-width: 900px) {
+    .calc-grid { grid-template-columns: 1fr; }
+    .comparison-bar .big-num { font-size: 48px; }
+  }
+
+  /* CHARTS */
+  .chart-box {
+    margin-top: 32px;
+    padding: 28px;
+    background: var(--bg-1);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-card);
+  }
+  .chart-box .chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .chart-box h3 { margin: 0; }
+  .chart-box .chart-note { font-size: 13px; color: var(--muted); max-width: 460px; }
+  .chart-canvas-wrap {
+    position: relative;
+    height: 380px;
+    margin-top: 16px;
+  }
+  .chart-controls {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+  .chart-controls button {
+    padding: 7px 14px;
+    font-size: 12.5px;
+    background: var(--bg-2);
+    color: var(--muted);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    transition: all 0.15s ease;
+  }
+  .chart-controls button:hover { color: var(--text); border-color: var(--dim); }
+  .chart-controls button.active {
+    background: var(--grad-starship);
+    color: white;
+    border-color: transparent;
+  }
+
+  /* SCENARIO PRESET CHIPS */
+  .presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: -4px 0 18px;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    border: 1px solid var(--line);
+  }
+  .presets .preset-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--dim);
+    font-weight: 600;
+    padding: 6px 8px 6px 4px;
+    align-self: center;
+  }
+  .presets button {
+    padding: 6px 12px;
+    font-size: 12px;
+    background: var(--bg-2);
+    color: var(--muted);
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.15s ease;
+  }
+  .presets button:hover { color: var(--text); border-color: var(--starship); }
+  .presets button.active {
+    background: rgba(255, 122, 74, 0.15);
+    color: var(--starship);
+    border-color: var(--starship);
+  }
+  .presets .preset-info {
+    flex: 1 0 100%;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 6px;
+    padding: 0 4px;
+  }
+
+  /* SLIDER STYLE */
+  .slider-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    gap: 6px 12px;
+    padding: 14px 0;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.06);
+  }
+  .slider-row:last-child { border-bottom: none; }
+  .slider-row label {
+    grid-column: 1;
+    grid-row: 1;
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.3;
+  }
+  .slider-row .val {
+    grid-column: 2;
+    grid-row: 1;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    text-align: right;
+    color: var(--text);
+    font-weight: 600;
+    align-self: center;
+    min-width: 72px;
+  }
+  .slider-row input[type="range"] {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 0;
+    margin: 0;
+  }
+  .slider-row input[type="range"]::-webkit-slider-runnable-track {
+    height: 6px;
+    background: transparent;
+    border-radius: 4px;
+  }
+  .slider-row input[type="range"]::-moz-range-track {
+    height: 6px;
+    background: transparent;
+    border-radius: 4px;
+    border: none;
+  }
+  .slider-row input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--starship);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 0 4px rgba(255, 122, 74, 0.15), 0 2px 6px rgba(0, 0, 0, 0.4);
+    margin-top: -8px;
+    border: 2px solid var(--bg-1);
+  }
+  .slider-row input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: var(--starship);
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid var(--bg-1);
+    box-shadow: 0 0 0 4px rgba(255, 122, 74, 0.15), 0 2px 6px rgba(0, 0, 0, 0.4);
+  }
+  .slider-row .val {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    text-align: right;
+    color: var(--text);
+  }
+
+  @media (max-width: 700px) {
+    .slider-row { grid-template-columns: 1fr; gap: 4px; }
+    .slider-row .val { text-align: left; }
+  }
+
+  /* STARLINK VALUATION */
+  .val-grid {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 24px;
+    margin-top: 32px;
+  }
+  .val-inputs {
+    padding: 28px;
+    background: var(--bg-1);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+  .val-output {
+    padding: 28px;
+    background: linear-gradient(180deg, rgba(179, 157, 255, 0.08), var(--bg-1));
+    border: 1px solid rgba(179, 157, 255, 0.25);
+    border-radius: var(--radius);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .val-output .big {
+    font-family: var(--font-mono);
+    font-size: 72px;
+    font-weight: 700;
+    color: var(--starlink);
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+  .val-output .big-label {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-top: 12px;
+    font-weight: 600;
+  }
+  .val-output .breakdown {
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .val-output .metric {
+    padding: 14px;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    border: 1px solid var(--line);
+  }
+  .val-output .metric .val-num {
+    font-family: var(--font-mono);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .val-output .metric .val-lbl {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 4px;
+  }
+
+  @media (max-width: 900px) {
+    .val-grid { grid-template-columns: 1fr; }
+    .val-output .big { font-size: 56px; }
+    .val-output .breakdown { grid-template-columns: 1fr; }
+  }
+
+  /* WHAT IT UNLOCKS */
+  .unlocks {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 40px;
+  }
+  .unlock {
+    padding: 24px;
+    background: var(--bg-1);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    transition: all 0.2s ease;
+  }
+  .unlock:hover {
+    transform: translateY(-3px);
+    border-color: var(--dim);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  }
+  .unlock .icon {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: var(--grad-accent);
+    font-size: 22px;
+    margin-bottom: 16px;
+    font-weight: 700;
+    color: var(--bg-0);
+  }
+  .unlock h3 { margin-bottom: 8px; font-size: 17px; }
+  .unlock p { font-size: 14px; margin-bottom: 0; }
+
+  @media (max-width: 900px) {
+    .unlocks { grid-template-columns: 1fr; }
+  }
+
+  /* CALLOUT CARDS */
+  .callout {
+    padding: 24px 28px;
+    border-radius: var(--radius);
+    border-left: 3px solid var(--starship);
+    background: rgba(255, 122, 74, 0.06);
+    margin: 32px 0;
+  }
+  .callout.quote {
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: 17px;
+    color: var(--text);
+    line-height: 1.6;
+  }
+  .callout.quote .attr {
+    display: block;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    font-style: normal;
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 12px;
+  }
+
+  /* SOURCES */
+  #sources {
+    background: var(--bg-1);
+    border-top: 1px solid var(--line);
+  }
+  #sources .src-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-top: 24px;
+  }
+  #sources a {
+    display: block;
+    padding: 20px;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    color: var(--text);
+    text-decoration: none;
+    transition: all 0.15s ease;
+  }
+  #sources a:hover {
+    border-color: var(--starship);
+    transform: translateY(-2px);
+  }
+  #sources a .src-title { font-weight: 600; font-size: 15px; margin-bottom: 6px; }
+  #sources a .src-url { font-size: 12px; color: var(--muted); font-family: var(--font-mono); word-break: break-all; }
+
+  @media (max-width: 700px) {
+    #sources .src-list { grid-template-columns: 1fr; }
+  }
+
+  footer {
+    padding: 40px 32px;
+    text-align: center;
+    color: var(--dim);
+    font-size: 13px;
+    border-top: 1px solid var(--line);
+  }
+  footer .reset-btn {
+    padding: 10px 20px;
+    font-size: 13px;
+    background: var(--bg-2);
+    color: var(--text);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-bottom: 20px;
+    transition: all 0.15s ease;
+  }
+  footer .reset-btn:hover {
+    background: var(--bg-3);
+    border-color: var(--starship);
+  }
+
+  /* Grid callouts */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin: 32px 0;
+  }
+  .kpi {
+    padding: 20px;
+    background: var(--bg-1);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+  .kpi .kpi-num {
+    font-family: var(--font-mono);
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--gain);
+    letter-spacing: -0.02em;
+  }
+  .kpi .kpi-lbl {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+  }
+  @media (max-width: 700px) {
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* SCENARIO TABLE */
+  .scenario-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 14px;
+  }
+  .scenario-table th, .scenario-table td {
+    padding: 14px 16px;
+    text-align: right;
+    border-bottom: 1px solid var(--line);
+  }
+  .scenario-table th:first-child, .scenario-table td:first-child {
+    text-align: left;
+  }
+  .scenario-table th {
+    background: var(--bg-2);
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .scenario-table td { color: var(--text); font-family: var(--font-mono); }
+  .scenario-table td:first-child { font-family: -apple-system, sans-serif; color: var(--muted); }
+  .scenario-table tr.highlight { background: rgba(255, 122, 74, 0.06); }
+  .scenario-table tr.highlight td:first-child { color: var(--starship); font-weight: 600; }
+
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 100px;
+    background: var(--grad-starship);
+    color: white;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    vertical-align: middle;
+    margin-left: 8px;
+  }
+
+  /* SPCX LIVE TICKER SECTION */
+  #spcx {
+    background: linear-gradient(180deg, var(--bg-1) 0%, var(--bg-0) 100%);
+    border-bottom: 1px solid var(--line);
+    padding: 60px 32px 80px;
+  }
+  .ticker-header {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 32px;
+    align-items: center;
+    padding: 28px;
+    background: rgba(19, 24, 41, 0.6);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    margin-bottom: 32px;
+  }
+  .ticker-header .tick-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .ticker-header .tick-sym {
+    font-family: var(--font-mono);
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .ticker-header .tick-name {
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-weight: 600;
+  }
+  .ticker-header .tick-price {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .ticker-header .tick-p {
+    font-family: var(--font-mono);
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .ticker-header .tick-ch { font-family: var(--font-mono); font-size: 15px; margin-top: 6px; font-weight: 600; }
+  .ticker-header .tick-ch.dn { color: var(--danger); }
+  .ticker-header .tick-ch.up { color: var(--gain); }
+  .ticker-header .tick-meta { text-align: right; font-size: 12px; color: var(--muted); }
+  .ticker-header .tick-meta .as-of { color: var(--dim); font-size: 11px; }
+
+  .ticker-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .ticker-stat {
+    padding: 16px;
+    background: var(--bg-1);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+  }
+  .ticker-stat .ts-v {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.02em;
+  }
+  .ticker-stat .ts-l {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-top: 4px;
+    font-weight: 600;
+  }
+  .ticker-stat .ts-note { font-size: 11px; color: var(--dim); margin-top: 2px; }
+
+  .segments {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .seg-card {
+    padding: 24px;
+    background: var(--bg-1);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    position: relative;
+    overflow: hidden;
+  }
+  .seg-card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .seg-card.connectivity::before { background: var(--grad-falcon); }
+  .seg-card.space::before { background: var(--grad-starship); }
+  .seg-card.ai::before { background: linear-gradient(90deg, #b39dff, #7b5cff); }
+  .seg-card .seg-tag {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .seg-card.connectivity .seg-tag { color: var(--falcon); }
+  .seg-card.space .seg-tag { color: var(--starship); }
+  .seg-card.ai .seg-tag { color: var(--starlink); }
+  .seg-card h3 { margin-bottom: 16px; font-size: 20px; }
+  .seg-card .seg-rev {
+    font-family: var(--font-mono);
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+  }
+  .seg-card.connectivity .seg-rev { color: var(--falcon); }
+  .seg-card.space .seg-rev { color: var(--starship); }
+  .seg-card.ai .seg-rev { color: var(--starlink); }
+  .seg-card .seg-rev-lbl { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
+  .seg-card .seg-row {
+    display: flex; justify-content: space-between; padding: 6px 0;
+    font-size: 13px; border-bottom: 1px dashed rgba(255,255,255,0.05);
+  }
+  .seg-card .seg-row:last-child { border-bottom: none; }
+  .seg-card .seg-row .k { color: var(--muted); }
+  .seg-card .seg-row .v { font-family: var(--font-mono); font-weight: 600; }
+  .seg-card .seg-row .v.pos { color: var(--gain); }
+  .seg-card .seg-row .v.neg { color: var(--danger); }
+
+  @media (max-width: 900px) {
+    .ticker-header { grid-template-columns: 1fr; gap: 20px; }
+    .ticker-header .tick-meta { text-align: left; }
+    .ticker-header .tick-p { font-size: 40px; }
+    .ticker-stats { grid-template-columns: repeat(2, 1fr); }
+    .segments { grid-template-columns: 1fr; }
+  }
+
+  /* BEAR THESIS */
+  #bear {
+    background: linear-gradient(180deg, var(--bg-0) 0%, #1a0808 100%);
+    border-top: 3px solid rgba(248, 113, 113, 0.4);
+  }
+  #bear .eyebrow { color: var(--danger); }
+  #bear h2 { color: var(--danger); }
+  .bear-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 40px;
+  }
+  .bear-card {
+    padding: 24px;
+    background: rgba(30, 10, 10, 0.6);
+    border: 1px solid rgba(248, 113, 113, 0.25);
+    border-radius: var(--radius);
+    position: relative;
+  }
+  .bear-card .bear-num {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--danger);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .bear-card h3 { margin: 0 0 8px; font-size: 16px; color: var(--text); }
+  .bear-card p { font-size: 13px; margin: 0; }
+  .bear-card .bear-stat {
+    font-family: var(--font-mono);
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--danger);
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+  }
+  @media (max-width: 900px) { .bear-grid { grid-template-columns: 1fr; } }
+
+  /* PHYSICS VS EXECUTION */
+  #physics {
+    background: linear-gradient(180deg, #0a0a12 0%, var(--bg-1) 100%);
+  }
+  .physics-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 40px;
+  }
+  .physics-col {
+    padding: 28px;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+  }
+  .physics-col.solved {
+    background: linear-gradient(180deg, rgba(52, 211, 153, 0.06), var(--bg-1));
+    border-color: rgba(52, 211, 153, 0.25);
+  }
+  .physics-col.open {
+    background: linear-gradient(180deg, rgba(251, 191, 36, 0.06), var(--bg-1));
+    border-color: rgba(251, 191, 36, 0.25);
+  }
+  .physics-col h3 { margin-bottom: 4px; font-size: 20px; }
+  .physics-col.solved h3 { color: var(--gain); }
+  .physics-col.open h3 { color: var(--warn); }
+  .physics-col .p-sub {
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .physics-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .physics-col li {
+    padding: 10px 0 10px 28px;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+    font-size: 13.5px;
+    position: relative;
+    color: var(--muted);
+  }
+  .physics-col li:last-child { border-bottom: none; }
+  .physics-col li strong { color: var(--text); }
+  .physics-col.solved li::before {
+    content: "✓";
+    position: absolute; left: 0;
+    color: var(--gain);
+    font-weight: 700;
+  }
+  .physics-col.open li::before {
+    content: "○";
+    position: absolute; left: 0;
+    color: var(--warn);
+    font-weight: 700;
+  }
+  @media (max-width: 900px) { .physics-split { grid-template-columns: 1fr; } }
+
+  /* BULL THESIS SUM OF PARTS */
+  #bull {
+    background: linear-gradient(180deg, var(--bg-0) 0%, #081a10 100%);
+    border-top: 3px solid rgba(52, 211, 153, 0.4);
+  }
+  #bull .eyebrow { color: var(--gain); }
+  #bull h2 { color: var(--gain); }
+  .sop-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 32px;
+    font-size: 14px;
+  }
+  .sop-table th, .sop-table td {
+    padding: 16px;
+    text-align: right;
+    border-bottom: 1px solid var(--line);
+  }
+  .sop-table th:first-child, .sop-table td:first-child { text-align: left; }
+  .sop-table th {
+    background: rgba(0, 0, 0, 0.3);
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .sop-table td { font-family: var(--font-mono); }
+  .sop-table td:first-child { font-family: -apple-system, sans-serif; color: var(--text); font-weight: 600; }
+  .sop-table tfoot td {
+    background: rgba(52, 211, 153, 0.08);
+    color: var(--gain);
+    font-weight: 700;
+    font-size: 16px;
+    border-top: 2px solid rgba(52, 211, 153, 0.4);
+  }
+  .sop-summary {
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .sop-case {
+    padding: 22px;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    background: var(--bg-1);
+  }
+  .sop-case.bear { border-left: 4px solid var(--danger); }
+  .sop-case.base { border-left: 4px solid var(--warn); }
+  .sop-case.bull { border-left: 4px solid var(--gain); }
+  .sop-case .case-name {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .sop-case.bear .case-name { color: var(--danger); }
+  .sop-case.base .case-name { color: var(--warn); }
+  .sop-case.bull .case-name { color: var(--gain); }
+  .sop-case .case-val {
+    font-family: var(--font-mono);
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .sop-case .case-lbl { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+  .sop-case .case-desc { font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+  @media (max-width: 900px) { .sop-summary { grid-template-columns: 1fr; } }
+
+  /* COMPARE GRID (Xfinity vs Starlink) */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 40px;
+  }
+  .compare-card {
+    padding: 24px;
+    background: var(--bg-1);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    position: relative;
+    overflow: hidden;
+  }
+  .compare-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .compare-card.xfinity::before { background: linear-gradient(90deg, #de2e2e, #a01818); }
+  .compare-card.enterprise::before { background: linear-gradient(90deg, #999, #444); }
+  .compare-card.starlink-now::before { background: var(--grad-falcon); }
+  .compare-card.starlink-next::before { background: var(--grad-starship); }
+  .compare-card .brand-line {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-weight: 700;
+    color: var(--dim);
+    margin-bottom: 8px;
+  }
+  .compare-card.xfinity .brand-line { color: #de2e2e; }
+  .compare-card.starlink-now .brand-line { color: var(--falcon); }
+  .compare-card.starlink-next .brand-line { color: var(--starship); }
+  .compare-card h3 { margin: 0 0 12px; font-size: 17px; }
+  .compare-card .big-speed {
+    font-family: var(--font-mono);
+    font-size: 28px;
+    font-weight: 700;
+    margin: 12px 0 4px;
+    letter-spacing: -0.02em;
+  }
+  .compare-card.xfinity .big-speed { color: #f87171; }
+  .compare-card.starlink-now .big-speed { color: var(--falcon); }
+  .compare-card.starlink-next .big-speed { color: var(--starship); }
+  .compare-card .speed-label {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+  .compare-card .mini-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 13px;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+  }
+  .compare-card .mini-row:last-child { border-bottom: none; }
+  .compare-card .mini-row .k { color: var(--muted); }
+  .compare-card .mini-row .v { color: var(--text); font-family: var(--font-mono); font-weight: 600; }
+
+  @media (max-width: 900px) {
+    .compare-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 520px) {
+    .compare-grid { grid-template-columns: 1fr; }
+  }
+
+  /* YEAR-BY-YEAR TABLE — inherits .scenario-table */
+  .year-table td { font-family: var(--font-mono); font-size: 13px; }
+  .year-table tr.year-current td { color: var(--muted); }
+  .year-table tr.year-current td:first-child { font-weight: 700; color: var(--text); }
+  .year-table tr.year-target { background: rgba(179, 157, 255, 0.06); }
+  .year-table tr.year-target td { color: var(--starlink); font-weight: 600; }
+  .year-table tr.year-target td:first-child { color: var(--starlink); }
+
+  /* SECONDARY METRICS in valuation output */
+  .val-secondary {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .val-secondary .metric-alt {
+    padding: 14px;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    border-left: 3px solid var(--starlink);
+  }
+  .val-secondary .val-num-alt {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--gain);
+    letter-spacing: -0.02em;
+  }
+  .val-secondary .val-lbl-alt {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    margin-top: 4px;
+  }
+  .val-secondary .val-note { font-size: 11px; color: var(--dim); margin-top: 4px; }
+
+  /* ARPU TIER MIX */
+  .tier-mix {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .tier-card {
+    padding: 18px;
+    background: var(--bg-1);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    text-align: center;
+  }
+  .tier-card .tier-icon {
+    font-size: 22px;
+    margin-bottom: 8px;
+  }
+  .tier-card .tier-name {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .tier-card .tier-subs {
+    font-family: var(--font-mono);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .tier-card .tier-arpu {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--starlink);
+    margin-top: 4px;
+    font-weight: 600;
+  }
+  .tier-card .tier-rev {
+    font-size: 11px;
+    color: var(--dim);
+    margin-top: 6px;
+  }
+  .tier-card .tier-bar {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 2px;
+    margin-top: 10px;
+    overflow: hidden;
+  }
+  .tier-card .tier-bar-fill {
+    height: 100%;
+    background: var(--grad-accent);
+    border-radius: 2px;
+  }
+  @media (max-width: 900px) {
+    .tier-mix { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 520px) {
+    .tier-mix { grid-template-columns: 1fr; }
+  }
+
+  /* GLOBAL TAM (DONUT + CAPTURE) */
+  .tam-grid {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    gap: 24px;
+    margin-top: 40px;
+    align-items: stretch;
+  }
+  .tam-donut {
+    padding: 28px;
+    background: var(--bg-1);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    display: flex;
+    flex-direction: column;
+  }
+  .tam-donut-canvas-wrap {
+    position: relative;
+    height: 320px;
+    flex: 1;
+  }
+  .tam-donut .legend {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 12.5px;
+  }
+  .tam-donut .legend-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .tam-donut .legend-swatch {
+    width: 12px; height: 12px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+  .tam-donut .legend-row .k { color: var(--muted); flex: 1; }
+  .tam-donut .legend-row .v { color: var(--text); font-family: var(--font-mono); font-weight: 600; }
+
+  .tam-capture {
+    padding: 28px;
+    background: linear-gradient(180deg, rgba(52, 211, 153, 0.05), var(--bg-1));
+    border: 1px solid rgba(52, 211, 153, 0.2);
+    border-radius: var(--radius);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .tam-capture .capture-big {
+    font-family: var(--font-mono);
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--gain);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .tam-capture .capture-big-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 24px;
+  }
+  .tam-capture .capture-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .tam-capture .cap-stat {
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+  }
+  .tam-capture .cap-stat .cs-v {
+    font-family: var(--font-mono);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .tam-capture .cap-stat .cs-l {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 2px;
+  }
+
+  @media (max-width: 900px) {
+    .tam-grid { grid-template-columns: 1fr; }
+    .tam-capture .capture-big { font-size: 40px; }
+  }
+
+  /* UNIT ECONOMICS BREAKDOWN */
+  .econ-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 40px;
+  }
+  .econ-breakdown {
+    padding: 28px;
+    background: var(--bg-1);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+  .econ-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 12px;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+  }
+  .econ-row:last-of-type { border-bottom: none; }
+  .econ-row label {
+    font-size: 13.5px;
+    color: var(--muted);
+  }
+  .econ-row label .hint { display: block; font-size: 11px; color: var(--dim); margin-top: 2px; }
+  .econ-row input[type="range"] {
+    width: 140px;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    background: transparent;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+  }
+  .econ-row input[type="range"]::-webkit-slider-runnable-track {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+  .econ-row input[type="range"]::-moz-range-track {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+  .econ-row input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px; height: 18px;
+    background: var(--gain);
+    border-radius: 50%;
+    cursor: pointer;
+    margin-top: -7px;
+    border: 2px solid var(--bg-1);
+    box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.15), 0 2px 6px rgba(0, 0, 0, 0.4);
+  }
+  .econ-row input[type="range"]::-moz-range-thumb {
+    width: 18px; height: 18px;
+    background: var(--gain);
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid var(--bg-1);
+    box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.15), 0 2px 6px rgba(0, 0, 0, 0.4);
+  }
+  .econ-row .val {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    color: var(--text);
+    font-weight: 600;
+    min-width: 62px;
+    text-align: right;
+  }
+  .econ-total {
+    margin-top: 20px;
+    padding: 20px;
+    background: rgba(52, 211, 153, 0.08);
+    border: 1px solid rgba(52, 211, 153, 0.25);
+    border-radius: 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .econ-total .et-block { }
+  .econ-total .et-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .econ-total .et-value {
+    font-family: var(--font-mono);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    margin-top: 4px;
+  }
+  .econ-total .et-value.pos { color: var(--gain); }
+  .econ-total .et-value.neg { color: var(--danger); }
+  .econ-total .et-note { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+  .one-plan {
+    padding: 28px;
+    background: linear-gradient(180deg, rgba(179, 157, 255, 0.08), var(--bg-1));
+    border: 1px solid rgba(179, 157, 255, 0.25);
+    border-radius: var(--radius);
+    display: flex;
+    flex-direction: column;
+  }
+  .one-plan .op-title {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--starlink);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .one-plan h3 { margin-bottom: 12px; }
+  .one-plan .op-big {
+    font-family: var(--font-mono);
+    font-size: 44px;
+    font-weight: 700;
+    color: var(--starlink);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-top: 8px;
+  }
+  .one-plan .op-big-lbl {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-top: 8px;
+    font-weight: 600;
+  }
+  .one-plan .op-slider {
+    margin-top: 18px;
+  }
+  .one-plan .op-stats {
+    margin-top: 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .one-plan .op-stat {
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    border-left: 3px solid var(--starlink);
+  }
+  .one-plan .op-stat .v {
+    font-family: var(--font-mono);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .one-plan .op-stat .l {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 2px;
+  }
+
+  @media (max-width: 900px) {
+    .econ-grid { grid-template-columns: 1fr; }
+  }
+
+  /* SPACE DATA CENTERS */
+  .compute-milestones {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 40px;
+  }
+  .milestone {
+    padding: 24px;
+    background: var(--bg-1);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    position: relative;
+    overflow: hidden;
+  }
+  .milestone::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #34d399, #4fc3f7, #b39dff);
+  }
+  .milestone .m-date {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--gain);
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .milestone h3 { margin: 0 0 8px; font-size: 18px; }
+  .milestone p { font-size: 13.5px; margin-bottom: 8px; }
+  .milestone .m-link {
+    font-size: 12px;
+    color: var(--falcon);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .milestone .m-link:hover { text-decoration: underline; }
+
+  .why-space {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 32px;
+  }
+  .why-card {
+    padding: 22px;
+    background: var(--bg-1);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+  .why-card .why-icon {
+    width: 40px; height: 40px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 10px;
+    background: var(--grad-accent);
+    font-size: 20px;
+    color: var(--bg-0);
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .why-card h3 { margin: 0 0 6px; font-size: 15px; }
+  .why-card p { font-size: 13px; margin: 0; }
+  @media (max-width: 1200px) {
+    .compute-milestones { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 900px) {
+    .compute-milestones { grid-template-columns: 1fr; }
+    .why-space { grid-template-columns: repeat(2, 1fr); }
+  }  /* COMPUTE PER STARSHIP CALCULATOR */
+  .compute-calc {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 40px;
+  }
+  .compute-inputs, .compute-output {
+    padding: 28px;
+    background: var(--bg-1);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+  .compute-output {
+    background: linear-gradient(180deg, rgba(52, 211, 153, 0.06), var(--bg-1));
+    border-color: rgba(52, 211, 153, 0.25);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .compute-output .cbig {
+    font-family: var(--font-mono);
+    font-size: 56px;
+    font-weight: 700;
+    color: var(--gain);
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .compute-output .cbig-lbl {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    font-weight: 600;
+    margin-top: 8px;
+  }
+  .compute-output .csub {
+    margin-top: 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .compute-output .csub-stat {
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+  }
+  .compute-output .csub-stat .v {
+    font-family: var(--font-mono);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .compute-output .csub-stat .l {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 2px;
+  }
+  @media (max-width: 900px) {
+    .compute-calc { grid-template-columns: 1fr; }
+    .compute-output .cbig { font-size: 40px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="inner">
+    <div class="brand">
+      <span class="dot"></span>
+      <span>SpaceX · The $/Mbps Story</span>
+    </div>
+    <div class="links">
+      <a href="#hero">Overview</a>
+      <a href="#spcx">SPCX Today</a>
+      <a href="#bear">Bear Case</a>
+      <a href="#physics">Physics</a>
+      <a href="#timeline">Three Eras</a>
+      <a href="#calculator">Calculator</a>
+      <a href="#cost-curves">Cost Curves</a>
+      <a href="#bandwidth">$/Gbps</a>
+      <a href="#compare">vs Xfinity</a>
+      <a href="#valuation">Valuation</a>
+      <a href="#tam">Global TAM</a>
+      <a href="#unit-econ">Unit Econ</a>
+      <a href="#compute">Space DCs</a>
+      <a href="#bull">Bull Case</a>
+      <a href="#unlocks">Unlocks</a>
+      <a href="#sources">Sources</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="wrap">
+    <div class="kicker">SPCX · $2.075T · IPO'd June 12, 2026</div>
+    <h1>At $2 trillion today. Execute the plan and this is a <span class="grad">$3 trillion company</span>.</h1>
+    <p class="subhead">
+      SpaceX isn't one bet — it's <strong>four separate businesses</strong> stacked on top of a launch cost curve dropping ~95%. Starlink is already profitable (39% op margin, subs doubling). Starship at Falcon-9 cadence is factory throughput, not physics — Falcon 9 flew 138 times in 2024. Even if only half the bets land, the math works. Today's $2T price is <strong>82% of the base case</strong>, not the ceiling.
+    </p>
+
+    <div class="stats">
+      <div class="stat seg-starlink">
+        <div class="seg-tier">Starlink · Connectivity</div>
+        <div class="num">$1.5T</div>
+        <div class="label">Year-5 EV</div>
+        <div class="note">120M subs · 63% margin · $130B revenue</div>
+      </div>
+      <div class="stat seg-compute">
+        <div class="seg-tier">Space Data Centers</div>
+        <div class="num">$600B</div>
+        <div class="label">Year-5 EV</div>
+        <div class="note">30% of $1T AI infra · NVIDIA + AI1</div>
+      </div>
+      <div class="stat seg-launch">
+        <div class="seg-tier">Launch · Starship</div>
+        <div class="num">$180B</div>
+        <div class="label">Year-5 EV</div>
+        <div class="note">$60/kg mature · monopoly on heavy-lift</div>
+      </div>
+      <div class="stat seg-defense">
+        <div class="seg-tier">Starshield · Defense</div>
+        <div class="num">$75B</div>
+        <div class="label">Year-5 EV</div>
+        <div class="note">DoD constellations + ISR contracts</div>
+      </div>
+    </div>
+
+    <div class="hero-summary">
+      <div>
+        <div class="sum-lbl">Sum of parts · Year 5 base case</div>
+        <div class="sum-val" style="color: var(--gain);">$2.4T</div>
+        <div class="sum-note">Segment EVs from the models below</div>
+      </div>
+      <div class="sum-arrow">→</div>
+      <div>
+        <div class="sum-lbl">Market cap today · SPCX</div>
+        <div class="sum-val">$2.075T</div>
+        <div class="sum-note">–7.8% today · IPO'd 3 weeks ago</div>
+      </div>
+      <div class="sum-arrow">=</div>
+      <div>
+        <div class="sum-lbl">You're buying at</div>
+        <div class="sum-val" style="color: var(--gain);">82%</div>
+        <div class="sum-note">of base-case value · 18% discount</div>
+      </div>
+    </div>
+
+    <div class="hero-flex">
+      <strong>Bull case:</strong> $4.5T if AI compute scales and one-plan-everywhere lands (~2.2× today).
+      <strong>Bear case:</strong> $650B if Starship stalls and only Starlink hits base (–68%).
+      <strong>The floor:</strong> Even in the bear case, Starlink alone at 120M subs / 63% margin supports $1.5T — that's <strong>72% of today's price</strong> covered by the one segment that's already profitable.
+      The physics is solved. The bet is whether SpaceX can execute what they've already shown they can do at Falcon scale.
+    </div>
+  </div>
+</section>
+
+<!-- SPCX LIVE MARKET DATA -->
+<section id="spcx">
+  <div class="wrap">
+    <div class="eyebrow">Where the market sits — July 1, 2026</div>
+    <h2>SPCX today.</h2>
+    <p class="lead">
+      SpaceX IPO'd on <strong>June 12, 2026</strong> and closed day one at $160.95 — a 19% pop from the offer price, valuing the company at <strong>$2.1 trillion</strong>. It joins the Nasdaq-100 on July 7. Everything else in this app is trying to answer one question: <strong>is that valuation justified?</strong> Two sides make that debate — and both are on this page.
+    </p>
+
+    <div class="ticker-header">
+      <div class="tick-brand">
+        <div class="tick-sym">SPCX</div>
+        <div class="tick-name">Space Exploration Technologies Corp · NASDAQ</div>
+      </div>
+      <div class="tick-price">
+        <div class="tick-p">$157.54</div>
+        <div class="tick-ch dn">−$13.32 &nbsp;(−7.80%) today</div>
+      </div>
+      <div class="tick-meta">
+        <div>Market cap · <strong style="color: var(--text);">$2.075T</strong></div>
+        <div>EV · $2.26T</div>
+        <div class="as-of">As of 4:00 PM EDT · Yahoo Finance</div>
+      </div>
+    </div>
+
+    <div class="ticker-stats">
+      <div class="ticker-stat">
+        <div class="ts-v">$19.3B</div>
+        <div class="ts-l">Revenue TTM</div>
+        <div class="ts-note">Consolidated across 3 segments</div>
+      </div>
+      <div class="ticker-stat">
+        <div class="ts-v">115.66×</div>
+        <div class="ts-l">P/S trailing</div>
+        <div class="ts-note">Nasdaq median: ~5×</div>
+      </div>
+      <div class="ticker-stat">
+        <div class="ts-v">−$9.36B</div>
+        <div class="ts-l">Net income TTM</div>
+        <div class="ts-note">GAAP unprofitable</div>
+      </div>
+      <div class="ticker-stat">
+        <div class="ts-v">$23.68B</div>
+        <div class="ts-l">Cash</div>
+        <div class="ts-note">Debt/Equity 73.6%</div>
+      </div>
+      <div class="ticker-stat">
+        <div class="ts-v">$147 – $226</div>
+        <div class="ts-l">52-week range</div>
+        <div class="ts-note">Peaked in early euphoria</div>
+      </div>
+      <div class="ticker-stat">
+        <div class="ts-v">$188</div>
+        <div class="ts-l">Analyst avg target</div>
+        <div class="ts-note">Range: $62 (low) – $310 (high)</div>
+      </div>
+      <div class="ticker-stat">
+        <div class="ts-v">Outperform</div>
+        <div class="ts-l">Wedbush initiation today</div>
+        <div class="ts-note">Target $190</div>
+      </div>
+      <div class="ticker-stat">
+        <div class="ts-v">HOLD</div>
+        <div class="ts-l">Argus rating</div>
+        <div class="ts-note">Target $164</div>
+      </div>
+    </div>
+
+    <h3 style="margin-top: 40px;">Three businesses inside one stock (from S-1 prospectus)</h3>
+    <p style="max-width: 780px;">SpaceX filed the IPO as a single entity but the prospectus breaks it into three segments with wildly different economics. Only one is profitable.</p>
+
+    <div class="segments">
+      <div class="seg-card connectivity">
+        <div class="seg-tag">Connectivity · Starlink</div>
+        <h3>The cash machine</h3>
+        <div class="seg-rev">$11.4B</div>
+        <div class="seg-rev-lbl">FY revenue · 60% of total</div>
+        <div class="seg-row"><span class="k">Operating income</span><span class="v pos">+$4.4B</span></div>
+        <div class="seg-row"><span class="k">Operating margin</span><span class="v pos">39%</span></div>
+        <div class="seg-row"><span class="k">2024 growth</span><span class="v">+96%</span></div>
+        <div class="seg-row"><span class="k">2025 growth</span><span class="v">+50%</span></div>
+        <div class="seg-row"><span class="k">Subs</span><span class="v">~12M</span></div>
+      </div>
+      <div class="seg-card space">
+        <div class="seg-tag">Space · Launch services</div>
+        <h3>The subsidized anchor</h3>
+        <div class="seg-rev">$4.0B</div>
+        <div class="seg-rev-lbl">FY revenue · Falcon + Starship dev</div>
+        <div class="seg-row"><span class="k">Operating income</span><span class="v neg">−$657M</span></div>
+        <div class="seg-row"><span class="k">Operating margin</span><span class="v neg">−16%</span></div>
+        <div class="seg-row"><span class="k">Growth</span><span class="v">6–7%</span></div>
+        <div class="seg-row"><span class="k">R&amp;D burn</span><span class="v neg">Starship program</span></div>
+        <div class="seg-row"><span class="k">Note</span><span class="v" style="font-family: -apple-system, sans-serif;">Long-term strategic</span></div>
+      </div>
+      <div class="seg-card ai">
+        <div class="seg-tag">AI · Grok · xAI · X</div>
+        <h3>The capital incinerator</h3>
+        <div class="seg-rev">$3.2B</div>
+        <div class="seg-rev-lbl">FY revenue · LLM + platform</div>
+        <div class="seg-row"><span class="k">Operating income</span><span class="v neg">−$6.35B</span></div>
+        <div class="seg-row"><span class="k">Operating margin</span><span class="v neg">−199%</span></div>
+        <div class="seg-row"><span class="k">R&amp;D spend</span><span class="v neg">$5.06B</span></div>
+        <div class="seg-row"><span class="k">SG&amp;A</span><span class="v neg">$1.82B</span></div>
+        <div class="seg-row"><span class="k">TAM claim</span><span class="v">$26.5T (93%)</span></div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top: 32px;">
+      <strong>The consolidated math.</strong> Starlink's entire $4.4B operating profit is wiped out by the combined losses of Space (−$657M) and AI (−$6.35B), leaving the whole company at <strong>−$2.58B operating loss</strong>. That's why the P/E is undefined and everything you'll see below is P/S or EV/EBITDA-based. The market is paying $115 for every $1 of trailing revenue — a multiple usually reserved for pre-revenue biotech or peak-cycle hyper-growth SaaS.
+    </div>
+  </div>
+</section>
+
+<!-- BEAR THESIS -->
+<section id="bear">
+  <div class="wrap">
+    <div class="eyebrow">The bear case</div>
+    <h2>Why sober investors say $2T is a bubble.</h2>
+    <p class="lead">
+      Every big narrative gets the treatment it deserves. Here's the case the shorts and value investors are making — grounded in the S-1 prospectus, historical IPO data (Prof. Jay Ritter, "Mr. IPO"), and the market's own signals over the last three weeks.
+    </p>
+
+    <div class="bear-grid">
+      <div class="bear-card">
+        <div class="bear-num">Bear 01</div>
+        <div class="bear-stat">115×</div>
+        <h3>Astronomical P/S multiple</h3>
+        <p>Trailing price-to-sales of 115.66× is essentially unprecedented for a company this large. Nasdaq median is ~5×. Even Tesla at peak euphoria was 30×. Forward P/S at aggressive growth is still 84×. Sales, not earnings.</p>
+      </div>
+      <div class="bear-card">
+        <div class="bear-num">Bear 02</div>
+        <div class="bear-stat">−$2.58B</div>
+        <h3>GAAP unprofitable</h3>
+        <p>Consolidated operating loss. Ritter's academic dataset (9,253 IPOs since 1980) shows unprofitable issuers underperform the market by <strong>−30.7% over 3 years</strong>. Not zero return — actively worse than the index.</p>
+      </div>
+      <div class="bear-card">
+        <div class="bear-num">Bear 03</div>
+        <div class="bear-stat">−$7B / yr</div>
+        <h3>Two of three segments burn cash</h3>
+        <p>Space loses $657M on $4B revenue. AI (Grok) loses $6.35B on $3.2B revenue — a <strong>−199% operating margin</strong>. Starlink's $4.4B profit funds both, leaving nothing for shareholders.</p>
+      </div>
+      <div class="bear-card">
+        <div class="bear-num">Bear 04</div>
+        <div class="bear-stat">$28.5T</div>
+        <h3>The fabricated TAM</h3>
+        <p>The underwriter deck's Total Addressable Market claim is $28.5T — literally 90% of US GDP ($31.8T) and ~24% of global GDP. <strong>93% of that</strong> is attributed to the AI segment (the worst performer). Textbook narrative inflation.</p>
+      </div>
+      <div class="bear-card">
+        <div class="bear-num">Bear 05</div>
+        <div class="bear-stat">$300M+</div>
+        <h3>Bond market flashing yellow</h3>
+        <p>SpaceX's inaugural bond issuance has posted secondary-market losses exceeding $300M. Debt investors — who look at cash flows, not narratives — are pricing in higher risk than the equity crowd.</p>
+      </div>
+      <div class="bear-card">
+        <div class="bear-num">Bear 06</div>
+        <div class="bear-stat">96% → 50%</div>
+        <h3>Starlink growth is decelerating</h3>
+        <p>The engine of the story grew revenue 96% in 2024 but only 50% in 2025. Classic S-curve, and it's the segment carrying the entire valuation. If growth drops to 30% in 2026, the base-case model in this app collapses.</p>
+      </div>
+      <div class="bear-card">
+        <div class="bear-num">Bear 07</div>
+        <div class="bear-stat">−7.80%</div>
+        <h3>Off the highs, already</h3>
+        <p>Down 7.80% today alone. 52-week high was $225.64 in early euphoria; now at $157. Off ~30% from the peak in ~3 weeks. The post-IPO honeymoon shortened faster than most.</p>
+      </div>
+      <div class="bear-card">
+        <div class="bear-num">Bear 08</div>
+        <div class="bear-stat">Key-person</div>
+        <h3>Concentration on one CEO</h3>
+        <p>Musk runs SpaceX, xAI, Tesla, X, and Neuralink simultaneously. Retention of top engineers, political entanglement, and reputational tail risks are real. Post-Twitter drama has already cost xAI (Grok) meaningful advertiser dollars.</p>
+      </div>
+      <div class="bear-card">
+        <div class="bear-num">Bear 09</div>
+        <div class="bear-stat">Regulatory</div>
+        <h3>Spectrum &amp; approvals</h3>
+        <p>Direct-to-cell relies on cellular spectrum coordination with 100+ national regulators. Starship launches face FAA + state environmental review. AT&amp;T is already pushing back at the FCC. Not a physics risk — a policy risk.</p>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top: 32px; border-left-color: var(--danger); background: rgba(248, 113, 113, 0.06);">
+      <strong>The bear's punchline.</strong> Buffett has always avoided IPOs because "the seller chooses when to come public — you're almost certainly buying at their optimal price, not yours." Munger called sell-side forecasts "total nonsense" and warned against the availability bias of remembering Amazon and Google while forgetting the 90% of listings that lost most of their value. SpaceX at 115× sales is being priced as if execution is guaranteed. History says otherwise.
+    </div>
+  </div>
+</section>
+
+<!-- PHYSICS VS EXECUTION -->
+<section id="physics">
+  <div class="wrap">
+    <div class="eyebrow">The bet in one sentence</div>
+    <h2>The physics is solved. The engineering isn't easy.</h2>
+    <p class="lead">
+      Here's the honest framing. Nothing in SpaceX's plan requires new physics — no dark matter propulsion, no fusion breakthrough, no room-temperature superconductor. Everything below has been done <em>somewhere</em>, by <em>someone</em>. The bet is whether SpaceX can do all of it, <strong>at the same time, at unprecedented cadence, at unprecedented cost.</strong> That's not "just execute." That's a systems-integration problem the size of Apollo — which took 400,000 people, $257B (2026 dollars), and lost 3 astronauts along the way.
+    </p>
+
+    <div class="physics-split">
+      <div class="physics-col solved">
+        <h3>Solved physics — the science is done</h3>
+        <div class="p-sub">These principles are 50–120 years old</div>
+        <ul>
+          <li><strong>Rocket equation.</strong> Tsiolkovsky, 1903. Given exhaust velocity + mass ratio, you get delta-V. Full stop.</li>
+          <li><strong>Orbital mechanics.</strong> Kepler + Newton, 1600s–1700s. Every trajectory is a solved differential equation.</li>
+          <li><strong>Chemical propulsion.</strong> Methalox (methane + LOX) has flown before. Raptor is a refinement, not a breakthrough.</li>
+          <li><strong>Retro-propulsive landing.</strong> Falcon 9 proved this in 2015. Booster catch is refinement of proven physics.</li>
+          <li><strong>Reentry thermal protection.</strong> Space Shuttle tiles (1981), Dragon PICA-X (2010). Vacuum-facing radiators (ISS).</li>
+          <li><strong>Stainless steel airframe.</strong> Convair Atlas used balloon-tank stainless in the 1950s. It's a mature material.</li>
+          <li><strong>Phased-array antennas.</strong> Radar tech since WWII. Starlink terminal is commodity manufacturing.</li>
+          <li><strong>Inter-satellite laser links.</strong> Already flying on ~4,000 Starlink satellites at ~200 Gbps.</li>
+          <li><strong>Radiative cooling in vacuum.</strong> ISS radiators dump ~70 kW. Scaling is engineering, not physics.</li>
+          <li><strong>Solar power in orbit.</strong> Every satellite since Sputnik-3 (1958). ~1.4 kW/m², no night in most LEO passes.</li>
+        </ul>
+      </div>
+
+      <div class="physics-col open">
+        <h3>Open engineering — the plan needs to work</h3>
+        <div class="p-sub">Each is achievable; all-at-once at cadence is the hard part</div>
+        <ul>
+          <li><strong>Ship-side full reuse.</strong> Super Heavy <em>already</em> reuses — Flight 9 was the first reused booster (B14-2), Flight 11 was the second flight of B15. But the <em>ship</em> has never been caught: all 12 flights have splashed in the Indian Ocean. Musk: "we'll only try to catch ship after two perfect soft landings." Flight 14 is the earliest catch attempt.</li>
+          <li><strong>Ship reliability under reentry.</strong> As of Flight 12, ship is 6 controlled ocean landings out of 10 attempts (60%). Block 2 regressed on Flights 7–9 before recovering on 10–11. Block 3 debuted successfully on the ship side in May 2026. Improving — not solved.</li>
+          <li><strong>Cadence at 100+ flights/year.</strong> Not a physics limit — <strong>Falcon 9 already flew 138 times in 2024</strong>. Global aviation does 100,000 flights/day. Starship itself did 5 flights in 2025 and 1 in 2026 through July — the bottleneck is Raptor production, pad turnaround (~30 days, target 3), and FAA licensing. <strong>SpaceX's Starfactory is designed for 1,000 Starships/year.</strong></li>
+          <li><strong>$60/kg cost target.</strong> Currently more like $500–1,000/kg. Requires Raptor unit cost decline, factory learning curve, cheap refurb — all unproven at Starship scale but every step is engineering + operations, not physics.</li>
+          <li><strong>Orbital refueling.</strong> Ship-to-ship propellant transfer at cryogenic temperatures. NASA's HLS demo target 2026–27 with a depot + tanker pair. Never done at operational scale; physics is trivially known — hardware qualification is the work.</li>
+          <li><strong>V3 satellite production.</strong> Flight 12 deployed 2 modified V3s — the first real ones to fly. Manufacturing 40,000+ V3 satellites at $600K each is another factory build-out. AI1 payloads add thermal + compute complexity on top.</li>
+          <li><strong>V3 dispenser at cadence.</strong> Flight 12 demonstrated actual V3 deployment (not just mock). Full operational deployment of 60+ V3s per Starship not yet proven — robotics + timing problem, tractable.</li>
+          <li><strong>Direct-to-cell coverage.</strong> Currently ~500 satellites. Consumer expectation is 5-bar coverage; delivery has been intermittent. Fixes with more sats + more spectrum — both are money and time, not invention.</li>
+          <li><strong>Grok / xAI monetization.</strong> Nothing physical here — a business execution question. Losing $6.35B/yr against ChatGPT + Gemini + Claude is not a fixable "just launch harder" problem.</li>
+          <li><strong>Regulatory throughput.</strong> Starship is currently <em>grounded</em> pending FAA acceptance of the Flight 12 booster investigation. FAA licensing + state environmental review + international spectrum coordination are all bottleneck-capable.</li>
+          <li><strong>Political tail risks.</strong> Musk's political entanglement + concentration risk on one CEO. Executable via succession, but currently unmitigated.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top: 32px;">
+      <strong>The honest framing.</strong> Every open engineering problem above is a <em>throughput + operations + capital</em> problem, not a <em>physics</em> problem. Falcon 9 hitting 138 flights/year (2024) proves SpaceX can operate at industrial cadence when the vehicle is mature. Global aviation moves 100,000 planes per day — 100 rockets per year is trivially achievable in absolute terms. Even <strong>expendable Starship at 100/year is just an industrial-throughput question</strong>: a single 777 assembly line does more than that, and SpaceX's Starfactory is designed for <strong>1,000 Starships per year</strong>. Reusability makes it cheaper and faster, not possible/impossible. So the honest framing: the physics is solved, the hardware is proven at Falcon scale, and Starship is the same team applying the same playbook to a bigger vehicle. The bet is whether they can carry that discipline through 5 more years of scale-up without losing focus, pad, or key people. Reasonable people put that probability anywhere from 50% (bear) to 95% (bull).
+    </div>
+  </div>
+</section>
+
+<!-- THREE ERAS TIMELINE -->
+<section id="timeline">
+  <div class="wrap">
+    <div class="eyebrow">The story so far</div>
+    <h2>Three eras of getting bits to space.</h2>
+    <p class="lead">
+      Every era in orbital communications has been defined by the launch cost curve underneath it.
+      The Shuttle-era priced constellations out of existence. Falcon 9 made Starlink possible.
+      Starship rewrites the rules again.
+    </p>
+
+    <div class="eras">
+      <div class="era past">
+        <div class="tag">Era 1 · Pre-2015</div>
+        <h3>The Shuttle / Expendable era</h3>
+        <div class="metric">~$65/Mbps</div>
+        <div class="metric-label">Bandwidth cost to LEO</div>
+        <p>Expendable rockets at ~$10K/kg and GEO comsats at &lt;100 Mbps/kg. Constellations were financially impossible outside government-scale defense contracts. Iridium filed for bankruptcy in 1999 for a reason.</p>
+      </div>
+      <div class="era now">
+        <div class="tag">Era 2 · 2015–Present</div>
+        <h3>Falcon 9 + Starlink V2 Mini</h3>
+        <div class="metric">$6.55/Mbps</div>
+        <div class="metric-label">Bandwidth cost to LEO</div>
+        <p>Reusable Falcon 9 at ~$1,000/kg. V2 Mini satellites at ~150–170 Mbps/kg. A ~10× improvement on the prior regime — enough to make Starlink real. <strong>12M+ subscribers</strong> as of mid-2026, still doubling annually. First profitable satellite broadband ever.</p>
+      </div>
+      <div class="era future">
+        <div class="tag">Era 3 · 2026+</div>
+        <h3>Starship + V3<span class="badge">Flying</span></h3>
+        <div class="metric">$0.30/Mbps</div>
+        <div class="metric-label">Bandwidth cost to LEO</div>
+        <p>Starship at &lt;$185/kg with 100–200 t payload. V3 satellites at 500–600 Mbps/kg (4× the density of V2 Mini). Combined: another ~20× improvement. <strong>Flight 12 (May 2026)</strong> was the Block 3 debut and the first flight to deploy actual modified V3 satellites — 20 simulators + 2 real V3s from Pad-2. Ship recovered cleanly; booster stumbled on boostback (20/33 engines lit) and is under FAA review. <strong>Flight 13 targeted for July 2026</strong>.</p>
+      </div>
+    </div>
+
+    <div class="callout quote">
+      "A business that is doubling users annually with a 63% adjusted EBITDA margin is about to cut their biggest cost by 95%. It really seems like people don't understand the implications of this."
+      <span class="attr">— Rob Maurer, First Principles Group</span>
+    </div>
+  </div>
+</section>
+
+<!-- INTERACTIVE CALCULATOR -->
+<section id="calculator">
+  <div class="wrap">
+    <div class="eyebrow">Play with the numbers</div>
+    <h2>The $/Mbps calculator.</h2>
+    <p class="lead">
+      Every number below is editable. Change payload mass, cost per kg, or satellite bandwidth density, and the calculated cost-per-Mbps updates live. Defaults come from Rob Maurer's model and Mach33's Aug 2025 analysis.
+    </p>
+
+    <div class="calc-grid">
+      <div class="calc-card falcon">
+        <h3><span class="pill">Now</span> Falcon 9 + V2 Mini</h3>
+        <div class="calc-status">
+          <span class="status-label">Fleet</span>
+          <span class="status-chip">Reusable · mature</span>
+          <span class="status-chip">138 flights · 2024</span>
+          <div class="status-info">Mature reuse economics — the 2024 baseline Starship needs to beat. Falcon 9 is the workhorse for Starlink V2 Mini deployments today.</div>
+        </div>
+        <div class="input-row">
+          <label>Payload to LEO<span class="hint">Reusable-config payload<span class="convert" id="f9_payload_conv">· 17.0 t</span></span></label>
+          <input type="number" id="f9_payload" value="17000" step="500" min="0" />
+        </div>
+        <div class="input-row">
+          <label>Launch cost per kg<span class="hint">All-in $/kg (mature reuse)</span></label>
+          <input type="number" id="f9_costkg" value="1000" step="50" min="0" />
+        </div>
+        <div class="input-row">
+          <label>Satellite mass<span class="hint">V2 Mini optimized, kg<span class="convert" id="f9_satmass_conv">· 0.58 t</span></span></label>
+          <input type="number" id="f9_satmass" value="575" step="25" min="0" />
+        </div>
+        <div class="input-row">
+          <label>Satellite bandwidth<span class="hint">Gbps per V2 Mini</span></label>
+          <input type="number" id="f9_satgbps" value="96" step="1" min="0" />
+        </div>
+
+        <div class="results-grid">
+          <div class="result-block">
+            <div class="result-label">Launch cost</div>
+            <div class="result-value" id="f9_launchcost">$17.0M</div>
+            <div class="result-sub" id="f9_launchsub">— per mission</div>
+          </div>
+          <div class="result-block">
+            <div class="result-label">Bandwidth</div>
+            <div class="result-value" id="f9_bandwidth">2,838 Gbps</div>
+            <div class="result-sub" id="f9_bandwidthsub">— per launch</div>
+          </div>
+          <div class="result-block">
+            <div class="result-label">Cost per Mbps</div>
+            <div class="result-value" id="f9_costmbps">$5.99</div>
+            <div class="result-sub" id="f9_costmbpssub">Rob: $6.55</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-card starship">
+        <h3><span class="pill">Next</span> Starship + V3</h3>
+        <div class="presets" id="starshipPresets">
+          <span class="preset-label">Preset</span>
+          <button data-preset="rob" class="active">Rob's headline · 100t</button>
+          <button data-preset="design">33fg design · 200t</button>
+          <button data-preset="floor">Long-run floor · 200t</button>
+          <button data-preset="expendable">Expendable · 250t</button>
+          <div class="preset-info" id="presetInfo">Rob Maurer's conservative near-term operational figure: 100 t reusable at $185/kg.</div>
+        </div>
+        <div class="input-row">
+          <label>Payload to LEO<span class="hint">Reusable payload (kg). SpaceX V2 target: 200 t.<span class="convert" id="ss_payload_conv">· 100.0 t</span></span></label>
+          <input type="number" id="ss_payload" value="100000" step="5000" min="0" />
+        </div>
+        <div class="input-row">
+          <label>Launch cost per kg<span class="hint">Ramp cost (fully reusable)</span></label>
+          <input type="number" id="ss_costkg" value="185" step="10" min="0" />
+        </div>
+        <div class="input-row">
+          <label>Satellite mass<span class="hint">V3 satellite, kg<span class="convert" id="ss_satmass_conv">· 2.0 t</span></span></label>
+          <input type="number" id="ss_satmass" value="2000" step="100" min="0" />
+        </div>
+        <div class="input-row">
+          <label>Satellite bandwidth<span class="hint">Gbps per V3</span></label>
+          <input type="number" id="ss_satgbps" value="1000" step="25" min="0" />
+        </div>
+
+        <div class="results-grid">
+          <div class="result-block">
+            <div class="result-label">Launch cost</div>
+            <div class="result-value" id="ss_launchcost">$18.5M</div>
+            <div class="result-sub" id="ss_launchsub">— per mission</div>
+          </div>
+          <div class="result-block">
+            <div class="result-label">Bandwidth</div>
+            <div class="result-value" id="ss_bandwidth">50,000 Gbps</div>
+            <div class="result-sub" id="ss_bandwidthsub">— per launch</div>
+          </div>
+          <div class="result-block">
+            <div class="result-label">Cost per Mbps</div>
+            <div class="result-value" id="ss_costmbps">$0.37</div>
+            <div class="result-sub" id="ss_costmbpssub">Rob: $0.30</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="comparison-bar">
+      <div class="big-num" id="improvement_factor">22×</div>
+      <div class="big-label">Improvement — Starship + V3 vs Falcon 9 + V2 Mini</div>
+    </div>
+  </div>
+</section>
+
+<!-- $/KG COST CURVES -->
+<section id="cost-curves">
+  <div class="wrap">
+    <div class="eyebrow">The launch cost curve</div>
+    <h2>$/kg falls with reuse and cadence.</h2>
+    <p class="lead">
+      The 33fg / Mach33 model amortizes stage capex ($60M booster, $30M ship) across flights, plus per-flight cash costs of $10M ops and $1–2M refurbishment. Toggle the mode below to see how expendable, booster-only reuse, and fully reusable curves converge to their long-run floors.
+    </p>
+
+    <div class="chart-box">
+      <div class="chart-header">
+        <div>
+          <h3>Starship $/kg by flight count</h3>
+          <div class="chart-note">
+            Fully expendable stays flat at $500/kg — already 40% cheaper than mature Falcon 9 at $856/kg, purely on scale.
+            Fully reusable converges to a $60/kg floor.
+          </div>
+        </div>
+      </div>
+      <div class="chart-controls" id="modeControls">
+        <button data-mode="all" class="active">All three modes</button>
+        <button data-mode="expendable">Fully expendable</button>
+        <button data-mode="booster">Booster reuse only</button>
+        <button data-mode="full">Fully reusable</button>
+      </div>
+      <div class="chart-canvas-wrap">
+        <canvas id="costKgChart"></canvas>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi">
+        <div class="kpi-num">$856/kg</div>
+        <div class="kpi-lbl">Falcon 9 mature</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-num">$500/kg</div>
+        <div class="kpi-lbl">Starship expendable</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-num">$150/kg</div>
+        <div class="kpi-lbl">Full reuse, N=5</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-num">$60/kg</div>
+        <div class="kpi-lbl">Long-run floor</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- $/GBPS -->
+<section id="bandwidth">
+  <div class="wrap">
+    <div class="eyebrow">Where the compounding kicks in</div>
+    <h2>Launch × satellite density = 40× on $/Gbps.</h2>
+    <p class="lead">
+      Starship's $/kg advantage is big. But when you pair it with V3 satellites at 0.5 Gbps/kg (vs V2 Mini's 0.17 Gbps/kg), the launch savings multiply against the satellite savings. That's how a 5× launch improvement becomes a ~40× improvement in cost per unit of bandwidth deployed.
+    </p>
+
+    <div class="chart-box">
+      <div class="chart-header">
+        <div>
+          <h3>$/Gbps at maturity — the compounding effect</h3>
+          <div class="chart-note">
+            Same $/kg curves as above, translated to $/Gbps by dividing by satellite Gbps-per-kg.
+            Falcon 9 + V2 Mini lands around $5,100/Gbps. Fully-reusable Starship + V3 trends to ~$120/Gbps.
+          </div>
+        </div>
+      </div>
+      <div class="chart-canvas-wrap">
+        <canvas id="gbpsChart"></canvas>
+      </div>
+    </div>
+
+    <table class="scenario-table">
+      <thead>
+        <tr>
+          <th>Scenario</th>
+          <th>$/kg</th>
+          <th>Sat Gbps/kg</th>
+          <th>$/Gbps</th>
+          <th>vs. Falcon 9</th>
+        </tr>
+      </thead>
+      <tbody id="scenarioTable">
+        <!-- populated by JS -->
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- STARLINK VALUATION -->
+<section id="compare">
+  <div class="wrap">
+    <div class="eyebrow">Making sense of the numbers</div>
+    <h2>Wait — how does 1 Gbps in space compare to Comcast?</h2>
+    <p class="lead">
+      Xfinity Gigabit is $120/mo for up to 1,200 Mbps down. Getting that gigabit to your house cost Comcast <strong>$1,500–3,000 in fiber or coax</strong> — a fixed sunk cost per premise. Starlink at Starship+V3 economics deploys that same 1 Gbps of orbital capacity for <strong>~$120–$300 in launch cost</strong>, shared across many customers, delivered anywhere on Earth with a sky view.
+    </p>
+
+    <div class="compare-grid">
+      <div class="compare-card xfinity">
+        <div class="brand-line">Xfinity Gigabit · Comcast</div>
+        <h3>Terrestrial fiber/coax</h3>
+        <div class="big-speed">1,000 Mbps</div>
+        <div class="speed-label">Down to a single home</div>
+        <div class="mini-row"><span class="k">Monthly</span><span class="v">$120</span></div>
+        <div class="mini-row"><span class="k">Last-mile capex</span><span class="v">$1,500–3,000</span></div>
+        <div class="mini-row"><span class="k">Serves</span><span class="v">1 home</span></div>
+        <div class="mini-row"><span class="k">Anywhere?</span><span class="v">Cable coverage only</span></div>
+      </div>
+      <div class="compare-card enterprise">
+        <div class="brand-line">Comcast Enterprise</div>
+        <h3>Business fiber</h3>
+        <div class="big-speed">10 Gbps</div>
+        <div class="speed-label">Dedicated line</div>
+        <div class="mini-row"><span class="k">Monthly</span><span class="v">$1,000–3,000</span></div>
+        <div class="mini-row"><span class="k">Install</span><span class="v">$5K–$50K</span></div>
+        <div class="mini-row"><span class="k">Serves</span><span class="v">1 business</span></div>
+        <div class="mini-row"><span class="k">Anywhere?</span><span class="v">Only if fiber is nearby</span></div>
+      </div>
+      <div class="compare-card starlink-now">
+        <div class="brand-line">Now · Starlink Standard</div>
+        <h3>Falcon 9 + V2 Mini</h3>
+        <div class="big-speed">100–250 Mbps</div>
+        <div class="speed-label">Typical per user, shared beam</div>
+        <div class="mini-row"><span class="k">Monthly</span><span class="v">$90–120</span></div>
+        <div class="mini-row"><span class="k">Deploy cost / Gbps</span><span class="v">~$6,000</span></div>
+        <div class="mini-row"><span class="k">Serves</span><span class="v">Anywhere with sky</span></div>
+        <div class="mini-row"><span class="k">Hardware</span><span class="v">$349–599</span></div>
+      </div>
+      <div class="compare-card starlink-next">
+        <div class="brand-line">Next · Starlink V3</div>
+        <h3>Starship + V3</h3>
+        <div class="big-speed">500–1,000 Mbps</div>
+        <div class="speed-label">Target per user, denser beams</div>
+        <div class="mini-row"><span class="k">Monthly</span><span class="v">$90–120</span></div>
+        <div class="mini-row"><span class="k">Deploy cost / Gbps</span><span class="v">~$120–$300</span></div>
+        <div class="mini-row"><span class="k">Serves</span><span class="v">Anywhere with sky</span></div>
+        <div class="mini-row"><span class="k">Advantage</span><span class="v">~20× cheaper capacity</span></div>
+      </div>
+    </div>
+
+    <div class="chart-box">
+      <div class="chart-header">
+        <div>
+          <h3>Deployment cost per Gbps served — head to head</h3>
+          <div class="chart-note">
+            Terrestrial cost is per-premise (a fixed sunk cost regardless of usage). Satellite cost is per Gbps of orbital capacity (spread across many customers, plus ground network). Different denominators, same conclusion: satellite economics finally beat fiber for low-density markets.
+          </div>
+        </div>
+      </div>
+      <div class="chart-canvas-wrap">
+        <canvas id="deployChart"></canvas>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>Why this matters.</strong> Comcast can't profitably lay fiber to a farm in Kansas — the $2,000/premise capex takes 20 years to recover at $60/mo rural pricing. Starlink can serve that same farm for ~$3 in amortized launch cost per year of service. The economics of terrestrial ISPs are set by <em>density</em>. The economics of Starlink are set by <em>launch cost per Gbps</em>. Starship inverts which one wins in the 60% of the planet where fiber can't reach.
+    </div>
+  </div>
+</section>
+
+<!-- STARLINK VALUATION -->
+<section id="valuation">
+  <div class="wrap">
+    <div class="eyebrow">What it means for the business</div>
+    <h2>Starlink at scale — the 5-year projection.</h2>
+    <p class="lead">
+      Starlink has ~<strong>12M subscribers</strong> today, doubling annually at a <strong>63% adjusted EBITDA margin</strong> (Rob Maurer's numbers — that's connectivity-segment adjusted EBITDA, excluding Starship R&amp;D and SpaceX-wide overhead). Pick a growth scenario, dial the inputs, and watch every year of the projection recompute — including both EV/EBITDA and price/sales multiples.
+    </p>
+
+    <div class="presets" id="growthPresets">
+      <span class="preset-label">Growth scenario</span>
+      <button data-scenario="conservative">Conservative</button>
+      <button data-scenario="base" class="active">Base case</button>
+      <button data-scenario="aggressive">Aggressive</button>
+      <button data-scenario="hyper">Hyper-growth</button>
+      <div class="preset-info" id="scenarioInfo">Base case: 80% starting growth, decays 15%/yr, floors at 10%. Consistent with Rob Maurer's "doubling annually" framing gradually tempering as Starlink scales past 100M subs.</div>
+    </div>
+
+    <div class="val-grid">
+      <div class="val-inputs">
+        <h3>Assumptions</h3>
+        <div class="slider-row">
+          <label>Starting subscribers (M)</label>
+          <input type="range" id="v_subs" min="1" max="60" step="0.5" value="12" />
+          <div class="val" id="v_subs_v">12.0 M</div>
+        </div>
+        <div class="slider-row">
+          <label>Annual sub growth (Y1)</label>
+          <input type="range" id="v_growth" min="0" max="150" step="5" value="80" />
+          <div class="val" id="v_growth_v">80%</div>
+        </div>
+        <div class="slider-row">
+          <label>Blended ARPU ($/mo)</label>
+          <input type="range" id="v_arpu" min="40" max="200" step="5" value="90" />
+          <div class="val" id="v_arpu_v">$90</div>
+        </div>
+        <div class="slider-row">
+          <label>EBITDA margin</label>
+          <input type="range" id="v_margin" min="20" max="80" step="1" value="63" />
+          <div class="val" id="v_margin_v">63%</div>
+        </div>
+        <div class="slider-row">
+          <label>Projection years</label>
+          <input type="range" id="v_years" min="1" max="10" step="1" value="5" />
+          <div class="val" id="v_years_v">5 yr</div>
+        </div>
+        <div class="slider-row">
+          <label>EV / EBITDA multiple</label>
+          <input type="range" id="v_multiple" min="5" max="40" step="1" value="18" />
+          <div class="val" id="v_multiple_v">18×</div>
+        </div>
+        <div class="slider-row">
+          <label>P/S multiple</label>
+          <input type="range" id="v_ps_mult" min="1" max="20" step="0.5" value="8" />
+          <div class="val" id="v_ps_mult_v">8.0×</div>
+        </div>
+      </div>
+
+      <div class="val-output">
+        <div>
+          <div class="big" id="v_ev">$540B</div>
+          <div class="big-label">Starlink enterprise value at year <span id="v_year_label">5</span></div>
+        </div>
+        <div class="breakdown">
+          <div class="metric">
+            <div class="val-num" id="v_endsubs">168 M</div>
+            <div class="val-lbl">End subs</div>
+          </div>
+          <div class="metric">
+            <div class="val-num" id="v_revenue">$181B</div>
+            <div class="val-lbl">Y5 revenue</div>
+          </div>
+          <div class="metric">
+            <div class="val-num" id="v_ebitda">$114B</div>
+            <div class="val-lbl">Y5 EBITDA</div>
+          </div>
+        </div>
+        <div class="val-secondary">
+          <div class="metric-alt">
+            <div class="val-num-alt" id="v_ev_pfs">$1.45T</div>
+            <div class="val-lbl-alt">P/S valuation</div>
+            <div class="val-note" id="v_ps_note">at 8× revenue</div>
+          </div>
+          <div class="metric-alt">
+            <div class="val-num-alt" id="v_ev_ebitda">$2.05T</div>
+            <div class="val-lbl-alt">EV/EBITDA valuation</div>
+            <div class="val-note" id="v_ev_note">at 18× EBITDA</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-box">
+      <div class="chart-header">
+        <div>
+          <h3>Year-by-year projection</h3>
+          <div class="chart-note">Every year: subs × ARPU × 12 = revenue; revenue × margin = EBITDA. Growth rate decays each year on an S-curve.</div>
+        </div>
+      </div>
+      <table class="scenario-table year-table">
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th>Sub growth</th>
+            <th>Subs</th>
+            <th>Revenue</th>
+            <th>EBITDA</th>
+            <th>EV @ 18× EBITDA</th>
+            <th>EV @ 8× revenue</th>
+          </tr>
+        </thead>
+        <tbody id="yearTable"></tbody>
+      </table>
+    </div>
+
+    <div class="chart-box">
+      <div class="chart-header">
+        <div>
+          <h3>Starlink revenue &amp; EBITDA projection</h3>
+          <div class="chart-note">Same numbers as the table above, in chart form. Adjust sliders or scenario chips and both recompute.</div>
+        </div>
+      </div>
+      <div class="chart-canvas-wrap">
+        <canvas id="revenueChart"></canvas>
+      </div>
+    </div>
+
+    <h3 style="margin-top: 48px;">What makes up the blended $90 ARPU?</h3>
+    <p style="max-width: 780px;">The single ARPU number hides a huge spread. Consumer households pay $30–120/mo. Aviation and maritime pay $2,000–25,000/mo per aircraft/ship. Defense contracts (Starshield) are $100M+ annual with no per-user metering. The blend depends on the mix.</p>
+
+    <div class="tier-mix" id="tierMix">
+      <div class="tier-card">
+        <div class="tier-icon">🏠</div>
+        <div class="tier-name">Consumer · Developed</div>
+        <div class="tier-subs">10.5M</div>
+        <div class="tier-arpu">$90/mo</div>
+        <div class="tier-rev">= $11.3B/yr</div>
+        <div class="tier-bar"><div class="tier-bar-fill" style="width: 82%;"></div></div>
+      </div>
+      <div class="tier-card">
+        <div class="tier-icon">🌍</div>
+        <div class="tier-name">Consumer · Emerging</div>
+        <div class="tier-subs">1.0M</div>
+        <div class="tier-arpu">$35/mo</div>
+        <div class="tier-rev">= $420M/yr</div>
+        <div class="tier-bar"><div class="tier-bar-fill" style="width: 32%;"></div></div>
+      </div>
+      <div class="tier-card">
+        <div class="tier-icon">✈️</div>
+        <div class="tier-name">Mobility · Aviation/Maritime</div>
+        <div class="tier-subs">45K</div>
+        <div class="tier-arpu">$4,500/mo</div>
+        <div class="tier-rev">= $2.4B/yr</div>
+        <div class="tier-bar"><div class="tier-bar-fill" style="width: 100%;"></div></div>
+      </div>
+      <div class="tier-card">
+        <div class="tier-icon">🏢</div>
+        <div class="tier-name">Enterprise · SLA tiers</div>
+        <div class="tier-subs">380K</div>
+        <div class="tier-arpu">$1,200/mo</div>
+        <div class="tier-rev">= $5.5B/yr</div>
+        <div class="tier-bar"><div class="tier-bar-fill" style="width: 100%;"></div></div>
+      </div>
+      <div class="tier-card">
+        <div class="tier-icon">🛰️</div>
+        <div class="tier-name">Defense · Starshield</div>
+        <div class="tier-subs">n/a</div>
+        <div class="tier-arpu">contract</div>
+        <div class="tier-rev">= ~$1.5B/yr</div>
+        <div class="tier-bar"><div class="tier-bar-fill" style="width: 60%;"></div></div>
+      </div>
+    </div>
+
+    <p style="font-size: 13px; color: var(--dim); margin-top: 12px; max-width: 900px;">
+      <em>Note:</em> the tier totals here sum to roughly $21B/yr in revenue against ~12M subs — that's an implied blended ARPU of ~$146/mo, higher than the $90 default in the sliders. That's because mobility and enterprise pay 10–50× consumer rates. Rob Maurer's $90 is a conservative consumer-focused figure; bumping the ARPU slider to $120–150 gives a mix that includes the high-value tiers. Actual Starlink revenue in 2025 was ~$12B on ~5.5M subs, or ~$180/mo blended — the mix is real.
+    </p>
+
+    <div class="callout" style="margin-top: 32px;">
+      <strong>How to read the multiples.</strong> Comcast (mature telco) trades at ~1× revenue / ~7× EBITDA. Hyperscaler cloud (AWS, Azure) at ~8× revenue / ~18× EBITDA. Growth SaaS at ~10–15× revenue. Starlink sits between hyperscaler and infrastructure telco — with defense optionality, 60%+ margin, and 80%+ growth. The base-case 18× EBITDA / 8× revenue multiples are aggressive-but-defendable. Bear case would be 8× EBITDA / 3× revenue. Note this is <em>just</em> Starlink connectivity — SpaceX consolidated (with $23.7B cash on the balance sheet, Falcon/Starship launch, Starshield, and AI compute optionality) is trading at $2.075T. The bull/bear debate hinges on what fraction of that $2T the connectivity segment alone can support.
+    </div>
+  </div>
+</section>
+
+<!-- GLOBAL TAM -->
+<section id="tam">
+  <div class="wrap">
+    <div class="eyebrow">The real prize</div>
+    <h2>The global TAM — 2.6B unconnected, 1.5B underserved.</h2>
+    <p class="lead">
+      The world has ~8 billion people. About <strong>5.4B</strong> use the internet, but hundreds of millions of them have unreliable or slow connections. <strong>2.6B</strong> aren't online at all. Starlink today has 12M subs — that's <strong>0.15% of humanity</strong> and <strong>~0.6% of the reachable-by-satellite market</strong>. The addressable market isn't the problem. The economics were.
+    </p>
+
+    <div class="tam-grid">
+      <div class="tam-donut">
+        <h3 style="margin-bottom: 8px;">World internet population (8B people)</h3>
+        <div class="tam-donut-canvas-wrap">
+          <canvas id="tamDonut"></canvas>
+        </div>
+        <div class="legend">
+          <div class="legend-row"><span class="legend-swatch" style="background: #34d399;"></span><span class="k">Connected · fiber/cable adequate</span><span class="v">3.9 B</span></div>
+          <div class="legend-row"><span class="legend-swatch" style="background: #4fc3f7;"></span><span class="k">Connected · underserved (slow/unreliable)</span><span class="v">1.5 B</span></div>
+          <div class="legend-row"><span class="legend-swatch" style="background: #ff7a4a;"></span><span class="k">Unconnected · rural/developing</span><span class="v">2.6 B</span></div>
+          <div class="legend-row"><span class="legend-swatch" style="background: #b39dff;"></span><span class="k">Starlink subscribers today</span><span class="v">0.012 B</span></div>
+        </div>
+      </div>
+
+      <div class="tam-capture">
+        <div>
+          <div class="capture-big" id="tam_subs">204M</div>
+          <div class="capture-big-label">Starlink subscribers at capture rate</div>
+
+          <div class="slider-row">
+            <label>Capture of underserved</label>
+            <input type="range" id="tam_cap_under" min="0" max="30" step="0.5" value="10" />
+            <div class="val" id="tam_cap_under_v">10.0%</div>
+          </div>
+          <div class="slider-row">
+            <label>Capture of unconnected</label>
+            <input type="range" id="tam_cap_uncon" min="0" max="20" step="0.5" value="2" />
+            <div class="val" id="tam_cap_uncon_v">2.0%</div>
+          </div>
+          <div class="slider-row">
+            <label>Blended global ARPU ($/mo)</label>
+            <input type="range" id="tam_arpu" min="20" max="120" step="5" value="55" />
+            <div class="val" id="tam_arpu_v">$55</div>
+          </div>
+        </div>
+
+        <div class="capture-stats">
+          <div class="cap-stat">
+            <div class="cs-v" id="tam_revenue">$135B</div>
+            <div class="cs-l">Annual revenue</div>
+          </div>
+          <div class="cap-stat">
+            <div class="cs-v" id="tam_ebitda">$85B</div>
+            <div class="cs-l">Annual EBITDA @ 63%</div>
+          </div>
+          <div class="cap-stat">
+            <div class="cs-v" id="tam_ev_tam">$1.5T</div>
+            <div class="cs-l">Implied EV @ 18× EBITDA</div>
+          </div>
+          <div class="cap-stat">
+            <div class="cs-v" id="tam_penetration">2.5%</div>
+            <div class="cs-l">% of world population</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <table class="scenario-table" style="margin-top: 32px;">
+      <thead>
+        <tr>
+          <th>Capture scenario</th>
+          <th>Underserved</th>
+          <th>Unconnected</th>
+          <th>Total subs</th>
+          <th>Revenue @ $55 ARPU</th>
+          <th>EBITDA @ 63%</th>
+        </tr>
+      </thead>
+      <tbody id="tamTable"></tbody>
+    </table>
+
+    <div class="callout" style="margin-top: 32px;">
+      <strong>Perspective on 200M subs.</strong> That's roughly the size of Netflix's global subscriber base or T-Mobile US's postpaid customer count. It's ~10× Comcast Xfinity broadband subs (32M). Reaching 200M would take Starlink from 0.15% of humanity to 2.5% — still leaving 97.5% of the planet as future growth. At Starship+V3 economics, the launch cost per net-new customer added is roughly <strong>$5–10 over their subscription lifetime</strong>. That's the leverage the cost curve unlocks.
+    </div>
+  </div>
+</section>
+
+<!-- UNIT ECONOMICS + ONE PLAN EVERYWHERE -->
+<section id="unit-econ">
+  <div class="wrap">
+    <div class="eyebrow">Follow the dollars</div>
+    <h2>What does $90/mo actually cost to deliver — and what if it were one price for the world?</h2>
+    <p class="lead">
+      A 63% adjusted EBITDA margin means Starlink spends about <strong>$33 to serve every $90 subscriber</strong>. Break that $33 into its constituents below and you can see where Starship+V3 collapses each line. Then the more interesting question: what if SpaceX bundled broadband + direct-to-cell cellular + roaming into one $100/mo plan that works anywhere on Earth? Legacy telcos have a <strong>$1.5T combined market cap</strong> defending exactly that geography.
+    </p>
+
+    <div class="econ-grid">
+      <div class="econ-breakdown">
+        <h3>Cost to serve, per subscriber, per month</h3>
+        <p style="font-size: 13px; margin-top: -4px;">Adjust each line. Total updates live. Compare to charging price.</p>
+
+        <div class="econ-row">
+          <label>Launch amortization<span class="hint">Constellation replenishment amortized over sub base</span></label>
+          <input type="range" id="econ_launch" min="0" max="15" step="0.5" value="3" />
+          <div class="val" id="econ_launch_v">$3.0</div>
+        </div>
+        <div class="econ-row">
+          <label>Satellite hardware<span class="hint">Amortized over 5-yr sat lifetime</span></label>
+          <input type="range" id="econ_sat" min="0" max="20" step="0.5" value="7" />
+          <div class="val" id="econ_sat_v">$7.0</div>
+        </div>
+        <div class="econ-row">
+          <label>Ground stations + spectrum<span class="hint">Gateways, ops, regulatory fees</span></label>
+          <input type="range" id="econ_ground" min="0" max="15" step="0.5" value="5" />
+          <div class="val" id="econ_ground_v">$5.0</div>
+        </div>
+        <div class="econ-row">
+          <label>User terminal subsidy<span class="hint">Amortized over 4-yr customer life</span></label>
+          <input type="range" id="econ_hw" min="0" max="20" step="0.5" value="10" />
+          <div class="val" id="econ_hw_v">$10.0</div>
+        </div>
+        <div class="econ-row">
+          <label>Support + billing + SG&amp;A<span class="hint">Customer support, billing systems, marketing</span></label>
+          <input type="range" id="econ_support" min="0" max="15" step="0.5" value="8" />
+          <div class="val" id="econ_support_v">$8.0</div>
+        </div>
+        <div class="econ-row">
+          <label>Charging price<span class="hint">What the customer pays / mo</span></label>
+          <input type="range" id="econ_price" min="30" max="200" step="5" value="90" />
+          <div class="val" id="econ_price_v">$90</div>
+        </div>
+
+        <div class="econ-total">
+          <div class="et-block">
+            <div class="et-label">Total cost / sub / mo</div>
+            <div class="et-value" id="econ_cost_total">$33.0</div>
+            <div class="et-note" id="econ_cost_pct">37% of revenue</div>
+          </div>
+          <div class="et-block">
+            <div class="et-label">Contribution margin</div>
+            <div class="et-value pos" id="econ_margin">$57.0</div>
+            <div class="et-note" id="econ_margin_pct">63% EBITDA margin</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="one-plan">
+        <div class="op-title">The thesis</div>
+        <h3>SpaceX Everywhere — one plan for the planet.</h3>
+        <p style="font-size: 14px;">
+          T-Mobile direct-to-cell is already live on ~500 Starlink satellites (as of 2026). Aviation, maritime, and roaming are separate SKUs today. But when the network can serve a phone anywhere on Earth at $8/Gbps deployed cost, why sell them as separate products? Bundle broadband + cellular + roaming for one price.
+        </p>
+
+        <div class="op-slider slider-row">
+          <label>Bundled plan price ($/mo)</label>
+          <input type="range" id="op_price" min="30" max="200" step="5" value="100" />
+          <div class="val" id="op_price_v">$100</div>
+        </div>
+        <div class="op-slider slider-row">
+          <label>Smartphone users captured</label>
+          <input type="range" id="op_capture" min="0" max="30" step="0.5" value="8" />
+          <div class="val" id="op_capture_v">8%</div>
+        </div>
+        <div class="op-slider slider-row">
+          <label>Cost to serve ($/mo)</label>
+          <input type="range" id="op_cost" min="10" max="80" step="1" value="35" />
+          <div class="val" id="op_cost_v">$35</div>
+        </div>
+
+        <div style="margin-top: 24px;">
+          <div class="op-big" id="op_revenue">$346B</div>
+          <div class="op-big-lbl">Annual revenue at capture rate</div>
+        </div>
+
+        <div class="op-stats">
+          <div class="op-stat">
+            <div class="v" id="op_subs">288M</div>
+            <div class="l">Global subscribers</div>
+          </div>
+          <div class="op-stat">
+            <div class="v" id="op_ebitda">$225B</div>
+            <div class="l">EBITDA at your margin</div>
+          </div>
+          <div class="op-stat">
+            <div class="v" id="op_margin">65%</div>
+            <div class="l">Blended margin</div>
+          </div>
+          <div class="op-stat">
+            <div class="v" id="op_telco_pct">23%</div>
+            <div class="l">Of global telco revenue</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top: 32px;">
+      <strong>Why this scares Verizon.</strong> Global telco revenue is ~$1.5T/yr, dominated by 5–10 national incumbents per country each spending $10–30B in capex just to maintain terrestrial towers. If SpaceX offers a $100/mo global plan (calls + data + roaming worldwide, no per-country SIM swap, no roaming fees), it doesn't have to win 100% of the market to be devastating — 10–15% capture is a ~$150–225B annual revenue line and forces incumbents to slash pricing. The only two questions are (1) whether SpaceX goes direct-to-consumer or stays wholesale via T-Mobile/KDDI/etc. and (2) how fast regulators let it happen. The economics work either way — the question is just who books the revenue.
+    </div>
+  </div>
+</section>
+
+<!-- SPACE DATA CENTERS -->
+<section id="compute">
+  <div class="wrap">
+    <div class="eyebrow">The second act</div>
+    <h2>Space is the new data center location.</h2>
+    <p class="lead">
+      The same launch cost curve that unlocks Starlink also unlocks something bigger: <strong>orbital compute</strong>. Starcloud put an NVIDIA H100 in orbit in November 2025 on a demo mission. Google announced <strong>Project Suncatcher</strong> — a TPU constellation — that same month. SpaceX is building AI-optimized satellites (widely reported as <strong>"AI1"</strong>) on the Starlink V3 bus, co-developed with NVIDIA, targeting 2027 launches. In space you get free 24/7 solar, unlimited radiative cooling, and no permitting fights. When launch is $60/kg, the math flips.
+    </p>
+
+    <div class="compute-milestones">
+      <div class="milestone">
+        <div class="m-date">Nov 2025 · flew</div>
+        <h3>Starcloud-1 — first H100 in orbit</h3>
+        <p>Startup Starcloud (formerly Lumen Orbit) launched an NVIDIA H100 GPU to LEO on a rideshare mission, running training workloads in-orbit and downlinking results. Proof point that datacenter-class silicon survives launch loads and can be actively cooled by radiators.</p>
+      </div>
+      <div class="milestone">
+        <div class="m-date">Nov 2025 · announced</div>
+        <h3>Google Project Suncatcher — TPU constellation</h3>
+        <p>Google unveiled plans for a constellation of TPU-carrying satellites connected by inter-satellite laser links, framed as "solar-powered AI training in orbit." Direct competitor for the orbital-compute TAM SpaceX is aiming at.</p>
+      </div>
+      <div class="milestone">
+        <div class="m-date">May 2026 · flew (Block 3)</div>
+        <h3>Starship Flight 12 — first V3s deployed</h3>
+        <p>Starship Block 3 debut from Pad-2 at Starbase. Ship deployed <strong>2 modified Starlink V3 satellites + 20 simulators</strong> (~44 t payload) and splashed down cleanly in the Indian Ocean. Booster failed on boostback (20/33 engines lit). FAA investigation gates Flight 13, targeted July 2026 — the payload path for AI1 satellites is now flight-proven.</p>
+      </div>
+      <div class="milestone">
+        <div class="m-date">2027 · in dev</div>
+        <h3>Starlink AI1 (NVIDIA-partnered)</h3>
+        <p>SpaceX's AI-optimized satellite variant on the V3 bus, co-developed with NVIDIA. Combines Starlink's inter-sat laser mesh (already flying) with rack-scale GPUs to make each Starship launch a mini datacenter delivery. Now that the V3 bus itself has flown on Flight 12, the AI1 payload path is closer to real.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top: 48px;">Why compute in orbit actually works</h3>
+    <div class="why-space">
+      <div class="why-card">
+        <div class="why-icon">☀️</div>
+        <h3>Free power</h3>
+        <p>Solar panels in LEO generate ~1.4 kW/m² with no atmosphere, no night for most orbits. Earth data centers spend 30–40% of TCO on grid power.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">❄️</div>
+        <h3>Free cooling</h3>
+        <p>Radiative cooling into 2.7 K vacuum. No chillers, no water, no cooling towers. PUE approaches 1.0 vs terrestrial 1.5+ for AI racks.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">⚡</div>
+        <h3>Zero-latency mesh</h3>
+        <p>Starlink already flies laser inter-sat links at ~200 Gbps per hop. Stack GPUs across dozens of satellites; treat the constellation as a single GPU pod.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🏛️</div>
+        <h3>No permitting</h3>
+        <p>No town-council fights over water use, no grid-interconnect queues, no gas turbine build-outs. Launch a rack, plug it into the mesh.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top: 48px;">Compute per Starship — calculator</h3>
+    <p style="max-width: 780px;">
+      NVIDIA H100 draws ~700W all-in, weighs ~3.5 kg, delivers ~2 PFLOPS FP16. A rack of 8× H100s does 16 PFLOPS. If Starship carries 100 t at $185/kg, how much AI compute is that per launch?
+    </p>
+
+    <div class="compute-calc">
+      <div class="compute-inputs">
+        <h3 style="margin-bottom: 20px;">Inputs</h3>
+        <div class="slider-row">
+          <label>Starship payload (t)</label>
+          <input type="range" id="c_payload" min="20" max="250" step="5" value="100" />
+          <div class="val" id="c_payload_v">100 t</div>
+        </div>
+        <div class="slider-row">
+          <label>Launch cost per kg ($)</label>
+          <input type="range" id="c_costkg" min="60" max="1000" step="10" value="185" />
+          <div class="val" id="c_costkg_v">$185</div>
+        </div>
+        <div class="slider-row">
+          <label>GPU mass (kg, all-in)</label>
+          <input type="range" id="c_gpumass" min="2" max="15" step="0.5" value="7" />
+          <div class="val" id="c_gpumass_v">7 kg</div>
+        </div>
+        <div class="slider-row">
+          <label>PFLOPS per GPU (FP16)</label>
+          <input type="range" id="c_pflops" min="1" max="20" step="0.5" value="2" />
+          <div class="val" id="c_pflops_v">2 PFLOPS</div>
+        </div>
+        <div class="slider-row">
+          <label>GPU cost ($ each)</label>
+          <input type="range" id="c_gpucost" min="10000" max="60000" step="1000" value="30000" />
+          <div class="val" id="c_gpucost_v">$30K</div>
+        </div>
+        <div class="slider-row">
+          <label>Overhead factor (chassis/thermal/power)</label>
+          <input type="range" id="c_overhead" min="1.5" max="5" step="0.1" value="2.5" />
+          <div class="val" id="c_overhead_v">2.5×</div>
+        </div>
+      </div>
+
+      <div class="compute-output">
+        <div class="cbig-lbl">GPUs per Starship launch</div>
+        <div class="cbig" id="c_gpus">5,714</div>
+        <div class="csub">
+          <div class="csub-stat">
+            <div class="v" id="c_flops">11.4 EFLOPS</div>
+            <div class="l">Compute deployed / launch</div>
+          </div>
+          <div class="csub-stat">
+            <div class="v" id="c_gpu_value">$171M</div>
+            <div class="l">GPU capex per launch</div>
+          </div>
+          <div class="csub-stat">
+            <div class="v" id="c_launch_cost">$18.5M</div>
+            <div class="l">Launch cost</div>
+          </div>
+          <div class="csub-stat">
+            <div class="v" id="c_launch_pct">11%</div>
+            <div class="l">Launch as % of total capex</div>
+          </div>
+          <div class="csub-stat">
+            <div class="v" id="c_flops_per_dollar">1.6 GFLOP/$</div>
+            <div class="l">Compute per launch dollar</div>
+          </div>
+          <div class="csub-stat">
+            <div class="v" id="c_vs_earth">30%</div>
+            <div class="l">of Earth data center TCO</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kpi-grid" style="margin-top: 32px;">
+      <div class="kpi">
+        <div class="kpi-num" id="kpi_ai_tam">$1.0T</div>
+        <div class="kpi-lbl">Global AI infra spend by 2030</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-num">10%</div>
+        <div class="kpi-lbl">Est. orbital compute share by 2030</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-num">$30B</div>
+        <div class="kpi-lbl">Potential SpaceX AI-infra revenue</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-num">2.7 K</div>
+        <div class="kpi-lbl">Radiator sink temp (vacuum)</div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top: 32px;">
+      <strong>The hidden option.</strong> Every Starlink launch already delivers ~2,000 kg of satellite + inter-sat lasers to orbit. If a fraction of each launch's payload is instead "compute racks with mesh comms," SpaceX becomes a hyperscaler with vertical integration nobody else can match: their own rockets, their own network fabric, their own power/cooling advantage. The 33fg research team's "SpaceX AI Revenue to 2030" analysis pegs this as a plausible <strong>$30–80B annual revenue line by 2032</strong> — larger than most standalone cloud providers. And per the S-1, this segment isn't in the current $19.3B trailing revenue — it's part of what the market's $2.075T is pricing forward.
+    </div>
+  </div>
+</section>
+
+<!-- BULL THESIS SUM OF PARTS -->
+<section id="bull">
+  <div class="wrap">
+    <div class="eyebrow">The bull case</div>
+    <h2>Sum-of-parts: if they execute, the $2T holds — and grows.</h2>
+    <p class="lead">
+      Everything you've played with above is the input to this final number. If Starship hits its cost curve, if V3/AI1 deploy on schedule, if Direct-to-Cell scales, and if AI compute in orbit becomes a real revenue line — then the $2.075T market cap today <strong>isn't the ceiling, it's the entry point.</strong> Here's the segment math at year 5.
+    </p>
+
+    <table class="sop-table">
+      <thead>
+        <tr>
+          <th>Segment</th>
+          <th>Y5 revenue</th>
+          <th>Op margin</th>
+          <th>Y5 EBITDA</th>
+          <th>Multiple</th>
+          <th>Enterprise value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Starlink Connectivity <span style="color: var(--muted); font-weight: 400;">(base case, 120M subs, $90 ARPU)</span></td>
+          <td>$130B</td>
+          <td>63%</td>
+          <td>$82B</td>
+          <td>18×</td>
+          <td>$1,476B</td>
+        </tr>
+        <tr>
+          <td>Space / Launch <span style="color: var(--muted); font-weight: 400;">(Starship monopoly + defense)</span></td>
+          <td>$30B</td>
+          <td>40%</td>
+          <td>$12B</td>
+          <td>15×</td>
+          <td>$180B</td>
+        </tr>
+        <tr>
+          <td>AI Compute in orbit <span style="color: var(--muted); font-weight: 400;">(30% of $1T AI infra by 2031)</span></td>
+          <td>$60B</td>
+          <td>50%</td>
+          <td>$30B</td>
+          <td>20×</td>
+          <td>$600B</td>
+        </tr>
+        <tr>
+          <td>Starshield / Defense <span style="color: var(--muted); font-weight: 400;">(DoD constellation + ISR)</span></td>
+          <td>$10B</td>
+          <td>50%</td>
+          <td>$5B</td>
+          <td>15×</td>
+          <td>$75B</td>
+        </tr>
+        <tr>
+          <td>Grok / xAI <span style="color: var(--muted); font-weight: 400;">(rev grows, still marginal)</span></td>
+          <td>$25B</td>
+          <td>10%</td>
+          <td>$2.5B</td>
+          <td>15×</td>
+          <td>$38B</td>
+        </tr>
+        <tr>
+          <td>Mars / Cislunar / options <span style="color: var(--muted); font-weight: 400;">(NASA contracts + optionality)</span></td>
+          <td>—</td>
+          <td>—</td>
+          <td>—</td>
+          <td>option</td>
+          <td>$100B</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td>Total sum-of-parts EV at Year 5</td>
+          <td>$255B rev</td>
+          <td>—</td>
+          <td>$132B EBITDA</td>
+          <td>—</td>
+          <td>$2,469B</td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <p style="margin-top: 20px; font-size: 13px; color: var(--muted); max-width: 900px;">
+      Every one of these numbers is derived from the interactive models above. The Starlink line is base case at the default sliders. The Space line assumes Starship becomes the dominant launcher for both SpaceX's own constellation and third parties. The AI compute line applies 33fg's estimate of $30–80B/yr orbital compute revenue, midpointed. The Starshield line assumes DoD contracts scale with the constellation. Grok is intentionally modeled at just-break-even to reflect competitive AI pressure. Mars is optionality, not baseline.
+    </p>
+
+    <h3 style="margin-top: 48px;">Three cases — pick your probability</h3>
+    <div class="sop-summary">
+      <div class="sop-case bear">
+        <div class="case-name">Bear case</div>
+        <div class="case-val">$650B</div>
+        <div class="case-lbl">Year 5 EV · 68% below today</div>
+        <p class="case-desc">Starship stalls at $250/kg. V3 delayed 2 years. Starlink caps at 50M subs. AI compute never monetizes. Grok never breaks even. Musk key-person event. The "Metaverse of 2026" outcome.</p>
+      </div>
+      <div class="sop-case base">
+        <div class="case-name">Base case · SoP above</div>
+        <div class="case-val">$2.5T</div>
+        <div class="case-lbl">Year 5 EV · 20% above today</div>
+        <p class="case-desc">Starship hits $60–100/kg. Starlink reaches 120M subs. AI compute reaches $60B revenue by 2031. Grok breaks even. Defense contracts scale. Market is roughly pricing this in.</p>
+      </div>
+      <div class="sop-case bull">
+        <div class="case-name">Bull case</div>
+        <div class="case-val">$4.5T</div>
+        <div class="case-lbl">Year 5 EV · 2.2× today</div>
+        <p class="case-desc">One-plan-everywhere ($300B rev) + AI compute at 50% of orbital TAM + successful Mars cargo contracts + Starship becomes global cargo backbone. Nvidia-scale multiple on a Nvidia-scale opportunity.</p>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top: 32px; border-left-color: var(--gain); background: rgba(52, 211, 153, 0.06);">
+      <strong>The bull's punchline.</strong> At $2.075T market cap today, the market is essentially pricing in the base-case sum-of-parts with modest execution risk — <strong>roughly 82% probability of execution</strong> (2.075 / 2.5 ≈ 83%). That's aggressive but not insane if you believe in the physics is solved thesis. The bear thinks the execution success rate is closer to 30%. The bull thinks it's 95%+ and thinks the market is missing the AI compute upside entirely. Reasonable people disagree because the physics is settled and the engineering isn't — and the market has to price a probability distribution, not a certainty.
+    </div>
+
+    <div class="kpi-grid" style="margin-top: 32px;">
+      <div class="kpi">
+        <div class="kpi-num">$2.075T</div>
+        <div class="kpi-lbl">Market cap today</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-num">$2.5T</div>
+        <div class="kpi-lbl">Base-case Y5 sum-of-parts</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-num">82%</div>
+        <div class="kpi-lbl">Implied execution probability</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-num">7×</div>
+        <div class="kpi-lbl">Bull-case upside over 5yr</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT IT UNLOCKS -->
+<section id="unlocks">
+  <div class="wrap">
+    <div class="eyebrow">Beyond Starlink</div>
+    <h2>What $0.10/Mbps unlocks.</h2>
+    <p class="lead">
+      At Starship maturity, $1B of launch spend deploys <strong>~10,000 Tbps</strong> of new bandwidth — roughly 15× the entire Starlink constellation today.
+      That's ~90 days of Starlink operating income at current scale.
+      When launch stops being the constraint, the market opens up.
+    </p>
+
+    <div class="unlocks">
+      <div class="unlock">
+        <div class="icon">1</div>
+        <h3>Rural + emerging markets</h3>
+        <p>At $0.10/Mbps deployed, Starlink can profitably serve markets that today can't pay $90/mo. India, sub-Saharan Africa, LatAm rural. TAM doubles or triples.</p>
+      </div>
+      <div class="unlock">
+        <div class="icon">2</div>
+        <h3>Mobility &amp; backhaul</h3>
+        <p>Aviation, maritime, trucking, cellular backhaul, T-Mobile direct-to-cell. Every network operator becomes a Starlink customer for capacity augmentation.</p>
+      </div>
+      <div class="unlock">
+        <div class="icon">3</div>
+        <h3>Enterprise SLA tiers</h3>
+        <p>Lower unit cost + narrower beams = premium tiers with guaranteed capacity. Compete directly with fiber for on-premise enterprise up-time.</p>
+      </div>
+      <div class="unlock">
+        <div class="icon">4</div>
+        <h3>Space-based AI compute</h3>
+        <p>Cheap $/kg means you can loft rack-scale GPU clusters. Cool with radiators, power with solar, offload latency-tolerant training from data centers.</p>
+      </div>
+      <div class="unlock">
+        <div class="icon">5</div>
+        <h3>Starshield &amp; defense</h3>
+        <p>Custom LEO ISR &amp; comms constellations for DoD. Each Starship launch places a full sub-constellation. Multi-billion-dollar sole-source contracts.</p>
+      </div>
+      <div class="unlock">
+        <div class="icon">6</div>
+        <h3>Cislunar &amp; Mars logistics</h3>
+        <p>When trucking to LEO is a rounding error, propellant depots, lunar cargo, and Mars supply pencil out. Optionality on the next century of trade routes.</p>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi">
+        <div class="kpi-num" id="tam_launches">54</div>
+        <div class="kpi-lbl">Starship launches to double capacity</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-num" id="tam_spend">$1.0B</div>
+        <div class="kpi-lbl">Cost to double capacity</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-num" id="tam_ratio">15×</div>
+        <div class="kpi-lbl">Bandwidth per $1B launch spend vs today</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-num" id="tam_days">90</div>
+        <div class="kpi-lbl">Days of Starlink op-income = $1B</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOURCES -->
+<section id="sources">
+  <div class="wrap">
+    <div class="eyebrow">Show your work</div>
+    <h2>Sources &amp; assumptions.</h2>
+    <p class="lead">
+      This app synthesizes two primary sources plus public SpaceX/Starlink disclosures. All numbers in the calculator are editable — nothing is baked into the visualization that you can't overwrite.
+    </p>
+
+    <div class="src-list">
+      <a href="https://finance.yahoo.com/quote/SPCX/" target="_blank" rel="noopener">
+        <div class="src-title">Yahoo Finance — SPCX quote &amp; S-1 segment data</div>
+        <div class="src-url">finance.yahoo.com/quote/SPCX</div>
+      </a>
+      <a href="https://x.com/robmaurer/status/2064866775271887026" target="_blank" rel="noopener">
+        <div class="src-title">Rob Maurer · First Principles Group (Jun 2026)</div>
+        <div class="src-url">x.com/robmaurer/status/2064866775271887026</div>
+      </a>
+      <a href="https://research.33fg.com/analysis/starship-will-reduce-bandwidth-launch-cost-by-up-to-50x" target="_blank" rel="noopener">
+        <div class="src-title">Mach33 Financial Group — Starship Will Reduce Bandwidth Launch Cost by up to 50× (Aug 2025)</div>
+        <div class="src-url">research.33fg.com/analysis/starship-will-reduce-bandwidth-launch-cost-by-up-to-50x</div>
+      </a>
+      <a href="https://research.33fg.com/analysis/spacex-ai-revenue-to-2030" target="_blank" rel="noopener">
+        <div class="src-title">Mach33 — SpaceX AI Revenue to 2030</div>
+        <div class="src-url">research.33fg.com/analysis/spacex-ai-revenue-to-2030</div>
+      </a>
+      <a href="https://research.33fg.com/analysis/spacex-s-compute-supply-the-option-to-be-a-hyperscaler" target="_blank" rel="noopener">
+        <div class="src-title">Mach33 — SpaceX's Compute Supply: The Option to Be a Hyperscaler</div>
+        <div class="src-url">research.33fg.com/analysis/spacex-s-compute-supply-the-option-to-be-a-hyperscaler</div>
+      </a>
+      <a href="https://www.starcloud.com/" target="_blank" rel="noopener">
+        <div class="src-title">Starcloud (formerly Lumen Orbit) — Orbital H100 compute demo</div>
+        <div class="src-url">starcloud.com</div>
+      </a>
+      <a href="https://blog.google/technology/research/google-project-suncatcher/" target="_blank" rel="noopener">
+        <div class="src-title">Google — Project Suncatcher (Nov 2025)</div>
+        <div class="src-url">blog.google/technology/research/google-project-suncatcher</div>
+      </a>
+      <a href="https://www.spacex.com/vehicles/starship/" target="_blank" rel="noopener">
+        <div class="src-title">SpaceX — Starship vehicle specs</div>
+        <div class="src-url">spacex.com/vehicles/starship</div>
+      </a>
+      <a href="https://www.starlink.com/" target="_blank" rel="noopener">
+        <div class="src-title">Starlink — Service &amp; pricing</div>
+        <div class="src-url">starlink.com</div>
+      </a>
+    </div>
+
+    <div class="callout">
+      <strong>Key model choices (33fg baseline).</strong>
+      Starship stage capex: $60M booster, $30M ship, amortized over flights.
+      Per-flight cash: $10M launch/ops, $2M refurb (both reused), $1M (booster only).
+      Payload design point: 200 t to LEO in all scenarios (the app defaults to a conservative 100 t to match Rob Maurer's calculation).
+      V2 Mini: 575 kg / ~96 Gbps = 0.167 Gbps/kg. V3: 2,000 kg / ~1,000 Gbps = 0.5 Gbps/kg.
+      No learning curves, no propellant breakout — clarity over completeness.
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <button class="reset-btn" onclick="resetDefaults()">↺ Reset all inputs to defaults</button>
+  <div>Built as a first-principles visualization. Not investment advice. Play with the numbers, argue with the assumptions.</div>
+</footer>
+
+<script>
+/* ============================================================
+   SPACEX OPPORTUNITY APP — INTERACTIVE LOGIC
+   ============================================================ */
+
+Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif';
+Chart.defaults.font.size = 12;
+Chart.defaults.color = '#9aa3c7';
+Chart.defaults.borderColor = '#2a3358';
+
+const COLORS = {
+  falcon: '#4fc3f7',
+  starship: '#ff7a4a',
+  starlink: '#b39dff',
+  gain: '#34d399',
+  dim: '#6b739a',
+  warn: '#fbbf24',
+};
+
+/* --- DEFAULTS --- */
+const DEFAULTS = {
+  f9_payload: 17000,
+  f9_costkg: 1000,
+  f9_satmass: 575,
+  f9_satgbps: 96,
+  ss_payload: 100000,
+  ss_costkg: 185,
+  ss_satmass: 2000,
+  ss_satgbps: 1000,
+  v_subs: 12,
+  v_growth: 80,
+  v_arpu: 90,
+  v_margin: 63,
+  v_years: 5,
+  v_multiple: 18,
+  v_ps_mult: 8,
+  tam_cap_under: 10,
+  tam_cap_uncon: 2,
+  tam_arpu: 55,
+  econ_launch: 3,
+  econ_sat: 7,
+  econ_ground: 5,
+  econ_hw: 10,
+  econ_support: 8,
+  econ_price: 90,
+  op_price: 100,
+  op_capture: 8,
+  op_cost: 35,
+  c_payload: 100,
+  c_costkg: 185,
+  c_gpumass: 7,
+  c_pflops: 2,
+  c_gpucost: 30000,
+  c_overhead: 2.5,
+};
+
+/* --- FORMATTERS --- */
+const fmt$M = v => '$' + (v / 1e6).toFixed(1) + 'M';
+const fmt$B = v => '$' + (v / 1e9).toFixed(0) + 'B';
+const fmt$ = v => '$' + v.toLocaleString('en-US', { maximumFractionDigits: 2 });
+const fmt$k = v => '$' + Math.round(v).toLocaleString('en-US');
+const fmtGbps = v => v.toLocaleString('en-US', { maximumFractionDigits: 0 }) + ' Gbps';
+const fmtNum = v => v.toLocaleString('en-US', { maximumFractionDigits: 0 });
+const fmt$MBps = v => '$' + v.toFixed(2);
+
+/* Auto-format big currency values */
+function fmtBig(v) {
+  if (v >= 1e12) return '$' + (v / 1e12).toFixed(1) + 'T';
+  if (v >= 1e9) return '$' + (v / 1e9).toFixed(0) + 'B';
+  if (v >= 1e6) return '$' + (v / 1e6).toFixed(1) + 'M';
+  return fmt$k(v);
+}
+function fmtBigNum(v) {
+  if (v >= 1e9) return (v / 1e9).toFixed(1) + 'B';
+  if (v >= 1e6) return (v / 1e6).toFixed(0) + 'M';
+  if (v >= 1e3) return (v / 1e3).toFixed(1) + 'K';
+  return v.toFixed(0);
+}
+
+/* ============================================================
+   CALCULATOR — computes $/Mbps live
+   ============================================================ */
+function computeLaunchEcon(payload, costkg, satmass, satgbps) {
+  const launchCost = payload * costkg;                // $
+  const satCount = Math.floor(payload / satmass);
+  const totalGbps = satCount * satgbps;               // Gbps
+  const totalMbps = totalGbps * 1000;                 // Mbps
+  const costPerMbps = totalMbps > 0 ? launchCost / totalMbps : 0;
+  const costPerGbps = totalGbps > 0 ? launchCost / totalGbps : 0;
+  return { launchCost, satCount, totalGbps, totalMbps, costPerMbps, costPerGbps };
+}
+
+function updateCalculator() {
+  const f9 = computeLaunchEcon(
+    +document.getElementById('f9_payload').value,
+    +document.getElementById('f9_costkg').value,
+    +document.getElementById('f9_satmass').value,
+    +document.getElementById('f9_satgbps').value
+  );
+  const ss = computeLaunchEcon(
+    +document.getElementById('ss_payload').value,
+    +document.getElementById('ss_costkg').value,
+    +document.getElementById('ss_satmass').value,
+    +document.getElementById('ss_satgbps').value
+  );
+
+  // Live kg → tonnes conversions on input hints
+  const kgToT = kg => (kg / 1000).toFixed(kg >= 10000 ? 0 : (kg >= 1000 ? 1 : 2)) + ' t';
+  document.getElementById('f9_payload_conv').textContent = '· ' + kgToT(+document.getElementById('f9_payload').value);
+  document.getElementById('f9_satmass_conv').textContent = '· ' + kgToT(+document.getElementById('f9_satmass').value);
+  document.getElementById('ss_payload_conv').textContent = '· ' + kgToT(+document.getElementById('ss_payload').value);
+  document.getElementById('ss_satmass_conv').textContent = '· ' + kgToT(+document.getElementById('ss_satmass').value);
+
+  const f9PayloadKg = +document.getElementById('f9_payload').value;
+  const ssPayloadKg = +document.getElementById('ss_payload').value;
+
+  document.getElementById('f9_launchcost').textContent = fmt$M(f9.launchCost);
+  document.getElementById('f9_launchsub').textContent = `${fmtNum(f9.satCount)} sats · ${kgToT(f9PayloadKg)}`;
+  document.getElementById('f9_bandwidth').textContent = fmtGbps(f9.totalGbps);
+  document.getElementById('f9_bandwidthsub').textContent = `${fmtNum(f9.satCount)} × ${+document.getElementById('f9_satgbps').value} Gbps`;
+  document.getElementById('f9_costmbps').textContent = fmt$MBps(f9.costPerMbps);
+  document.getElementById('f9_costmbpssub').textContent = `${fmt$k(f9.costPerGbps)} / Gbps · Rob $6.55`;
+
+  document.getElementById('ss_launchcost').textContent = fmt$M(ss.launchCost);
+  document.getElementById('ss_launchsub').textContent = `${fmtNum(ss.satCount)} sats · ${kgToT(ssPayloadKg)}`;
+  document.getElementById('ss_bandwidth').textContent = fmtGbps(ss.totalGbps);
+  document.getElementById('ss_bandwidthsub').textContent = `${fmtNum(ss.satCount)} × ${+document.getElementById('ss_satgbps').value} Gbps`;
+  document.getElementById('ss_costmbps').textContent = fmt$MBps(ss.costPerMbps);
+  document.getElementById('ss_costmbpssub').textContent = `${fmt$k(ss.costPerGbps)} / Gbps · Rob $0.30`;
+
+  const factor = f9.costPerMbps > 0 && ss.costPerMbps > 0 ? f9.costPerMbps / ss.costPerMbps : 0;
+  document.getElementById('improvement_factor').textContent = factor.toFixed(1) + '×';
+
+  updateScenarioTable(f9, ss);
+  updateTamUnlocks(ss);
+  updateGbpsChart(f9.costPerGbps, ss.costPerGbps);
+}
+
+/* ============================================================
+   $/KG COST CURVES (Chart 1)
+   Model per 33fg:
+   - Expendable: flat $500/kg
+   - Booster reuse, ship expended: ~$265 at N=5, ~$220 at N=20, floor ~$205
+   - Fully reusable: ~$150 at N=5, ~$83 at N=20, floor ~$60
+   ============================================================ */
+function generateCostCurveData() {
+  const flights = Array.from({ length: 30 }, (_, i) => i + 1);
+  const boosterCapex = 60e6;
+  const shipCapex = 30e6;
+  const payloadKg = 200000;   // 200 t design point
+
+  const expendable = flights.map(() => 500); // flat
+
+  const booster = flights.map(n => {
+    // Ship expended every flight, booster amortized
+    const perFlightCash = 10e6 + 1e6;                 // ops + light refurb (booster only)
+    const shipCostPerFlight = shipCapex;              // new ship every flight
+    const boosterAmort = boosterCapex / n;
+    const total = perFlightCash + shipCostPerFlight + boosterAmort;
+    return Math.round(total / payloadKg);
+  });
+
+  const fullReuse = flights.map(n => {
+    // Both stages amortized, refurb on both
+    // First flight: refurb = 0. Subsequent flights: $2M.
+    // We're computing average $/kg over N flights.
+    // Total capex + N * ops + (N-1) * refurb, then divide by (N * payload)
+    const totalOps = n * 10e6;
+    const totalRefurb = (n - 1) * 2e6;
+    const totalCapex = boosterCapex + shipCapex;
+    const total = totalCapex + totalOps + totalRefurb;
+    return Math.round(total / (n * payloadKg));
+  });
+
+  return { flights, expendable, booster, fullReuse };
+}
+
+const costCurveData = generateCostCurveData();
+let costKgChart;
+let currentMode = 'all';
+
+function buildCostKgChart() {
+  const ctx = document.getElementById('costKgChart').getContext('2d');
+  const gradientFull = ctx.createLinearGradient(0, 0, 0, 400);
+  gradientFull.addColorStop(0, 'rgba(52, 211, 153, 0.15)');
+  gradientFull.addColorStop(1, 'rgba(52, 211, 153, 0)');
+  const gradientBooster = ctx.createLinearGradient(0, 0, 0, 400);
+  gradientBooster.addColorStop(0, 'rgba(255, 122, 74, 0.15)');
+  gradientBooster.addColorStop(1, 'rgba(255, 122, 74, 0)');
+
+  costKgChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: costCurveData.flights,
+      datasets: [
+        {
+          label: 'Fully expendable',
+          data: costCurveData.expendable,
+          borderColor: COLORS.dim,
+          backgroundColor: 'rgba(107, 115, 154, 0.05)',
+          borderWidth: 2.5,
+          pointRadius: 0,
+          pointHoverRadius: 5,
+          tension: 0.2,
+          borderDash: [6, 4],
+        },
+        {
+          label: 'Booster reuse only',
+          data: costCurveData.booster,
+          borderColor: COLORS.starship,
+          backgroundColor: gradientBooster,
+          borderWidth: 2.5,
+          pointRadius: 0,
+          pointHoverRadius: 5,
+          tension: 0.3,
+          fill: true,
+        },
+        {
+          label: 'Fully reusable',
+          data: costCurveData.fullReuse,
+          borderColor: COLORS.gain,
+          backgroundColor: gradientFull,
+          borderWidth: 3,
+          pointRadius: 0,
+          pointHoverRadius: 6,
+          tension: 0.3,
+          fill: true,
+        },
+        {
+          label: 'Falcon 9 (mature)',
+          data: costCurveData.flights.map(() => 856),
+          borderColor: COLORS.falcon,
+          backgroundColor: 'transparent',
+          borderWidth: 2,
+          pointRadius: 0,
+          borderDash: [2, 4],
+        },
+      ],
+    },
+    options: {
+      maintainAspectRatio: false,
+      responsive: true,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: {
+          position: 'top',
+          align: 'end',
+          labels: { usePointStyle: true, pointStyle: 'line', padding: 16, font: { size: 12 } },
+        },
+        tooltip: {
+          backgroundColor: 'rgba(11, 14, 23, 0.95)',
+          borderColor: '#2a3358',
+          borderWidth: 1,
+          padding: 12,
+          titleColor: '#eef2ff',
+          bodyColor: '#9aa3c7',
+          callbacks: {
+            title: items => `Flight #${items[0].label}`,
+            label: item => `${item.dataset.label}: $${item.raw}/kg`,
+          },
+        },
+      },
+      scales: {
+        x: {
+          title: { display: true, text: 'Number of flights (amortization base)', color: '#6b739a' },
+          grid: { color: 'rgba(42, 51, 88, 0.5)' },
+          ticks: { color: '#6b739a' },
+        },
+        y: {
+          title: { display: true, text: '$/kg to LEO', color: '#6b739a' },
+          min: 0,
+          max: 900,
+          grid: { color: 'rgba(42, 51, 88, 0.5)' },
+          ticks: { color: '#6b739a', callback: v => '$' + v },
+        },
+      },
+    },
+  });
+}
+
+function setChartMode(mode) {
+  currentMode = mode;
+  if (!costKgChart) return;
+  const visibility = {
+    all:        [true,  true,  true,  true],
+    expendable: [true,  false, false, true],
+    booster:    [false, true,  false, true],
+    full:       [false, false, true,  true],
+  };
+  const vis = visibility[mode];
+  costKgChart.data.datasets.forEach((ds, i) => { ds.hidden = !vis[i]; });
+  costKgChart.update();
+}
+
+document.getElementById('modeControls').addEventListener('click', e => {
+  const btn = e.target.closest('button[data-mode]');
+  if (!btn) return;
+  document.querySelectorAll('#modeControls button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  setChartMode(btn.dataset.mode);
+});
+
+/* ============================================================
+   $/GBPS CHART (Chart 2) — bar comparison
+   Uses live calculator values so it updates as inputs change.
+   ============================================================ */
+let gbpsChart;
+function buildGbpsChart() {
+  const ctx = document.getElementById('gbpsChart').getContext('2d');
+  gbpsChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: [
+        'Falcon 9 + V2 Mini',
+        'Starship Expendable + V3',
+        'Starship Booster-Reuse + V3',
+        'Starship Full-Reuse + V3',
+        'Starship Full-Reuse + V3 (Long-run floor)',
+      ],
+      datasets: [{
+        label: '$/Gbps deployed',
+        data: [5100, 1000, 440, 200, 120],
+        backgroundColor: [
+          COLORS.falcon,
+          '#f87171',
+          COLORS.starship,
+          '#fbbf24',
+          COLORS.gain,
+        ],
+        borderRadius: 6,
+        borderSkipped: false,
+      }],
+    },
+    options: {
+      maintainAspectRatio: false,
+      responsive: true,
+      indexAxis: 'y',
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(11, 14, 23, 0.95)',
+          borderColor: '#2a3358',
+          borderWidth: 1,
+          padding: 12,
+          callbacks: {
+            label: item => '$' + item.raw.toLocaleString() + ' / Gbps deployed',
+          },
+        },
+      },
+      scales: {
+        x: {
+          title: { display: true, text: '$/Gbps (log scale)', color: '#6b739a' },
+          type: 'logarithmic',
+          min: 50,
+          max: 10000,
+          grid: { color: 'rgba(42, 51, 88, 0.5)' },
+          ticks: {
+            color: '#6b739a',
+            callback: v => {
+              if ([100, 500, 1000, 5000, 10000].includes(v)) return '$' + v.toLocaleString();
+              return '';
+            },
+          },
+        },
+        y: {
+          grid: { display: false },
+          ticks: { color: '#eef2ff', font: { size: 12 } },
+        },
+      },
+    },
+  });
+}
+
+function updateGbpsChart(f9Gbps, ssGbps) {
+  if (!gbpsChart) return;
+  // Update the "live" Falcon 9 and Starship-current data points; keep other scenarios static
+  gbpsChart.data.datasets[0].data[0] = Math.round(f9Gbps);
+  gbpsChart.data.datasets[0].data[3] = Math.round(ssGbps);
+  gbpsChart.update('none');
+}
+
+function updateScenarioTable(f9, ss) {
+  const rows = [
+    { name: 'Falcon 9 + V2 Mini (current)', costKg: 1000, satRatio: 0.167, live: f9.costPerGbps },
+    { name: 'Starship Expendable + V3',      costKg: 500,  satRatio: 0.500, live: null },
+    { name: 'Starship Booster-Reuse + V3',   costKg: 220,  satRatio: 0.500, live: null },
+    { name: 'Starship Full-Reuse + V3 (N=5)',costKg: 150,  satRatio: 0.500, live: null },
+    { name: 'Starship Full-Reuse + V3 (N=20)',costKg: 83,   satRatio: 0.500, live: null, highlight: true },
+    { name: 'Starship Long-Run Floor + V3',  costKg: 60,   satRatio: 0.500, live: null },
+    { name: '⚡ Your inputs (Starship)',     costKg: +document.getElementById('ss_costkg').value, satRatio: (+document.getElementById('ss_satgbps').value / +document.getElementById('ss_satmass').value), live: ss.costPerGbps },
+  ];
+
+  const f9GbpsPerKg = 0.167;
+  const f9BaseCost = 1000 / f9GbpsPerKg; // ~$5,988
+
+  const tbody = document.getElementById('scenarioTable');
+  tbody.innerHTML = rows.map(r => {
+    const costGbps = r.live !== null ? r.live : r.costKg / r.satRatio;
+    const vs = f9BaseCost / costGbps;
+    return `
+      <tr${r.highlight ? ' class="highlight"' : ''}>
+        <td>${r.name}</td>
+        <td>$${Math.round(r.costKg).toLocaleString()}</td>
+        <td>${r.satRatio.toFixed(3)}</td>
+        <td>$${Math.round(costGbps).toLocaleString()}</td>
+        <td>${vs.toFixed(1)}× cheaper</td>
+      </tr>`;
+  }).join('');
+}
+
+/* ============================================================
+   TAM / UNLOCKS — how many launches to double Starlink capacity
+   ============================================================ */
+function updateTamUnlocks(ss) {
+  // Assumed current Starlink capacity: ~700 Tbps (2026 estimate).
+  const currentCapacity = 700; // Tbps
+  const doubleGbps = currentCapacity * 1000; // to Gbps
+  const launchesNeeded = Math.ceil(doubleGbps / ss.totalGbps);
+  const spend = launchesNeeded * ss.launchCost;
+
+  // Bandwidth per $1B at Starship rates vs today's Starlink deployment cost
+  const ratio = (1e9 / ss.costPerGbps) / currentCapacity;
+
+  document.getElementById('tam_launches').textContent = fmtNum(launchesNeeded);
+  document.getElementById('tam_spend').textContent = fmtBig(spend);
+  document.getElementById('tam_ratio').textContent = ratio.toFixed(0) + '×';
+}
+
+/* ============================================================
+   STARLINK VALUATION MODEL
+   ============================================================ */
+let revenueChart;
+function buildRevenueChart() {
+  const ctx = document.getElementById('revenueChart').getContext('2d');
+  const gradRev = ctx.createLinearGradient(0, 0, 0, 380);
+  gradRev.addColorStop(0, 'rgba(179, 157, 255, 0.35)');
+  gradRev.addColorStop(1, 'rgba(179, 157, 255, 0)');
+  const gradEbi = ctx.createLinearGradient(0, 0, 0, 380);
+  gradEbi.addColorStop(0, 'rgba(52, 211, 153, 0.3)');
+  gradEbi.addColorStop(1, 'rgba(52, 211, 153, 0)');
+
+  revenueChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: [
+        {
+          label: 'Revenue ($B)',
+          data: [],
+          borderColor: COLORS.starlink,
+          backgroundColor: gradRev,
+          borderWidth: 3,
+          pointBackgroundColor: COLORS.starlink,
+          pointBorderColor: '#0b0e17',
+          pointBorderWidth: 2,
+          pointRadius: 5,
+          tension: 0.25,
+          fill: true,
+        },
+        {
+          label: 'EBITDA ($B)',
+          data: [],
+          borderColor: COLORS.gain,
+          backgroundColor: gradEbi,
+          borderWidth: 3,
+          pointBackgroundColor: COLORS.gain,
+          pointBorderColor: '#0b0e17',
+          pointBorderWidth: 2,
+          pointRadius: 5,
+          tension: 0.25,
+          fill: true,
+        },
+      ],
+    },
+    options: {
+      maintainAspectRatio: false,
+      responsive: true,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: {
+          position: 'top', align: 'end',
+          labels: { usePointStyle: true, padding: 16 },
+        },
+        tooltip: {
+          backgroundColor: 'rgba(11, 14, 23, 0.95)',
+          borderColor: '#2a3358', borderWidth: 1, padding: 12,
+          callbacks: { label: item => `${item.dataset.label}: $${item.raw.toFixed(1)}B` },
+        },
+      },
+      scales: {
+        x: { grid: { color: 'rgba(42, 51, 88, 0.5)' }, ticks: { color: '#6b739a' } },
+        y: {
+          title: { display: true, text: '$B', color: '#6b739a' },
+          grid: { color: 'rgba(42, 51, 88, 0.5)' },
+          ticks: { color: '#6b739a', callback: v => '$' + v + 'B' },
+        },
+      },
+    },
+  });
+}
+
+/* ============================================================
+   GROWTH SCENARIOS
+   ============================================================ */
+const GROWTH_SCENARIOS = {
+  conservative: {
+    growth: 50, decay: 0.72, floor: 0.05,
+    info: "Conservative: 50% Y1 growth, decays aggressively, floors at 5%. Prices in slower Starship ramp, price competition from Kuiper/OneWeb, and regulatory friction in emerging markets.",
+  },
+  base: {
+    growth: 80, decay: 0.85, floor: 0.10,
+    info: "Base case: 80% Y1 growth, decays 15%/yr, floors at 10%. Consistent with Rob Maurer's \"doubling annually\" framing tempering as Starlink scales past 100M subs.",
+  },
+  aggressive: {
+    growth: 100, decay: 0.90, floor: 0.15,
+    info: "Aggressive: 100% Y1 growth (doubles), decays only 10%/yr, floors at 15%. Assumes Starship comes in at design capacity fast + mobility/enterprise + D2C partnerships all ramp.",
+  },
+  hyper: {
+    growth: 130, decay: 0.92, floor: 0.20,
+    info: "Hyper-growth: 130% Y1 growth, slow decay, 20% terminal floor. Ludicrous mode — assumes T-Mobile direct-to-cell explodes plus a China/India opening. Real but low probability.",
+  },
+};
+
+let currentScenario = 'base';
+let scenarioDecay = 0.85;
+let scenarioFloor = 0.10;
+
+function applyGrowthScenario(key) {
+  const s = GROWTH_SCENARIOS[key];
+  if (!s) return;
+  currentScenario = key;
+  scenarioDecay = s.decay;
+  scenarioFloor = s.floor;
+  document.getElementById('v_growth').value = s.growth;
+  document.querySelectorAll('#growthPresets button').forEach(b => b.classList.remove('active'));
+  const active = document.querySelector(`#growthPresets button[data-scenario="${key}"]`);
+  if (active) active.classList.add('active');
+  document.getElementById('scenarioInfo').textContent = s.info;
+  updateValuation();
+}
+
+/* ============================================================
+   ENHANCED VALUATION MODEL
+   ============================================================ */
+function updateValuation() {
+  const startSubs = +document.getElementById('v_subs').value * 1e6;
+  const growth = +document.getElementById('v_growth').value / 100;
+  const arpu = +document.getElementById('v_arpu').value;
+  const margin = +document.getElementById('v_margin').value / 100;
+  const years = +document.getElementById('v_years').value;
+  const multiple = +document.getElementById('v_multiple').value;
+  const psMultiple = +document.getElementById('v_ps_mult').value;
+
+  document.getElementById('v_subs_v').textContent = (startSubs / 1e6).toFixed(1) + ' M';
+  document.getElementById('v_growth_v').textContent = (growth * 100).toFixed(0) + '%';
+  document.getElementById('v_arpu_v').textContent = '$' + arpu;
+  document.getElementById('v_margin_v').textContent = (margin * 100).toFixed(0) + '%';
+  document.getElementById('v_years_v').textContent = years + ' yr';
+  document.getElementById('v_multiple_v').textContent = multiple + '×';
+  document.getElementById('v_ps_mult_v').textContent = psMultiple.toFixed(1) + '×';
+
+  // Build year-by-year projection using scenario decay + floor
+  const labels = [];
+  const rev = [];
+  const ebi = [];
+  const subsSeries = [];
+  const growthSeries = [];
+  let subs = startSubs;
+  let g = growth;
+  for (let i = 0; i <= years; i++) {
+    labels.push('Y' + i);
+    const revenueDollars = subs * arpu * 12;
+    const ebitdaDollars = revenueDollars * margin;
+    subsSeries.push(subs);
+    rev.push(revenueDollars / 1e9);
+    ebi.push(ebitdaDollars / 1e9);
+    growthSeries.push(i === 0 ? 0 : g);
+    // Grow for next iteration using scenario's decay + floor
+    subs = subs * (1 + g);
+    g = Math.max(g * scenarioDecay, scenarioFloor);
+  }
+
+  revenueChart.data.labels = labels;
+  revenueChart.data.datasets[0].data = rev;
+  revenueChart.data.datasets[1].data = ebi;
+  revenueChart.update('none');
+
+  const endYear = years;
+  const endRevenue = rev[endYear] * 1e9;
+  const endEbitda = ebi[endYear] * 1e9;
+  const endSubs = subsSeries[endYear];
+  const ev = endEbitda * multiple;
+  const evPS = endRevenue * psMultiple;
+
+  document.getElementById('v_endsubs').textContent = fmtBigNum(endSubs);
+  document.getElementById('v_revenue').textContent = fmtBig(endRevenue);
+  document.getElementById('v_ebitda').textContent = fmtBig(endEbitda);
+  document.getElementById('v_ev').textContent = fmtBig(ev);
+  document.getElementById('v_year_label').textContent = endYear;
+  document.getElementById('v_ev_ebitda').textContent = fmtBig(ev);
+  document.getElementById('v_ev_pfs').textContent = fmtBig(evPS);
+  document.getElementById('v_ev_note').textContent = `at ${multiple}× EBITDA`;
+  document.getElementById('v_ps_note').textContent = `at ${psMultiple.toFixed(1)}× revenue`;
+
+  // Populate year-by-year table
+  const tbody = document.getElementById('yearTable');
+  if (tbody) {
+    tbody.innerHTML = labels.map((lbl, i) => {
+      const isTarget = i === endYear;
+      const isCurrent = i === 0;
+      const cls = isTarget ? 'year-target' : (isCurrent ? 'year-current' : '');
+      const growthPct = i === 0 ? '—' : (growthSeries[i] * 100).toFixed(0) + '%';
+      const evYr = (ebi[i] * 1e9) * multiple;
+      const evPsYr = (rev[i] * 1e9) * psMultiple;
+      return `
+        <tr class="${cls}">
+          <td>${lbl}${isCurrent ? ' (now)' : ''}${isTarget ? ' ★' : ''}</td>
+          <td>${growthPct}</td>
+          <td>${fmtBigNum(subsSeries[i])}</td>
+          <td>$${rev[i].toFixed(1)}B</td>
+          <td>$${ebi[i].toFixed(1)}B</td>
+          <td>${fmtBig(evYr)}</td>
+          <td>${fmtBig(evPsYr)}</td>
+        </tr>`;
+    }).join('');
+  }
+}
+
+/* ============================================================
+   DEPLOYMENT COST BAR CHART (Compare section)
+   ============================================================ */
+let deployChart;
+function buildDeployChart() {
+  const ctx = document.getElementById('deployChart').getContext('2d');
+  deployChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: [
+        'Xfinity fiber to home (per premise)',
+        'DOCSIS 4 cable upgrade (per premise)',
+        'Rural DSL (per premise)',
+        'Falcon 9 + V2 Mini (per Gbps deployed)',
+        'Starship expendable + V3 (per Gbps)',
+        'Starship full-reuse + V3 mature (per Gbps)',
+      ],
+      datasets: [{
+        label: 'Deployment cost ($)',
+        data: [2000, 700, 4000, 5988, 1000, 120],
+        backgroundColor: [
+          '#de2e2e', '#a01818', '#6b1414',
+          '#4fc3f7', '#ff7a4a', '#34d399',
+        ],
+        borderRadius: 6,
+        borderSkipped: false,
+      }],
+    },
+    options: {
+      maintainAspectRatio: false,
+      responsive: true,
+      indexAxis: 'y',
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(11, 14, 23, 0.95)',
+          borderColor: '#2a3358', borderWidth: 1, padding: 12,
+          callbacks: {
+            label: item => '$' + item.raw.toLocaleString() + (item.dataIndex < 3 ? ' per home' : ' per Gbps deployed'),
+          },
+        },
+      },
+      scales: {
+        x: {
+          title: { display: true, text: 'Dollars (log scale) — note different denominators', color: '#6b739a' },
+          type: 'logarithmic',
+          min: 50,
+          max: 10000,
+          grid: { color: 'rgba(42, 51, 88, 0.5)' },
+          ticks: {
+            color: '#6b739a',
+            callback: v => {
+              if ([100, 500, 1000, 5000, 10000].includes(v)) return '$' + v.toLocaleString();
+              return '';
+            },
+          },
+        },
+        y: { grid: { display: false }, ticks: { color: '#eef2ff', font: { size: 12 } } },
+      },
+    },
+  });
+}
+
+/* ============================================================
+   TAM DONUT + CAPTURE RATE
+   ============================================================ */
+const TAM = {
+  connectedAdequate: 3.9e9,
+  connectedUnderserved: 1.5e9,
+  unconnected: 2.6e9,
+  starlinkNow: 0.012e9,
+};
+
+let tamDonut;
+function buildTamDonut() {
+  const ctx = document.getElementById('tamDonut').getContext('2d');
+  tamDonut = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: [
+        'Connected · adequate',
+        'Connected · underserved',
+        'Unconnected',
+        'Starlink now',
+      ],
+      datasets: [{
+        data: [TAM.connectedAdequate, TAM.connectedUnderserved, TAM.unconnected, TAM.starlinkNow],
+        backgroundColor: ['#34d399', '#4fc3f7', '#ff7a4a', '#b39dff'],
+        borderColor: '#0b0e17',
+        borderWidth: 2,
+      }],
+    },
+    options: {
+      maintainAspectRatio: false,
+      responsive: true,
+      cutout: '65%',
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(11, 14, 23, 0.95)',
+          borderColor: '#2a3358', borderWidth: 1, padding: 12,
+          callbacks: {
+            label: item => `${item.label}: ${(item.raw / 1e9).toFixed(2)}B people`,
+          },
+        },
+      },
+    },
+  });
+}
+
+function updateTam() {
+  const capUnder = +document.getElementById('tam_cap_under').value / 100;
+  const capUncon = +document.getElementById('tam_cap_uncon').value / 100;
+  const arpu = +document.getElementById('tam_arpu').value;
+
+  document.getElementById('tam_cap_under_v').textContent = (capUnder * 100).toFixed(1) + '%';
+  document.getElementById('tam_cap_uncon_v').textContent = (capUncon * 100).toFixed(1) + '%';
+  document.getElementById('tam_arpu_v').textContent = '$' + arpu;
+
+  const subsUnder = TAM.connectedUnderserved * capUnder;
+  const subsUncon = TAM.unconnected * capUncon;
+  const totalSubs = subsUnder + subsUncon;
+  const revenue = totalSubs * arpu * 12;
+  const ebitda = revenue * 0.63;
+  const ev = ebitda * 18;
+  const worldPop = TAM.connectedAdequate + TAM.connectedUnderserved + TAM.unconnected;
+  const penetration = totalSubs / worldPop;
+
+  document.getElementById('tam_subs').textContent = fmtBigNum(totalSubs);
+  document.getElementById('tam_revenue').textContent = fmtBig(revenue);
+  document.getElementById('tam_ebitda').textContent = fmtBig(ebitda);
+  document.getElementById('tam_ev_tam').textContent = fmtBig(ev);
+  document.getElementById('tam_penetration').textContent = (penetration * 100).toFixed(2) + '%';
+
+  // Update TAM scenarios table
+  const scenarios = [
+    { name: 'Today (12M subs)',  under: 0.008, uncon: 0.000 },
+    { name: 'Conservative capture', under: 0.03, uncon: 0.005 },
+    { name: 'Base case',            under: 0.10, uncon: 0.02 },
+    { name: 'Your inputs',          under: capUnder, uncon: capUncon, highlight: true },
+    { name: 'Aggressive capture',   under: 0.20, uncon: 0.05 },
+    { name: 'Ludicrous mode',       under: 0.30, uncon: 0.10 },
+  ];
+  const tbody = document.getElementById('tamTable');
+  if (tbody) {
+    tbody.innerHTML = scenarios.map(s => {
+      const u = TAM.connectedUnderserved * s.under;
+      const n = TAM.unconnected * s.uncon;
+      const t = u + n;
+      const r = t * arpu * 12;
+      const e = r * 0.63;
+      return `
+        <tr${s.highlight ? ' class="highlight"' : ''}>
+          <td>${s.name}</td>
+          <td>${(s.under * 100).toFixed(1)}%</td>
+          <td>${(s.uncon * 100).toFixed(1)}%</td>
+          <td>${fmtBigNum(t)}</td>
+          <td>${fmtBig(r)}</td>
+          <td>${fmtBig(e)}</td>
+        </tr>`;
+    }).join('');
+  }
+}
+
+/* ============================================================
+   UNIT ECONOMICS + ONE-PLAN-EVERYWHERE
+   ============================================================ */
+function updateUnitEcon() {
+  const launch = +document.getElementById('econ_launch').value;
+  const sat = +document.getElementById('econ_sat').value;
+  const ground = +document.getElementById('econ_ground').value;
+  const hw = +document.getElementById('econ_hw').value;
+  const support = +document.getElementById('econ_support').value;
+  const price = +document.getElementById('econ_price').value;
+
+  document.getElementById('econ_launch_v').textContent = '$' + launch.toFixed(1);
+  document.getElementById('econ_sat_v').textContent = '$' + sat.toFixed(1);
+  document.getElementById('econ_ground_v').textContent = '$' + ground.toFixed(1);
+  document.getElementById('econ_hw_v').textContent = '$' + hw.toFixed(1);
+  document.getElementById('econ_support_v').textContent = '$' + support.toFixed(1);
+  document.getElementById('econ_price_v').textContent = '$' + price;
+
+  const totalCost = launch + sat + ground + hw + support;
+  const margin = price - totalCost;
+  const costPct = price > 0 ? (totalCost / price) * 100 : 0;
+  const marginPct = 100 - costPct;
+
+  document.getElementById('econ_cost_total').textContent = '$' + totalCost.toFixed(1);
+  document.getElementById('econ_cost_pct').textContent = costPct.toFixed(0) + '% of revenue';
+  document.getElementById('econ_margin').textContent = (margin >= 0 ? '$' : '-$') + Math.abs(margin).toFixed(1);
+  document.getElementById('econ_margin_pct').textContent = marginPct.toFixed(0) + '% EBITDA margin';
+
+  const marginEl = document.getElementById('econ_margin');
+  marginEl.className = margin >= 0 ? 'et-value pos' : 'et-value neg';
+}
+
+const GLOBAL_SMARTPHONES = 3.6e9; // ~3.6B smartphone users worldwide
+const GLOBAL_TELCO_REV = 1.5e12;  // $1.5T global telco revenue
+
+function updateOnePlan() {
+  const price = +document.getElementById('op_price').value;
+  const capturePct = +document.getElementById('op_capture').value / 100;
+  const cost = +document.getElementById('op_cost').value;
+
+  document.getElementById('op_price_v').textContent = '$' + price;
+  document.getElementById('op_capture_v').textContent = (capturePct * 100).toFixed(1) + '%';
+  document.getElementById('op_cost_v').textContent = '$' + cost;
+
+  const subs = GLOBAL_SMARTPHONES * capturePct;
+  const revenue = subs * price * 12;
+  const ebitda = subs * (price - cost) * 12;
+  const marginPct = price > 0 ? ((price - cost) / price) * 100 : 0;
+  const telcoPct = revenue / GLOBAL_TELCO_REV;
+
+  document.getElementById('op_subs').textContent = fmtBigNum(subs);
+  document.getElementById('op_revenue').textContent = fmtBig(revenue);
+  document.getElementById('op_ebitda').textContent = fmtBig(ebitda);
+  document.getElementById('op_margin').textContent = marginPct.toFixed(0) + '%';
+  document.getElementById('op_telco_pct').textContent = (telcoPct * 100).toFixed(0) + '%';
+}
+
+/* ============================================================
+   COMPUTE PER STARSHIP CALCULATOR
+   ============================================================ */
+function updateComputePerLaunch() {
+  const payloadT = +document.getElementById('c_payload').value;
+  const costkg = +document.getElementById('c_costkg').value;
+  const gpuMass = +document.getElementById('c_gpumass').value;
+  const pflopsPerGpu = +document.getElementById('c_pflops').value;
+  const gpuCost = +document.getElementById('c_gpucost').value;
+  const overhead = +document.getElementById('c_overhead').value;
+
+  document.getElementById('c_payload_v').textContent = payloadT + ' t';
+  document.getElementById('c_costkg_v').textContent = '$' + costkg;
+  document.getElementById('c_gpumass_v').textContent = gpuMass + ' kg';
+  document.getElementById('c_pflops_v').textContent = pflopsPerGpu + ' PFLOPS';
+  document.getElementById('c_gpucost_v').textContent = '$' + (gpuCost >= 1000 ? (gpuCost / 1000).toFixed(0) + 'K' : gpuCost);
+  document.getElementById('c_overhead_v').textContent = overhead.toFixed(1) + '×';
+
+  const payloadKg = payloadT * 1000;
+  // effective mass per GPU = raw GPU mass × overhead factor (chassis, thermal, power, structure)
+  const effectiveMassPerGpu = gpuMass * overhead;
+  const gpuCount = Math.floor(payloadKg / effectiveMassPerGpu);
+  const totalPflops = gpuCount * pflopsPerGpu;      // PFLOPS
+  const totalEflops = totalPflops / 1000;           // EFLOPS
+  const gpuCapex = gpuCount * gpuCost;              // $
+  const launchCost = payloadKg * costkg;            // $
+  const totalCapex = gpuCapex + launchCost;
+  const launchPct = totalCapex > 0 ? (launchCost / totalCapex) * 100 : 0;
+  // FLOPS per launch dollar (GFLOPS per $)
+  const flopsPerDollar = launchCost > 0 ? (totalPflops * 1e6) / launchCost : 0; // GFLOPS/$
+  // Earth data center TCO comparison — roughly Earth H100 rack all-in is ~$150K over 5-yr (grid+cooling+space+capex).
+  // In space you save cooling+grid, so ~30-40% of Earth TCO. This is a rough proxy.
+  const vsEarth = 30 + Math.min(20, (overhead - 2) * 10); // scales with overhead as a rough proxy
+
+  document.getElementById('c_gpus').textContent = fmtNum(gpuCount);
+  document.getElementById('c_flops').textContent = totalEflops.toFixed(1) + ' EFLOPS';
+  document.getElementById('c_gpu_value').textContent = fmtBig(gpuCapex);
+  document.getElementById('c_launch_cost').textContent = fmtBig(launchCost);
+  document.getElementById('c_launch_pct').textContent = launchPct.toFixed(0) + '%';
+  document.getElementById('c_flops_per_dollar').textContent = flopsPerDollar.toFixed(1) + ' GFLOP/$';
+  document.getElementById('c_vs_earth').textContent = Math.max(20, Math.min(60, vsEarth)).toFixed(0) + '%';
+}
+
+/* ============================================================
+   BIND EVENTS
+   ============================================================ */
+function bindInputs() {
+  ['f9_payload', 'f9_costkg', 'f9_satmass', 'f9_satgbps',
+   'ss_payload', 'ss_costkg', 'ss_satmass', 'ss_satgbps'].forEach(id => {
+    document.getElementById(id).addEventListener('input', () => {
+      updateCalculator();
+      // If user manually edits Starship inputs, clear the active preset
+      if (id.startsWith('ss_')) clearActivePreset();
+    });
+  });
+
+  ['v_subs', 'v_growth', 'v_arpu', 'v_margin', 'v_years', 'v_multiple', 'v_ps_mult'].forEach(id => {
+    document.getElementById(id).addEventListener('input', updateValuation);
+  });
+
+  ['tam_cap_under', 'tam_cap_uncon', 'tam_arpu'].forEach(id => {
+    document.getElementById(id).addEventListener('input', updateTam);
+  });
+
+  ['econ_launch', 'econ_sat', 'econ_ground', 'econ_hw', 'econ_support', 'econ_price'].forEach(id => {
+    document.getElementById(id).addEventListener('input', updateUnitEcon);
+  });
+
+  ['op_price', 'op_capture', 'op_cost'].forEach(id => {
+    document.getElementById(id).addEventListener('input', updateOnePlan);
+  });
+
+  ['c_payload', 'c_costkg', 'c_gpumass', 'c_pflops', 'c_gpucost', 'c_overhead'].forEach(id => {
+    document.getElementById(id).addEventListener('input', updateComputePerLaunch);
+  });
+
+  // Starship scenario presets
+  document.getElementById('starshipPresets').addEventListener('click', e => {
+    const btn = e.target.closest('button[data-preset]');
+    if (!btn) return;
+    applyStarshipPreset(btn.dataset.preset);
+  });
+
+  // Growth scenario presets
+  document.getElementById('growthPresets').addEventListener('click', e => {
+    const btn = e.target.closest('button[data-scenario]');
+    if (!btn) return;
+    applyGrowthScenario(btn.dataset.scenario);
+  });
+}
+
+const STARSHIP_PRESETS = {
+  rob: {
+    label: "Rob's headline",
+    payload: 100000, costkg: 185, satmass: 2000, satgbps: 1000,
+    info: "Rob Maurer's conservative near-term operational figure: 100 t reusable at $185/kg.",
+  },
+  design: {
+    label: "33fg design point",
+    payload: 200000, costkg: 83, satmass: 2000, satgbps: 1000,
+    info: "Mach33 design point: 200 t reusable at $83/kg (N=20 flights, both stages amortized).",
+  },
+  floor: {
+    label: "Long-run floor",
+    payload: 200000, costkg: 60, satmass: 2000, satgbps: 1000,
+    info: "Mach33 long-run floor: 200 t reusable at $60/kg once cadence, refurb, and Raptor cost mature.",
+  },
+  expendable: {
+    label: "Fully expendable",
+    payload: 250000, costkg: 500, satmass: 2000, satgbps: 1000,
+    info: "Expendable Starship: 250 t at $500/kg. Already 40% cheaper $/kg than mature Falcon 9, purely on scale.",
+  },
+};
+
+function applyStarshipPreset(key) {
+  const p = STARSHIP_PRESETS[key];
+  if (!p) return;
+  document.getElementById('ss_payload').value = p.payload;
+  document.getElementById('ss_costkg').value = p.costkg;
+  document.getElementById('ss_satmass').value = p.satmass;
+  document.getElementById('ss_satgbps').value = p.satgbps;
+  document.querySelectorAll('#starshipPresets button').forEach(b => b.classList.remove('active'));
+  const active = document.querySelector(`#starshipPresets button[data-preset="${key}"]`);
+  if (active) active.classList.add('active');
+  document.getElementById('presetInfo').textContent = p.info;
+  updateCalculator();
+}
+
+function clearActivePreset() {
+  document.querySelectorAll('#starshipPresets button').forEach(b => b.classList.remove('active'));
+  document.getElementById('presetInfo').textContent = 'Custom values — no preset selected.';
+}
+
+function resetDefaults() {
+  Object.entries(DEFAULTS).forEach(([id, val]) => {
+    const el = document.getElementById(id);
+    if (el) el.value = val;
+  });
+  // Reset preset selection to Rob's headline (this also runs updateCalculator)
+  applyStarshipPreset('rob');
+  // Reset to base growth scenario
+  applyGrowthScenario('base');
+  // Reset TAM sliders
+  document.getElementById('tam_cap_under').value = 10;
+  document.getElementById('tam_cap_uncon').value = 2;
+  document.getElementById('tam_arpu').value = 55;
+  updateTam();
+  updateUnitEcon();
+  updateOnePlan();
+  updateComputePerLaunch();
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+document.addEventListener('DOMContentLoaded', () => {
+  // Force all inputs to their DEFAULTS values on load — browsers persist
+  // range/number input state across refresh, which leaves sliders at whatever
+  // value the user last touched. Snapping to defaults gives a clean starting
+  // point every time.
+  Object.entries(DEFAULTS).forEach(([id, val]) => {
+    const el = document.getElementById(id);
+    if (el) el.value = val;
+  });
+
+  buildCostKgChart();
+  buildGbpsChart();
+  buildRevenueChart();
+  buildDeployChart();
+  buildTamDonut();
+  bindInputs();
+  updateCalculator();
+  updateValuation();
+  updateTam();
+  updateUnitEcon();
+  updateOnePlan();
+  updateComputePerLaunch();
+});
+
+</script>
+</body>
+</html>
