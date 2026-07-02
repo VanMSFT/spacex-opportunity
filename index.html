@@ -117,7 +117,7 @@
   h2 { font-size: clamp(28px, 3.6vw, 44px); line-height: 1.1; }
   h3 { font-size: 20px; }
   p { margin: 0 0 14px; color: var(--muted); font-size: 15.5px; }
-  p.lead { font-size: 18px; color: var(--text); max-width: 780px; }
+  p.lead { font-size: 18px; color: var(--text); max-width: 1080px; }
   .em { color: var(--text); font-weight: 500; }
 
   /* HERO */
@@ -1378,8 +1378,8 @@
     padding-top: 20px;
     border-top: 1px solid var(--line);
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
   }
   .val-secondary .metric-alt {
     padding: 14px;
@@ -1916,9 +1916,9 @@
     <div class="stats">
       <div class="stat seg-starlink">
         <div class="seg-tier">Starlink · Connectivity</div>
-        <div class="num">$1.5T</div>
+        <div class="num" id="hero_starlink_ev">$1.5T</div>
         <div class="label">Year-5 EV</div>
-        <div class="note">120M subs · 63% margin · $130B revenue</div>
+        <div class="note" id="hero_starlink_note">120M subs · 63% margin · $130B revenue</div>
       </div>
       <div class="stat seg-compute">
         <div class="seg-tier">Space Data Centers</div>
@@ -1943,8 +1943,8 @@
     <div class="hero-summary">
       <div>
         <div class="sum-lbl">Sum of parts · Year 5 base case</div>
-        <div class="sum-val" style="color: var(--gain);">$2.4T</div>
-        <div class="sum-note">Segment EVs from the models below</div>
+        <div class="sum-val" style="color: var(--gain);" id="hero_sop">$2.4T</div>
+        <div class="sum-note">Live-updates as you edit valuation sliders below</div>
       </div>
       <div class="sum-arrow">→</div>
       <div>
@@ -1955,8 +1955,8 @@
       <div class="sum-arrow">=</div>
       <div>
         <div class="sum-lbl">You're buying at</div>
-        <div class="sum-val" style="color: var(--gain);">82%</div>
-        <div class="sum-note">of base-case value · 18% discount</div>
+        <div class="sum-val" style="color: var(--gain);" id="hero_discount">82%</div>
+        <div class="sum-note" id="hero_discount_note">of base-case value · 18% discount</div>
       </div>
     </div>
 
@@ -2038,7 +2038,7 @@
     </div>
 
     <h3 style="margin-top: 40px;">Three businesses inside one stock (from S-1 prospectus)</h3>
-    <p style="max-width: 780px;">SpaceX filed the IPO as a single entity but the prospectus breaks it into three segments with wildly different economics. Only one is profitable.</p>
+    <p style="max-width: 1080px;">SpaceX filed the IPO as a single entity but the prospectus breaks it into three segments with wildly different economics. Only one is profitable.</p>
 
     <div class="segments">
       <div class="seg-card connectivity">
@@ -2576,6 +2576,16 @@
           <input type="range" id="v_ps_mult" min="1" max="20" step="0.5" value="8" />
           <div class="val" id="v_ps_mult_v">8.0×</div>
         </div>
+        <div class="slider-row">
+          <label>Forward P/E multiple</label>
+          <input type="range" id="v_pe_mult" min="5" max="60" step="1" value="22" />
+          <div class="val" id="v_pe_mult_v">22×</div>
+        </div>
+        <div class="slider-row">
+          <label>Net income / EBITDA ratio</label>
+          <input type="range" id="v_ni_ratio" min="30" max="85" step="1" value="55" />
+          <div class="val" id="v_ni_ratio_v">55%</div>
+        </div>
       </div>
 
       <div class="val-output">
@@ -2607,6 +2617,11 @@
             <div class="val-num-alt" id="v_ev_ebitda">$2.05T</div>
             <div class="val-lbl-alt">EV/EBITDA valuation</div>
             <div class="val-note" id="v_ev_note">at 18× EBITDA</div>
+          </div>
+          <div class="metric-alt">
+            <div class="val-num-alt" id="v_ev_pe">$990B</div>
+            <div class="val-lbl-alt">P/E valuation (fwd Y5)</div>
+            <div class="val-note" id="v_pe_note">22× on ~$45B Y5 net income</div>
           </div>
         </div>
       </div>
@@ -2648,7 +2663,7 @@
     </div>
 
     <h3 style="margin-top: 48px;">What makes up the blended $90 ARPU?</h3>
-    <p style="max-width: 780px;">The single ARPU number hides a huge spread. Consumer households pay $30–120/mo. Aviation and maritime pay $2,000–25,000/mo per aircraft/ship. Defense contracts (Starshield) are $100M+ annual with no per-user metering. The blend depends on the mix.</p>
+    <p style="max-width: 1080px;">The single ARPU number hides a huge spread. Consumer households pay $30–120/mo. Aviation and maritime pay $2,000–25,000/mo per aircraft/ship. Defense contracts (Starshield) are $100M+ annual with no per-user metering. The blend depends on the mix.</p>
 
     <div class="tier-mix" id="tierMix">
       <div class="tier-card">
@@ -2693,7 +2708,7 @@
       </div>
     </div>
 
-    <p style="font-size: 13px; color: var(--dim); margin-top: 12px; max-width: 900px;">
+    <p style="font-size: 13px; color: var(--dim); margin-top: 12px; max-width: 1080px;">
       <em>Note:</em> the tier totals here sum to roughly $21B/yr in revenue against ~12M subs — that's an implied blended ARPU of ~$146/mo, higher than the $90 default in the sliders. That's because mobility and enterprise pay 10–50× consumer rates. Rob Maurer's $90 is a conservative consumer-focused figure; bumping the ARPU slider to $120–150 gives a mix that includes the high-value tiers. Actual Starlink revenue in 2025 was ~$12B on ~5.5M subs, or ~$180/mo blended — the mix is real.
     </p>
 
@@ -3174,7 +3189,7 @@
       </tfoot>
     </table>
 
-    <p style="margin-top: 20px; font-size: 13px; color: var(--muted); max-width: 900px;">
+    <p style="margin-top: 20px; font-size: 13px; color: var(--muted); max-width: 1080px;">
       Every one of these numbers is derived from the interactive models above. The Starlink line is base case at the default sliders. The Space line assumes Starship becomes the dominant launcher for both SpaceX's own constellation and third parties. The AI compute line applies 33fg's estimate of $30–80B/yr orbital compute revenue, midpointed. The Starshield line assumes DoD contracts scale with the constellation. Grok is intentionally modeled at just-break-even to reflect competitive AI pressure. Mars is optionality, not baseline.
     </p>
 
@@ -3392,6 +3407,8 @@ const DEFAULTS = {
   v_years: 5,
   v_multiple: 18,
   v_ps_mult: 8,
+  v_pe_mult: 22,
+  v_ni_ratio: 55,
   tam_cap_under: 10,
   tam_cap_uncon: 2,
   tam_arpu: 55,
@@ -3912,6 +3929,8 @@ function updateValuation() {
   const years = +document.getElementById('v_years').value;
   const multiple = +document.getElementById('v_multiple').value;
   const psMultiple = +document.getElementById('v_ps_mult').value;
+  const peMultiple = +document.getElementById('v_pe_mult').value;
+  const niRatio = +document.getElementById('v_ni_ratio').value / 100;
 
   document.getElementById('v_subs_v').textContent = (startSubs / 1e6).toFixed(1) + ' M';
   document.getElementById('v_growth_v').textContent = (growth * 100).toFixed(0) + '%';
@@ -3920,6 +3939,8 @@ function updateValuation() {
   document.getElementById('v_years_v').textContent = years + ' yr';
   document.getElementById('v_multiple_v').textContent = multiple + '×';
   document.getElementById('v_ps_mult_v').textContent = psMultiple.toFixed(1) + '×';
+  document.getElementById('v_pe_mult_v').textContent = peMultiple + '×';
+  document.getElementById('v_ni_ratio_v').textContent = (niRatio * 100).toFixed(0) + '%';
 
   // Build year-by-year projection using scenario decay + floor
   const labels = [];
@@ -3937,7 +3958,6 @@ function updateValuation() {
     rev.push(revenueDollars / 1e9);
     ebi.push(ebitdaDollars / 1e9);
     growthSeries.push(i === 0 ? 0 : g);
-    // Grow for next iteration using scenario's decay + floor
     subs = subs * (1 + g);
     g = Math.max(g * scenarioDecay, scenarioFloor);
   }
@@ -3951,8 +3971,10 @@ function updateValuation() {
   const endRevenue = rev[endYear] * 1e9;
   const endEbitda = ebi[endYear] * 1e9;
   const endSubs = subsSeries[endYear];
+  const endNetIncome = endEbitda * niRatio;
   const ev = endEbitda * multiple;
   const evPS = endRevenue * psMultiple;
+  const evPE = endNetIncome * peMultiple;
 
   document.getElementById('v_endsubs').textContent = fmtBigNum(endSubs);
   document.getElementById('v_revenue').textContent = fmtBig(endRevenue);
@@ -3961,8 +3983,10 @@ function updateValuation() {
   document.getElementById('v_year_label').textContent = endYear;
   document.getElementById('v_ev_ebitda').textContent = fmtBig(ev);
   document.getElementById('v_ev_pfs').textContent = fmtBig(evPS);
+  document.getElementById('v_ev_pe').textContent = fmtBig(evPE);
   document.getElementById('v_ev_note').textContent = `at ${multiple}× EBITDA`;
   document.getElementById('v_ps_note').textContent = `at ${psMultiple.toFixed(1)}× revenue`;
+  document.getElementById('v_pe_note').textContent = `${peMultiple}× on ${fmtBig(endNetIncome)} Y5 net income`;
 
   // Populate year-by-year table
   const tbody = document.getElementById('yearTable');
@@ -3985,6 +4009,33 @@ function updateValuation() {
           <td>${fmtBig(evPsYr)}</td>
         </tr>`;
     }).join('');
+  }
+
+  // Drive the hero: Starlink Y5 EV + sum-of-parts + discount
+  // Other segment EVs come from the sum-of-parts table (compute+launch+defense+grok+options = $993B)
+  const OTHER_SEGMENTS_EV = (600 + 180 + 75 + 38 + 100) * 1e9; // $993B
+  const SPCX_MARKET_CAP = 2.075e12;
+  const sop = ev + OTHER_SEGMENTS_EV;
+  const discountPct = (SPCX_MARKET_CAP / sop) * 100;
+
+  const heroStarlinkEv = document.getElementById('hero_starlink_ev');
+  const heroStarlinkNote = document.getElementById('hero_starlink_note');
+  const heroSop = document.getElementById('hero_sop');
+  const heroDiscount = document.getElementById('hero_discount');
+  const heroDiscountNote = document.getElementById('hero_discount_note');
+  if (heroStarlinkEv) heroStarlinkEv.textContent = fmtBig(ev);
+  if (heroStarlinkNote) heroStarlinkNote.textContent = `${fmtBigNum(endSubs)} subs · ${(margin * 100).toFixed(0)}% margin · ${fmtBig(endRevenue)} revenue`;
+  if (heroSop) heroSop.textContent = fmtBig(sop);
+  if (heroDiscount) {
+    heroDiscount.textContent = discountPct.toFixed(0) + '%';
+    // Color: green if buying below base (< 100%), amber if paying premium
+    heroDiscount.style.color = discountPct <= 100 ? 'var(--gain)' : 'var(--warn)';
+  }
+  if (heroDiscountNote) {
+    const gap = 100 - discountPct;
+    heroDiscountNote.textContent = gap >= 0
+      ? `of base-case value · ${gap.toFixed(0)}% discount`
+      : `of base-case value · paying ${(-gap).toFixed(0)}% premium`;
   }
 }
 
@@ -4277,7 +4328,7 @@ function bindInputs() {
     });
   });
 
-  ['v_subs', 'v_growth', 'v_arpu', 'v_margin', 'v_years', 'v_multiple', 'v_ps_mult'].forEach(id => {
+  ['v_subs', 'v_growth', 'v_arpu', 'v_margin', 'v_years', 'v_multiple', 'v_ps_mult', 'v_pe_mult', 'v_ni_ratio'].forEach(id => {
     document.getElementById(id).addEventListener('input', updateValuation);
   });
 
