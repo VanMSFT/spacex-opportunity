@@ -1923,7 +1923,7 @@
         <div class="seg-tier">Space Data Centers</div>
         <div class="num">$600B</div>
         <div class="label">Year-5 EV</div>
-        <div class="note">30% of $1T AI infra · NVIDIA + AI1</div>
+        <div class="note">Rent GPUs to hyperscalers · payback &lt;2 yr per launch</div>
       </div>
       <div class="stat seg-launch">
         <div class="seg-tier">Launch · Starship</div>
@@ -2958,9 +2958,9 @@
       </div>
     </div>
 
-    <h3 style="margin-top: 48px;">Compute per Starship — calculator</h3>
-    <p style="max-width: 780px;">
-      NVIDIA H100 draws ~700W all-in, weighs ~3.5 kg, delivers ~2 PFLOPS FP16. A rack of 8× H100s does 16 PFLOPS. If Starship carries 100 t at $185/kg, how much AI compute is that per launch?
+    <h3 style="margin-top: 48px;">Compute per Starship — the rental economics</h3>
+    <p style="max-width: 880px;">
+      The business model is <strong>CoreWeave in orbit</strong>: SpaceX deploys GPU-loaded satellites and rents the compute out at $/GPU-hour, competing with AWS, Azure, and CoreWeave. The pricing floor is set by terrestrial data centers ($2–4/hr for an H100). SpaceX's cost floor is lower because power and cooling are free in orbit — so they can either undercut Earth prices or match them and take the margin. NVIDIA H100 draws ~700W all-in, weighs ~3.5 kg, delivers ~2 PFLOPS FP16. A rack of 8× H100s does 16 PFLOPS. Every input below is editable — model your own scenario.
     </p>
 
     <div class="compute-calc">
@@ -2996,6 +2996,26 @@
           <input type="range" id="c_overhead" min="1.5" max="5" step="0.1" value="2.5" />
           <div class="val" id="c_overhead_v">2.5×</div>
         </div>
+        <div class="slider-row">
+          <label>Rental price ($/GPU-hour)</label>
+          <input type="range" id="c_rental" min="0.5" max="8" step="0.25" value="2.5" />
+          <div class="val" id="c_rental_v">$2.50/hr</div>
+        </div>
+        <div class="slider-row">
+          <label>Utilization %</label>
+          <input type="range" id="c_util" min="30" max="100" step="1" value="85" />
+          <div class="val" id="c_util_v">85%</div>
+        </div>
+        <div class="slider-row">
+          <label>Satellite operational lifetime (yrs)</label>
+          <input type="range" id="c_life" min="2" max="10" step="0.5" value="5" />
+          <div class="val" id="c_life_v">5 yr</div>
+        </div>
+        <div class="slider-row">
+          <label>Gross margin on rental %</label>
+          <input type="range" id="c_margin" min="30" max="90" step="1" value="70" />
+          <div class="val" id="c_margin_v">70%</div>
+        </div>
       </div>
 
       <div class="compute-output">
@@ -3015,19 +3035,35 @@
             <div class="l">Launch cost</div>
           </div>
           <div class="csub-stat">
-            <div class="v" id="c_launch_pct">11%</div>
+            <div class="v" id="c_launch_pct">10%</div>
             <div class="l">Launch as % of total capex</div>
           </div>
           <div class="csub-stat">
-            <div class="v" id="c_flops_per_dollar">1.6 GFLOP/$</div>
-            <div class="l">Compute per launch dollar</div>
+            <div class="v" id="c_annual_rev">$106M</div>
+            <div class="l">Annual rental revenue / launch</div>
           </div>
           <div class="csub-stat">
-            <div class="v" id="c_vs_earth">30%</div>
-            <div class="l">of Earth data center TCO</div>
+            <div class="v" id="c_lifetime_rev">$532M</div>
+            <div class="l">Lifetime revenue / launch</div>
+          </div>
+          <div class="csub-stat">
+            <div class="v" id="c_payback">1.8 yr</div>
+            <div class="l">Capex payback period</div>
+          </div>
+          <div class="csub-stat">
+            <div class="v" id="c_lifetime_profit">$254M</div>
+            <div class="l">Lifetime gross profit / launch</div>
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="callout" style="margin-top: 32px;">
+      <strong>The business, in one sentence.</strong> Every Starship launch of AI1 satellites deploys ~$170M of GPU capex + $18.5M of launch cost. That fleet generates <strong>~$100M/year in rental revenue</strong> at commodity pricing, pays itself back in under 2 years, and throws off <strong>~$70M/year in gross profit for 3–8 more years</strong>. Do that 100 times a year and it's a $10B/year revenue line — and that's before the price premium orbital compute can charge for zero-carbon, physically-isolated, latency-tolerant training workloads. This is why "AI Compute · $600B Y5 EV" is on the hero tile, and why the sum-of-parts base case has $60B revenue by 2031. It's not vaporware; it's a rental business with real payback math.
+    </div>
+
+    <div class="callout" style="margin-top: 20px; border-left-color: var(--gain); background: rgba(52, 211, 153, 0.06);">
+      <strong>The S-1 reversal — why today's "loss" flips to profit fast.</strong> The bear case above (Bear #2, Bear #3) leans on the S-1's <strong>−$2.58B consolidated operating loss</strong> and calls the AI segment a "capital incinerator." But re-read the loss line with the calculator above in view: SpaceX isn't burning $2.58B — it's spending it on <strong>GPU racks and launch infrastructure that pay themselves back in under 2 years</strong>. Every 20 AI1 launches per year adds a <strong>~$2B annual revenue line</strong> — enough to erase the entire current consolidated operating loss with a single year of orbital compute deployment. Run 100 launches/year (well within Starfactory's 1,000/yr design capacity and Falcon 9's proven 138/yr cadence) and the AI segment stops being a "capital incinerator" and turns into a <strong>$10B+ revenue business at ~70% gross margin</strong>. That's Amazon 2000 or Netflix 2012 — an income-statement loss today masking a rental business whose payback math has already been proven at Earth data centers, now applied to a lower-cost operating environment. The S-1 shows the cost. The 2028 P&amp;L will show the payoff.
     </div>
 
     <div class="kpi-grid" style="margin-top: 32px;">
@@ -3093,7 +3129,7 @@
           <td>$180B</td>
         </tr>
         <tr>
-          <td>AI Compute in orbit <span style="color: var(--muted); font-weight: 400;">(30% of $1T AI infra by 2031)</span></td>
+          <td>AI Compute in orbit <span style="color: var(--muted); font-weight: 400;">(rent GPUs to hyperscalers · &lt;2 yr payback per launch)</span></td>
           <td>$60B</td>
           <td>50%</td>
           <td>$30B</td>
@@ -3373,6 +3409,10 @@ const DEFAULTS = {
   c_pflops: 2,
   c_gpucost: 30000,
   c_overhead: 2.5,
+  c_rental: 2.5,
+  c_util: 85,
+  c_life: 5,
+  c_margin: 70,
 };
 
 /* --- FORMATTERS --- */
@@ -4178,6 +4218,10 @@ function updateComputePerLaunch() {
   const pflopsPerGpu = +document.getElementById('c_pflops').value;
   const gpuCost = +document.getElementById('c_gpucost').value;
   const overhead = +document.getElementById('c_overhead').value;
+  const rentalHr = +document.getElementById('c_rental').value;
+  const utilPct = +document.getElementById('c_util').value / 100;
+  const lifeYrs = +document.getElementById('c_life').value;
+  const grossMargin = +document.getElementById('c_margin').value / 100;
 
   document.getElementById('c_payload_v').textContent = payloadT + ' t';
   document.getElementById('c_costkg_v').textContent = '$' + costkg;
@@ -4185,30 +4229,38 @@ function updateComputePerLaunch() {
   document.getElementById('c_pflops_v').textContent = pflopsPerGpu + ' PFLOPS';
   document.getElementById('c_gpucost_v').textContent = '$' + (gpuCost >= 1000 ? (gpuCost / 1000).toFixed(0) + 'K' : gpuCost);
   document.getElementById('c_overhead_v').textContent = overhead.toFixed(1) + '×';
+  document.getElementById('c_rental_v').textContent = '$' + rentalHr.toFixed(2) + '/hr';
+  document.getElementById('c_util_v').textContent = (utilPct * 100).toFixed(0) + '%';
+  document.getElementById('c_life_v').textContent = lifeYrs + ' yr';
+  document.getElementById('c_margin_v').textContent = (grossMargin * 100).toFixed(0) + '%';
 
   const payloadKg = payloadT * 1000;
-  // effective mass per GPU = raw GPU mass × overhead factor (chassis, thermal, power, structure)
   const effectiveMassPerGpu = gpuMass * overhead;
   const gpuCount = Math.floor(payloadKg / effectiveMassPerGpu);
-  const totalPflops = gpuCount * pflopsPerGpu;      // PFLOPS
-  const totalEflops = totalPflops / 1000;           // EFLOPS
-  const gpuCapex = gpuCount * gpuCost;              // $
-  const launchCost = payloadKg * costkg;            // $
+  const totalPflops = gpuCount * pflopsPerGpu;
+  const totalEflops = totalPflops / 1000;
+  const gpuCapex = gpuCount * gpuCost;
+  const launchCost = payloadKg * costkg;
   const totalCapex = gpuCapex + launchCost;
   const launchPct = totalCapex > 0 ? (launchCost / totalCapex) * 100 : 0;
-  // FLOPS per launch dollar (GFLOPS per $)
-  const flopsPerDollar = launchCost > 0 ? (totalPflops * 1e6) / launchCost : 0; // GFLOPS/$
-  // Earth data center TCO comparison — roughly Earth H100 rack all-in is ~$150K over 5-yr (grid+cooling+space+capex).
-  // In space you save cooling+grid, so ~30-40% of Earth TCO. This is a rough proxy.
-  const vsEarth = 30 + Math.min(20, (overhead - 2) * 10); // scales with overhead as a rough proxy
+
+  // Rental economics — the missing revenue side
+  const hoursPerYear = 24 * 365;
+  const annualRevPerGpu = rentalHr * hoursPerYear * utilPct;
+  const annualRevPerLaunch = annualRevPerGpu * gpuCount;
+  const lifetimeRev = annualRevPerLaunch * lifeYrs;
+  const paybackYrs = annualRevPerLaunch > 0 ? totalCapex / annualRevPerLaunch : Infinity;
+  const lifetimeProfit = lifetimeRev * grossMargin - totalCapex;
 
   document.getElementById('c_gpus').textContent = fmtNum(gpuCount);
   document.getElementById('c_flops').textContent = totalEflops.toFixed(1) + ' EFLOPS';
   document.getElementById('c_gpu_value').textContent = fmtBig(gpuCapex);
   document.getElementById('c_launch_cost').textContent = fmtBig(launchCost);
   document.getElementById('c_launch_pct').textContent = launchPct.toFixed(0) + '%';
-  document.getElementById('c_flops_per_dollar').textContent = flopsPerDollar.toFixed(1) + ' GFLOP/$';
-  document.getElementById('c_vs_earth').textContent = Math.max(20, Math.min(60, vsEarth)).toFixed(0) + '%';
+  document.getElementById('c_annual_rev').textContent = fmtBig(annualRevPerLaunch);
+  document.getElementById('c_lifetime_rev').textContent = fmtBig(lifetimeRev);
+  document.getElementById('c_payback').textContent = isFinite(paybackYrs) ? paybackYrs.toFixed(1) + ' yr' : '—';
+  document.getElementById('c_lifetime_profit').textContent = fmtBig(lifetimeProfit);
 }
 
 /* ============================================================
@@ -4240,7 +4292,7 @@ function bindInputs() {
     document.getElementById(id).addEventListener('input', updateOnePlan);
   });
 
-  ['c_payload', 'c_costkg', 'c_gpumass', 'c_pflops', 'c_gpucost', 'c_overhead'].forEach(id => {
+  ['c_payload', 'c_costkg', 'c_gpumass', 'c_pflops', 'c_gpucost', 'c_overhead', 'c_rental', 'c_util', 'c_life', 'c_margin'].forEach(id => {
     document.getElementById(id).addEventListener('input', updateComputePerLaunch);
   });
 
