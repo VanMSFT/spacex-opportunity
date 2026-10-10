@@ -51,6 +51,12 @@ Eighteen sections that together tell one story: SpaceX is four separate business
   - The binding constraint (Launch / Production / FCC) is shown per year in a chip row and the year table.
   - At default settings the Musk-targets preset becomes production-limited from 2028.
 
+  **FCC authorization presets** set today's cap plus an extra approval that steps the cap up in a chosen year. Moving any cap slider clears the active preset.
+  - **Current:** 19,400.
+  - **Best estimate** (default): +7,500 in 2028, for 26,900. Based on the FCC's 7,500-satellite tranche pattern and a probability-weighted view of the 14,988 deferred satellites.
+  - **Full Gen2:** +14,988 in 2028, for ~34,400.
+  - **Gen3 filing** (unverified): +114,988 in 2029, including the 100,000-satellite Gen3 application from Jul 2026.
+
   Outputs cover 2026–2035: capacity (Tbps) and satellite count, supportable subscribers against the valuation section's demand curve, and a consumer revenue ceiling. A toggle feeds the capacity-constrained subscriber path into the DCF's Starlink consumer and E&G segments. The section shows DCF $/share at 26 vs 60 V3s per flight, plus a "what 60-V3 flights mean" callout. The starting capacity (~800 Tbps, Jun 30 2026, Q2 call) is sourced and editable. It replaces the old hard-coded 700 Tbps in the "Unlocks" KPIs, which also had a Gbps/Tbps unit slip in the "bandwidth per $1B" ratio.
 - **DCF fair value (new)** — Six segments (Starlink consumer, Starlink enterprise & government, launch, AI infrastructure, AI software, Starlink Mobile), projected 2027–2036 from 2026E. Inputs cover margins, capex intensity, D&A, working capital, cash tax ramp, WACC, net cash and dilution. Terminal value uses **perpetual growth** or **exit multiple**, with the terminal value's share of EV shown. Connectivity can be driven by the Starlink sliders, and the orbital-compute calculator can be added as an extra segment. Presets: Bear / Base / Bull, plus approximations of **MS $75/$300/$600, Goldman $220, JPMorgan $225, Damodaran ≈$100**. Base ≈ $127/share (perpetual growth) / $303 (18× exit). Bank presets are calibrations of this model, not the banks' own models. The section also includes an FCFF chart, a year table and a WACC × g sensitivity grid.
 - **What $0.10/Mbps unlocks** — Six opportunity cards: rural markets, mobility, enterprise SLA, space AI, Starshield, cislunar. KPI tiles: launches to double capacity, cost to double, ratio vs today.
