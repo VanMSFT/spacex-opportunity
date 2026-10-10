@@ -9,7 +9,7 @@ An interactive one-page webapp that lays out the investment case for SpaceX (SPC
 
 ## What's inside
 
-Seventeen sections that together tell one story: SpaceX is four separate businesses stacked on a launch cost curve dropping ~95%. The page asks two questions: what the businesses are worth at Year 5 (sum-of-parts) and what that is worth **today** (DCF). Every number is editable. Market data lives in one `MARKET` constant.
+Eighteen sections that together tell one story: SpaceX is four separate businesses stacked on a launch cost curve dropping ~95%. The page asks two questions: what the businesses are worth at Year 5 (sum-of-parts) and what that is worth **today** (DCF). Every number is editable. Market data lives in one `MARKET` constant.
 
 ### The pitch (top of the page)
 - **Hero** — At ~$2.2T today. If SpaceX executes, this is a $3T company. Four segment tiles (Starlink · Space DCs · Launch · Defense), a live Year-5 sum-of-parts (≈$2.5T at defaults → buying at ≈87%), and the live DCF value (≈$127/share base). Every figure is computed from the sliders and the `MARKET` constant.
@@ -34,6 +34,13 @@ Seventeen sections that together tell one story: SpaceX is four separate busines
 
 ### The bull case
 - **Sum-of-parts** — Starlink (live) + orbital compute (live) + editable rows for Launch, **terrestrial AI compute rentals**, Starshield, Grok/xAI/Cursor and options. Each default carries a source note or an "assumption" tag. The total is ≈$2.5T at defaults and feeds the hero, the base-case card and the KPIs, so they can't drift apart. Bear ($650B) and bull ($4.5T) percentages are computed against the live market cap; this fixes the old "7×" KPI, which is really ≈2.0×.
+- **V3 constellation scale-up (new)**: links Starship cadence and loading to Starlink capacity. Inputs:
+  - Starship Starlink flights per year (2026, 2027, 2028, 2029+), V3s per flight (26 as on Flight 14, up to 60 at design), Gbps per V3.
+  - Falcon V2 Mini launches and their phase-out.
+  - Satellite lifetime (attrition) and the FCC-authorized constellation cap.
+  - Usable share of nameplate capacity, E&G capacity reservation, plan speed, oversubscription, per-sub demand growth and ARPU.
+
+  Outputs cover 2026–2035: capacity (Tbps) and satellite count, supportable subscribers against the valuation section's demand curve, and a consumer revenue ceiling. A toggle feeds the capacity-constrained subscriber path into the DCF's Starlink consumer and E&G segments. The section shows DCF $/share at 26 vs 60 V3s per flight, plus a "what 60-V3 flights mean" callout. The starting capacity (~800 Tbps, Jun 30 2026, Q2 call) is sourced and editable. It replaces the old hard-coded 700 Tbps in the "Unlocks" KPIs, which also had a Gbps/Tbps unit slip in the "bandwidth per $1B" ratio.
 - **DCF fair value (new)** — Six segments (Starlink consumer, Starlink enterprise & government, launch, AI infrastructure, AI software, Starlink Mobile), projected 2027–2036 from 2026E. Inputs cover margins, capex intensity, D&A, working capital, cash tax ramp, WACC, net cash and dilution. Terminal value uses **perpetual growth** or **exit multiple**, with the terminal value's share of EV shown. Connectivity can be driven by the Starlink sliders, and the orbital-compute calculator can be added as an extra segment. Presets: Bear / Base / Bull, plus approximations of **MS $75/$300/$600, Goldman $220, JPMorgan $225, Damodaran ≈$100**. Base ≈ $127/share (perpetual growth) / $303 (18× exit). Bank presets are calibrations of this model, not the banks' own models. The section also includes an FCFF chart, a year table and a WACC × g sensitivity grid.
 - **What $0.10/Mbps unlocks** — Six opportunity cards: rural markets, mobility, enterprise SLA, space AI, Starshield, cislunar. KPI tiles: launches to double capacity, cost to double, ratio vs today.
 
@@ -87,6 +94,7 @@ Everything you might want to change is in one file:
 6. **Growth decay** — Doubling annually can't last. Model decays 15%/yr with a 10% floor. Adjust to taste.
 7. **Discount rate & terminal value** — Damodaran uses ~8.4%, Goldman 12%. Over 75% of DCF value sits in the terminal year in every preset, and that is where the Street and intrinsic-value camps split.
 8. **Compute rentals** — Contracted Colossus revenue is real, but the Anthropic deal can be terminated on 90 days' notice, and the customers are AI competitors.
+9. **Constellation capacity**: V3's 1 Tbps and 60 per Starship are design figures. Usable capacity is roughly 21% of nameplate (ABI). The cap is 15,000 Gen2 plus 4,408 Gen1 satellites unless the FCC approves more. Busy-hour demand per subscriber grows every year. Together these decide whether launch cadence or authorization is the binding limit.
 
 ## Disclaimer
 
