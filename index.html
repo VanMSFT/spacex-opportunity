@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>SpaceX Opportunity — The $/Mbps Story</title>
+<link rel="icon" href="data:," />
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <style>
@@ -553,6 +554,24 @@
   }
   .chart-box h3 { margin: 0; }
   .chart-box .chart-note { font-size: 13px; color: var(--muted); max-width: 460px; }
+  /* Header with no right-side controls: let the description use the card width */
+  .chart-box .chart-header > div:only-child { flex: 1 1 100%; min-width: 0; }
+  .chart-box .chart-header > div:only-child .chart-note { max-width: 880px; margin-top: 6px; }
+  /* Wide tables scroll inside their card instead of overflowing the page */
+  .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; max-width: 100%; }
+  .table-scroll > table { min-width: 100%; }
+  /* Grid children may shrink below their min-content width */
+  .val-grid > *, .tam-grid > *, .econ-grid > *, .calc-grid > *, .dcf-grid > *, .compare-grid > * { min-width: 0; }
+  @media (max-width: 520px) {
+    section .chart-box { padding: 18px; }
+    .val-grid > .val-inputs, .val-grid > .val-output { padding: 18px; }
+    .val-output .val-secondary { grid-template-columns: 1fr; }
+    #valuation .val-output .big { font-size: 48px; }
+    .econ-grid > .econ-breakdown { padding: 18px; }
+    .econ-grid .econ-row { grid-template-columns: minmax(0, 1fr) auto; row-gap: 6px; }
+    .econ-grid .econ-row label { grid-column: 1 / -1; }
+    .econ-grid .econ-row input[type="range"] { width: 100%; }
+  }
   .chart-canvas-wrap {
     position: relative;
     height: 380px;
@@ -1871,6 +1890,45 @@
     .compute-calc { grid-template-columns: 1fr; }
     .compute-output .cbig { font-size: 40px; }
   }
+
+  /* ---- Oct 2026 update: unverified tags, source refs, DCF ---- */
+  .unv { display:inline-block; font-size:10px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:#1a1300; background:var(--warn,#fbbf24); border-radius:4px; padding:1px 5px; margin-left:4px; vertical-align:middle; }
+  .src-ref { font-size:11px; color:var(--dim); }
+  .asof-banner a, h3 a, .callout a, .era a, .tier-mix ~ p a, #valuation .lead a { color: var(--falcon); text-decoration: none; border-bottom: 1px dotted rgba(79,195,247,0.5); }
+  .src-ref a { color:var(--muted); }
+  .asof-banner { font-size:12px; color:var(--muted); margin-top:10px; }
+  .sop-table td:has(.sop-in) { white-space:nowrap; }
+  .sop-in { width:60px; background:rgba(255,255,255,0.05); color:var(--text); border:1px solid rgba(255,255,255,0.15); border-radius:6px; padding:3px 6px; font:inherit; font-size:13px; }
+  .dcf-grid { display:grid; grid-template-columns: minmax(0,1.15fr) minmax(0,1fr); gap:28px; margin-top:24px; }
+  @media (max-width:900px){ .dcf-grid { grid-template-columns:1fr; } }
+  .dcf-seg { border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:12px 14px; margin-bottom:12px; }
+  .dcf-seg h4 { margin:0 0 6px; font-size:14px; }
+  .dcf-seg .seg-src { font-size:11px; color:var(--dim); margin-bottom:6px; }
+  .dcf-seg.linked { border-color: rgba(79,195,247,0.45); }
+  .dcf-out-big { font-size:44px; font-weight:800; letter-spacing:-0.02em; }
+  .dcf-kpis { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin-top:14px; }
+  .dcf-kpi { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); border-radius:10px; padding:10px 12px; }
+  .dcf-kpi .v { font-size:20px; font-weight:700; }
+  .dcf-kpi .l { font-size:12px; color:var(--muted); }
+  #scaleup .seg-src { font-size:12px; color:var(--muted); line-height:1.5; margin:4px 0 14px; }
+  .sc-bind-row { position:relative; height:22px; margin-top:4px; }
+  .sc-bind-row .sc-bind { position:absolute; top:0; transform:translateX(-50%); white-space:nowrap; text-align:center; }
+  .sc-bind-row .sc-bind-lbl { position:absolute; top:3px; left:0; font-size:10px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); text-align:right; white-space:nowrap; overflow:hidden; }
+  #sc_callout p { margin: 0 0 10px; }
+  #sc_callout p:last-child { margin-bottom: 0; }
+  .sc-legend { display:flex; flex-wrap:wrap; align-items:center; gap:6px 18px; margin-top:12px; font-size:12px; color:var(--muted); }
+  .sc-legend .sc-legend-title { font-weight:600; color:var(--text); }
+  .sc-legend .item { display:inline-flex; align-items:center; gap:6px; white-space:nowrap; }
+  @media (max-width: 520px) { .sc-legend .item { white-space:normal; } }
+  .sc-year-table th, .sc-year-table td { padding:10px 8px; font-size:12px; white-space:nowrap; }
+  .sc-year-table th { white-space:normal; min-width:56px; vertical-align:bottom; }
+  .sc-year-table td .inv { display:block; font-size:10px; color:var(--muted); }
+  .sc-bind { display:inline-block; font-size:11px; font-weight:700; padding:2px 7px; border-radius:6px; color:#0b0f1a; }
+  .sc-bind.b-launch { background:#60a5fa; } .sc-bind.b-prod { background:#fbbf24; } .sc-bind.b-fcc { background:#f87171; }
+  .dcf-toggles { display:flex; flex-wrap:wrap; gap:14px; margin:10px 0 4px; font-size:13px; color:var(--muted); }
+  .dcf-toggles label { display:flex; align-items:center; gap:6px; cursor:pointer; }
+  .sens-table td.cur { outline:2px solid var(--gain); }
+  .disclaimer { border-left:4px solid var(--warn,#fbbf24); background:rgba(251,191,36,0.07); padding:12px 16px; border-radius:8px; font-size:13px; margin-top:18px; }
 </style>
 </head>
 <body>
@@ -1896,6 +1954,8 @@
       <a href="#unit-econ">Unit Econ</a>
       <a href="#compute">Space DCs</a>
       <a href="#bull">Bull Case</a>
+      <a href="#scaleup">V3 Scale-up</a>
+      <a href="#dcf">DCF</a>
       <a href="#unlocks">Unlocks</a>
       <a href="#sources">Sources</a>
     </div>
@@ -1907,63 +1967,63 @@
 <!-- HERO -->
 <section id="hero">
   <div class="wrap">
-    <div class="kicker">SPCX · $2.075T · IPO'd June 12, 2026</div>
-    <h1>At $2 trillion today. Execute the plan and this is a <span class="grad">$3 trillion company</span>.</h1>
+    <div class="kicker">SPCX · <span class="mkt-cap">$2.21T</span> · <span class="mkt-price">$162.57</span> close <span class="mkt-date">Oct 9, 2026</span> · IPO'd June 12, 2026</div>
+    <h1>At ~$2.2 trillion today. Execute the plan and this is a <span class="grad">$3 trillion company</span>.</h1>
     <p class="subhead">
-      SpaceX isn't one bet — it's <strong>four separate businesses</strong> stacked on top of a launch cost curve dropping ~95%. Starlink is already profitable (39% op margin, subs doubling). Starship at Falcon-9 cadence is factory throughput, not physics — Falcon 9 flew 138 times in 2024. Even if only half the bets land, the math works. Today's $2T price is <strong>82% of the base case</strong>, not the ceiling.
+      SpaceX isn't one bet — it's <strong>four separate businesses</strong> stacked on top of a launch cost curve dropping ~95%. Starlink is already profitable (39% op margin, subs doubling). Starship at Falcon-9 cadence is factory throughput, not physics — Falcon 9 flew 138 times in 2024 <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span>. Even if only half the bets land, the math works. Today's price is <strong><span id="hero_sub_pct">87%</span> of the Year-5 sum-of-parts</strong> below — and a strict DCF (bottom of the page) says <strong id="hero_dcf_inline">$127/share</strong>. Both views are live.
     </p>
 
     <div class="stats">
       <div class="stat seg-starlink">
         <div class="seg-tier">Starlink · Connectivity</div>
-        <div class="num" id="hero_starlink_ev">$1.5T</div>
+        <div class="num" id="hero_starlink_ev">$1.2T</div>
         <div class="label">Year-5 EV</div>
-        <div class="note" id="hero_starlink_note">120M subs · 63% margin · $130B revenue</div>
+        <div class="note" id="hero_starlink_note">121M subs · 61% margin · $109B revenue</div>
       </div>
       <div class="stat seg-compute">
         <div class="seg-tier">Space Data Centers</div>
-        <div class="num" id="hero_compute_ev">$600B</div>
+        <div class="num" id="hero_compute_ev">$745B</div>
         <div class="label">Year-5 EV</div>
-        <div class="note" id="hero_compute_note">Rent GPUs at $2.50/hr · &lt;2 yr payback</div>
+        <div class="note" id="hero_compute_note">500 launches by Y5 · $2.50/hr GPU rental</div>
       </div>
       <div class="stat seg-launch">
         <div class="seg-tier">Launch · Starship</div>
-        <div class="num">$180B</div>
+        <div class="num" id="hero_launch_ev">$203B</div>
         <div class="label">Year-5 EV</div>
-        <div class="note">$60/kg mature · monopoly on heavy-lift</div>
+        <div class="note" id="hero_launch_note">$60/kg mature · monopoly on heavy-lift</div>
       </div>
       <div class="stat seg-defense">
         <div class="seg-tier">Starshield · Defense</div>
-        <div class="num">$75B</div>
+        <div class="num" id="hero_defense_ev">$75B</div>
         <div class="label">Year-5 EV</div>
-        <div class="note">DoD constellations + ISR contracts</div>
+        <div class="note">DoD constellations + ISR · &gt;$6B awards in Q2'26</div>
       </div>
     </div>
 
     <div class="hero-summary">
       <div>
         <div class="sum-lbl">Sum of parts · Year 5 base case</div>
-        <div class="sum-val" style="color: var(--gain);" id="hero_sop">$2.4T</div>
+        <div class="sum-val" style="color: var(--gain);" id="hero_sop">$2.5T</div>
         <div class="sum-note">Live-updates as you edit valuation sliders below</div>
       </div>
       <div class="sum-arrow">→</div>
       <div>
         <div class="sum-lbl">Market cap today · SPCX</div>
-        <div class="sum-val">$2.075T</div>
-        <div class="sum-note">–7.8% today · IPO'd 3 weeks ago</div>
+        <div class="sum-val mkt-cap">$2.21T</div>
+        <div class="sum-note"><span class="mkt-price">$162.57</span> × <span class="mkt-shares">13.57B</span> shares · close <span class="mkt-date">Oct 9, 2026</span></div>
       </div>
       <div class="sum-arrow">=</div>
       <div>
         <div class="sum-lbl">You're buying at</div>
-        <div class="sum-val" style="color: var(--gain);" id="hero_discount">82%</div>
-        <div class="sum-note" id="hero_discount_note">of base-case value · 18% discount</div>
+        <div class="sum-val" style="color: var(--gain);" id="hero_discount">87%</div>
+        <div class="sum-note" id="hero_discount_note">of base-case value · 13% discount</div>
       </div>
     </div>
 
     <div class="hero-flex">
-      <strong>Bull case:</strong> $4.5T if AI compute scales and one-plan-everywhere lands (~2.2× today).
-      <strong>Bear case:</strong> $650B if Starship stalls and only Starlink hits base (–68%).
-      <strong>The floor:</strong> Even in the bear case, Starlink alone at 120M subs / 63% margin supports $1.5T — that's <strong>72% of today's price</strong> covered by the one segment that's already profitable.
+      <strong>Bull case:</strong> $4.5T if AI compute scales and one-plan-everywhere lands (<span id="hero_bull_x">~2.0×</span> today).
+      <strong>Bear case:</strong> $650B if Starship stalls and only Starlink hits base (<span id="hero_bear_pct">−71%</span>).
+      <strong>The Starlink anchor:</strong> At the valuation sliders below, Starlink connectivity alone is worth <strong id="hero_floor_ev">$1.2T</strong> at Year 5 — <strong id="hero_floor_pct">54%</strong> of today's market cap, from the one segment that's already profitable. Note this is a Year-5 value, not a present value — see the DCF section for today's fair value.
       The physics is solved. The bet is whether SpaceX can execute what they've already shown they can do at Falcon scale.
     </div>
   </div>
@@ -1972,10 +2032,10 @@
 <!-- SPCX LIVE MARKET DATA -->
 <section id="spcx">
   <div class="wrap">
-    <div class="eyebrow">Where the market sits — July 1, 2026</div>
+    <div class="eyebrow">Where the market sits — <span class="mkt-date">Oct 9, 2026</span> close</div>
     <h2>SPCX today.</h2>
     <p class="lead">
-      SpaceX IPO'd on <strong>June 12, 2026</strong> and closed day one at $160.95 — a 19% pop from the offer price, valuing the company at <strong>$2.1 trillion</strong>. It joins the Nasdaq-100 on July 7. Everything else in this app is trying to answer one question: <strong>is that valuation justified?</strong> Two sides make that debate — and both are on this page.
+      SpaceX IPO'd on <strong>June 12, 2026</strong> (priced $135, opened $150, closed day one near $161) and joined the Nasdaq-100 on July 7. After a post-IPO slide to ~$108 (Jul 31 close) it reported its first quarter as a public company in August, closed the $60B Cursor acquisition on Aug 14, and put Starship into orbit on Sep 28. At <strong class="mkt-price">$162.57</strong> it is valued at <strong class="mkt-cap">$2.21T</strong>. Everything else in this app is trying to answer one question: <strong>is that valuation justified?</strong> Two sides make that debate — and both are on this page.
     </p>
 
     <div class="ticker-header">
@@ -1984,61 +2044,63 @@
         <div class="tick-name">Space Exploration Technologies Corp · NASDAQ</div>
       </div>
       <div class="tick-price">
-        <div class="tick-p">$157.54</div>
-        <div class="tick-ch dn">−$13.32 &nbsp;(−7.80%) today</div>
+        <div class="tick-p mkt-price">$162.57</div>
+        <div class="tick-ch up">+$2.00 &nbsp;(+1.25%) on the day</div>
       </div>
       <div class="tick-meta">
-        <div>Market cap · <strong style="color: var(--text);">$2.075T</strong></div>
-        <div>EV · $2.26T</div>
-        <div class="as-of">As of 4:00 PM EDT · Yahoo Finance</div>
+        <div>Market cap · <strong style="color: var(--text);" class="mkt-cap">$2.21T</strong></div>
+        <div>EV · <span id="mkt_ev">$2.14T</span> <span class="src-ref">(net cash ≈$60.6B at 6/30)</span></div>
+        <div class="as-of">Close 4:00 PM ET <span class="mkt-date">Oct 9, 2026</span> · <a href="https://seekingalpha.com/symbol/SPCX/historical-price-quotes" target="_blank" rel="noopener">Seeking Alpha</a> · shares: <a href="https://last10k.com/sec-filings/spcx/0001628280-26-052535.htm" target="_blank" rel="noopener">10-Q</a> + <a href="https://app.edgar.tools/filing/1181412/0001628280-26-056945" target="_blank" rel="noopener">Cursor 8-K</a></div>
       </div>
     </div>
 
     <div class="ticker-stats">
       <div class="ticker-stat">
-        <div class="ts-v">$19.3B</div>
-        <div class="ts-l">Revenue TTM</div>
-        <div class="ts-note">Consolidated across 3 segments</div>
+        <div class="ts-v">≈$23.1B</div>
+        <div class="ts-l">Revenue TTM (to Q2'26)</div>
+        <div class="ts-note">FY25 $18.7B + H1'26 − H1'25 · Q2'26 alone $7.8B (+92%)</div>
       </div>
       <div class="ticker-stat">
-        <div class="ts-v">115.66×</div>
+        <div class="ts-v" id="mkt_ps">≈96×</div>
         <div class="ts-l">P/S trailing</div>
-        <div class="ts-note">Nasdaq median: ~5×</div>
+        <div class="ts-note">≈46× GS 2026E rev ($47.6B) · Nasdaq median ~5×</div>
       </div>
       <div class="ticker-stat">
-        <div class="ts-v">−$9.36B</div>
+        <div class="ts-v">≈−$8.2B</div>
         <div class="ts-l">Net income TTM</div>
-        <div class="ts-note">GAAP unprofitable</div>
+        <div class="ts-note">Q2'26 net loss −$541M; adj. EBITDA +$3.5B</div>
       </div>
       <div class="ticker-stat">
-        <div class="ts-v">$23.68B</div>
-        <div class="ts-l">Cash</div>
-        <div class="ts-note">Debt/Equity 73.6%</div>
+        <div class="ts-v">≈$100B</div>
+        <div class="ts-l">Cash + securities (6/30)</div>
+        <div class="ts-note">Debt incl. leases ≈$39.4B · post-IPO</div>
       </div>
       <div class="ticker-stat">
-        <div class="ts-v">$147 – $226</div>
-        <div class="ts-l">52-week range</div>
-        <div class="ts-note">Peaked in early euphoria</div>
+        <div class="ts-v">~$108 – ~$226</div>
+        <div class="ts-l">Since-IPO range (closes)</div>
+        <div class="ts-note">High in IPO week; low Jul 31 ($108.37)</div>
       </div>
       <div class="ticker-stat">
-        <div class="ts-v">$188</div>
+        <div class="ts-v">≈$232–238</div>
         <div class="ts-l">Analyst avg target</div>
-        <div class="ts-note">Range: $62 (low) – $310 (high)</div>
+        <div class="ts-note">Low $115 (CFRA) – high $800 (Raymond James); Morningstar FV $62–63 <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span></div>
       </div>
       <div class="ticker-stat">
-        <div class="ts-v">Outperform</div>
-        <div class="ts-l">Wedbush initiation today</div>
-        <div class="ts-note">Target $190</div>
+        <div class="ts-v">$75 / $300 / $600</div>
+        <div class="ts-l">Morgan Stanley bear / base / bull</div>
+        <div class="ts-note">GS $220 · JPM $225 · BofA $235 · DB $255 · Citi $200</div>
       </div>
       <div class="ticker-stat">
-        <div class="ts-v">HOLD</div>
-        <div class="ts-l">Argus rating</div>
-        <div class="ts-note">Target $164</div>
+        <div class="ts-v">≈$100</div>
+        <div class="ts-l">Damodaran intrinsic value</div>
+        <div class="ts-note">MoffettNathanson Neutral $131 · Wedbush $190 (Jul 1)</div>
       </div>
     </div>
 
-    <h3 style="margin-top: 40px;">Three businesses inside one stock (from S-1 prospectus)</h3>
-    <p style="max-width: 1080px;">SpaceX filed the IPO as a single entity but the prospectus breaks it into three segments with wildly different economics. Only one is profitable.</p>
+    <p class="asof-banner">Analyst targets: <a href="https://www.benzinga.com/analyst-stock-ratings/analyst-color/26/07/60303994/spacex-spcx-goldman-buy-rating-205-price-target" target="_blank" rel="noopener">Benzinga (Jul 7)</a>, <a href="https://www.ii.co.uk/analysis-commentary/spacex-what-wall-street-thinks-shares-are-really-worth-ii539593" target="_blank" rel="noopener">ii.co.uk</a>, <a href="https://www.xxquant.com/en/institution/institutional-research/385bd65359d721be0ae33dd0f2256c69" target="_blank" rel="noopener">GS Aug 6 raise to $220 (secondary summary)</a>, <a href="https://aswathdamodaran.blogspot.com/2026/06/a-weeks-ago-i-assessed-value-of-spacex.html" target="_blank" rel="noopener">Damodaran (Jun 4)</a>. TTM figures derived from S-1 + <a href="https://ir.spacex.com/files/doc_financials/2026/q2/SpaceX-Reports-Second-Quarter-2026-Results.pdf" target="_blank" rel="noopener">Q2'26 release</a>.</p>
+
+    <h3 style="margin-top: 40px;">Three businesses inside one stock (FY2025 from S-1 · Q2'26 from the <a href="https://ir.spacex.com/files/doc_financials/2026/q2/SpaceX-Reports-Second-Quarter-2026-Results.pdf" target="_blank" rel="noopener">Q2'26 release</a>)</h3>
+    <p style="max-width: 1080px;">SpaceX filed the IPO as a single entity but the prospectus breaks it into three segments with wildly different economics. In FY2025 only one was profitable; by Q2'26 the AI segment turned adjusted-EBITDA positive on third-party compute rentals.</p>
 
     <div class="segments">
       <div class="seg-card connectivity">
@@ -2050,7 +2112,9 @@
         <div class="seg-row"><span class="k">Operating margin</span><span class="v pos">39%</span></div>
         <div class="seg-row"><span class="k">2024 growth</span><span class="v">+96%</span></div>
         <div class="seg-row"><span class="k">2025 growth</span><span class="v">+50%</span></div>
-        <div class="seg-row"><span class="k">Subs</span><span class="v">~12M</span></div>
+        <div class="seg-row"><span class="k">Q2'26 revenue</span><span class="v pos">$4.29B (+66%)</span></div>
+        <div class="seg-row"><span class="k">Q2'26 subs / ARPU</span><span class="v">12.0M / $66</span></div>
+        <div class="seg-row"><span class="k">Q2'26 adj. EBITDA margin</span><span class="v pos">60.5%</span></div>
       </div>
       <div class="seg-card space">
         <div class="seg-tag">Space · Launch services</div>
@@ -2061,7 +2125,7 @@
         <div class="seg-row"><span class="k">Operating margin</span><span class="v neg">−16%</span></div>
         <div class="seg-row"><span class="k">Growth</span><span class="v">6–7%</span></div>
         <div class="seg-row"><span class="k">R&amp;D burn</span><span class="v neg">Starship program</span></div>
-        <div class="seg-row"><span class="k">Note</span><span class="v" style="font-family: -apple-system, sans-serif;">Long-term strategic</span></div>
+        <div class="seg-row"><span class="k">Q2'26 rev / op inc</span><span class="v">$962M / <span class="neg">−$542M</span></span></div>
       </div>
       <div class="seg-card ai">
         <div class="seg-tag">AI · Grok · xAI · X</div>
@@ -2073,11 +2137,12 @@
         <div class="seg-row"><span class="k">R&amp;D spend</span><span class="v neg">$5.06B</span></div>
         <div class="seg-row"><span class="k">SG&amp;A</span><span class="v neg">$1.82B</span></div>
         <div class="seg-row"><span class="k">TAM claim</span><span class="v">$26.5T (93%)</span></div>
+        <div class="seg-row"><span class="k">Q2'26 rev / adj. EBITDA</span><span class="v pos">$2.56B / +$1.15B</span></div>
       </div>
     </div>
 
     <div class="callout" style="margin-top: 32px;">
-      <strong>The consolidated math.</strong> Starlink's entire $4.4B operating profit is wiped out by the combined losses of Space (−$657M) and AI (−$6.35B), leaving the whole company at <strong>−$2.58B operating loss</strong>. That's why the P/E is undefined and everything you'll see below is P/S or EV/EBITDA-based. The market is paying $115 for every $1 of trailing revenue — a multiple usually reserved for pre-revenue biotech or peak-cycle hyper-growth SaaS.
+      <strong>The consolidated math.</strong> Starlink's entire $4.4B operating profit is wiped out by the combined losses of Space (−$657M) and AI (−$6.35B), leaving the whole company at <strong>−$2.58B operating loss</strong> in FY2025. Q2'26 flipped the picture at the EBITDA line ($3.5B adjusted EBITDA, AI adj. EBITDA +$1.15B from $14.1B of contracted compute deals) but GAAP net income is still negative (−$541M) and capex ran $18.4B in the quarter. The market is paying ~$96 for every $1 of trailing revenue — a multiple usually reserved for pre-revenue biotech or peak-cycle hyper-growth SaaS.
     </div>
   </div>
 </section>
@@ -2094,9 +2159,9 @@
     <div class="bear-grid">
       <div class="bear-card">
         <div class="bear-num">Bear 01</div>
-        <div class="bear-stat">115×</div>
+        <div class="bear-stat">~96×</div>
         <h3>Astronomical P/S multiple</h3>
-        <p>Trailing price-to-sales of 115.66× is essentially unprecedented for a company this large. Nasdaq median is ~5×. Even Tesla at peak euphoria was 30×. Forward P/S at aggressive growth is still 84×. Sales, not earnings.</p>
+        <p>Trailing price-to-sales of ~96× (115.66× at IPO) is essentially unprecedented for a company this large. Nasdaq median is ~5×. Even Tesla at peak euphoria was 30×. Forward P/S on Goldman's 2026E revenue is still ~46×. Sales, not earnings.</p>
       </div>
       <div class="bear-card">
         <div class="bear-num">Bear 02</div>
@@ -2106,9 +2171,9 @@
       </div>
       <div class="bear-card">
         <div class="bear-num">Bear 03</div>
-        <div class="bear-stat">−$7B / yr</div>
-        <h3>Two of three segments burn cash</h3>
-        <p>Space loses $657M on $4B revenue. AI (Grok) loses $6.35B on $3.2B revenue — a <strong>−199% operating margin</strong>. Starlink's $4.4B profit funds both, leaving nothing for shareholders.</p>
+        <div class="bear-stat">$18.4B</div>
+        <h3>Capex swamps operating profit</h3>
+        <p>FY2025: Space lost $657M on $4B revenue; AI (Grok) lost $6.35B on $3.2B (−199% op margin). Q2'26 improved — AI is adj.-EBITDA positive on compute rentals — but capex was <strong>$18.4B in one quarter</strong> ($15.8B for AI compute), ~$65B for 2026 (Goldman est.). Goldman sees ~$270B of debt needed through 2030 and free cash flow only from Q4 2030; Morgan Stanley not before 2035.</p>
       </div>
       <div class="bear-card">
         <div class="bear-num">Bear 04</div>
@@ -2120,19 +2185,19 @@
         <div class="bear-num">Bear 05</div>
         <div class="bear-stat">$300M+</div>
         <h3>Bond market flashing yellow</h3>
-        <p>SpaceX's inaugural bond issuance has posted secondary-market losses exceeding $300M. Debt investors — who look at cash flows, not narratives — are pricing in higher risk than the equity crowd.</p>
+        <p>SpaceX's inaugural bond issuance has posted secondary-market losses exceeding $300M <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span>. Debt investors — who look at cash flows, not narratives — are pricing in higher risk than the equity crowd.</p>
       </div>
       <div class="bear-card">
         <div class="bear-num">Bear 06</div>
-        <div class="bear-stat">96% → 50%</div>
-        <h3>Starlink growth is decelerating</h3>
-        <p>The engine of the story grew revenue 96% in 2024 but only 50% in 2025. Classic S-curve, and it's the segment carrying the entire valuation. If growth drops to 30% in 2026, the base-case model in this app collapses.</p>
+        <div class="bear-stat">$85 → $66</div>
+        <h3>Starlink is growing by getting cheaper</h3>
+        <p>Connectivity revenue grew 96% in 2024 and 50% in 2025, and re-accelerated to +66% y/y in Q2'26 as subscribers doubled to 12.0M — but ARPU fell from $85 to $66 as Starlink moves into lower-income markets, and management says blended ARPU may keep falling. Volume is doing the work; pricing power isn't proven.</p>
       </div>
       <div class="bear-card">
         <div class="bear-num">Bear 07</div>
-        <div class="bear-stat">−7.80%</div>
-        <h3>Off the highs, already</h3>
-        <p>Down 7.80% today alone. 52-week high was $225.64 in early euphoria; now at $157. Off ~30% from the peak in ~3 weeks. The post-IPO honeymoon shortened faster than most.</p>
+        <div class="bear-stat">−52%</div>
+        <h3>Brutal post-IPO round trip</h3>
+        <p>Peaked at $225.64 in the IPO week, then fell to a $108.37 close on Jul 31 — down ~52% in seven weeks — before recovering to <span class="mkt-price">$162.57</span> after Q2 results and Starship's orbital flight. Lock-up expirations add share supply. Volatility cuts both ways.</p>
       </div>
       <div class="bear-card">
         <div class="bear-num">Bear 08</div>
@@ -2144,12 +2209,12 @@
         <div class="bear-num">Bear 09</div>
         <div class="bear-stat">Regulatory</div>
         <h3>Spectrum &amp; approvals</h3>
-        <p>Direct-to-cell relies on cellular spectrum coordination with 100+ national regulators. Starship launches face FAA + state environmental review. AT&amp;T is already pushing back at the FCC. Not a physics risk — a policy risk.</p>
+        <p>Direct-to-cell relies on cellular spectrum coordination with 100+ national regulators. Starship launches face FAA + state environmental review. AT&amp;T is already pushing back at the FCC. The Oct 8, 2026 deal for Grain's nationwide 800 MHz spectrum still needs FCC approval. Not a physics risk — a policy risk.</p>
       </div>
     </div>
 
     <div class="callout" style="margin-top: 32px; border-left-color: var(--danger); background: rgba(248, 113, 113, 0.06);">
-      <strong>The bear's punchline.</strong> Buffett has always avoided IPOs because "the seller chooses when to come public — you're almost certainly buying at their optimal price, not yours." Munger called sell-side forecasts "total nonsense" and warned against the availability bias of remembering Amazon and Google while forgetting the 90% of listings that lost most of their value. SpaceX at 115× sales is being priced as if execution is guaranteed. History says otherwise.
+      <strong>The bear's punchline.</strong> Buffett has always avoided IPOs because "the seller chooses when to come public — you're almost certainly buying at their optimal price, not yours." Munger called sell-side forecasts "total nonsense" and warned against the availability bias of remembering Amazon and Google while forgetting the 90% of listings that lost most of their value. SpaceX at ~96× trailing sales is being priced as if execution is guaranteed. History says otherwise.
     </div>
   </div>
 </section>
@@ -2185,16 +2250,16 @@
         <h3>Open engineering — the plan needs to work</h3>
         <div class="p-sub">Each is achievable; all-at-once at cadence is the hard part</div>
         <ul>
-          <li><strong>Ship-side full reuse.</strong> Super Heavy <em>already</em> reuses — Flight 9 was the first reused booster (B14-2), Flight 11 was the second flight of B15. But the <em>ship</em> has never been caught: all 12 flights have splashed in the Indian Ocean. Musk: "we'll only try to catch ship after two perfect soft landings." Flight 14 is the earliest catch attempt.</li>
-          <li><strong>Ship reliability under reentry.</strong> As of Flight 12, ship is 6 controlled ocean landings out of 10 attempts (60%). Block 2 regressed on Flights 7–9 before recovering on 10–11. Block 3 debuted successfully on the ship side in May 2026. Improving — not solved.</li>
-          <li><strong>Cadence at 100+ flights/year.</strong> Not a physics limit — <strong>Falcon 9 already flew 138 times in 2024</strong>. Global aviation does 100,000 flights/day. Starship itself did 5 flights in 2025 and 1 in 2026 through July — the bottleneck is Raptor production, pad turnaround (~30 days, target 3), and FAA licensing. <strong>SpaceX's Starfactory is designed for 1,000 Starships/year.</strong></li>
+          <li><strong>Ship-side full reuse.</strong> Super Heavy <em>already</em> reuses — Flight 9 was the first reused booster (B14-2), Flight 11 was the second flight of B15. But the <em>ship</em> has never been caught. Flight 14 (Sep 28, 2026) — the first orbital flight — ended with Ship 41 splashing down north of Hawaii (not recovered) and booster B21 splashing in the Gulf after one engine shut down on ascent; no catch was attempted. Ship catch is still ahead.</li>
+          <li><strong>Ship reliability under reentry.</strong> Block 2 regressed on Flights 7–9 before recovering on 10–11. Block 3 debuted on Flight 12 (May 2026); Flight 14 reached orbit and made a controlled splashdown after a shortened ~3-hour mission (engine issue). Improving — not solved.</li>
+          <li><strong>Cadence at 100+ flights/year.</strong> Not a physics limit — <strong>Falcon 9 already flew 138 times in 2024</strong>. Global aviation does 100,000 flights/day. Starship itself did 5 flights in 2025 and three (Flights 12–14) in 2026 through September — the bottleneck is Raptor production, pad turnaround (~30 days, target 3), and FAA licensing. <strong>SpaceX's Starfactory is designed for 1,000 Starships/year.</strong></li>
           <li><strong>$60/kg cost target.</strong> Currently more like $500–1,000/kg. Requires Raptor unit cost decline, factory learning curve, cheap refurb — all unproven at Starship scale but every step is engineering + operations, not physics.</li>
           <li><strong>Orbital refueling.</strong> Ship-to-ship propellant transfer at cryogenic temperatures. NASA's HLS demo target 2026–27 with a depot + tanker pair. Never done at operational scale; physics is trivially known — hardware qualification is the work.</li>
-          <li><strong>V3 satellite production.</strong> Flight 12 deployed 2 modified V3s — the first real ones to fly. Manufacturing 40,000+ V3 satellites at $600K each is another factory build-out. AI1 payloads add thermal + compute complexity on top.</li>
-          <li><strong>V3 dispenser at cadence.</strong> Flight 12 demonstrated actual V3 deployment (not just mock). Full operational deployment of 60+ V3s per Starship not yet proven — robotics + timing problem, tractable.</li>
+          <li><strong>V3 satellite production.</strong> V3s debuted on Flight 13 (suborbital); Flight 14 put the first <strong>26 operational V3s</strong> into orbit, with on-orbit checkout under way. Manufacturing 40,000+ V3 satellites at $600K each is another factory build-out. AI1 payloads add thermal + compute complexity on top.</li>
+          <li><strong>V3 dispenser at cadence.</strong> Flight 14 deployed 26 V3s over ~30 minutes (≈10× a Falcon 9 Starlink launch's capacity, per SpaceX). Full loads of up to 60 V3s (≈20×) per Starship are not yet proven — robotics + timing problem, tractable.</li>
           <li><strong>Direct-to-cell coverage.</strong> Currently ~500 satellites. Consumer expectation is 5-bar coverage; delivery has been intermittent. Fixes with more sats + more spectrum — both are money and time, not invention.</li>
-          <li><strong>Grok / xAI monetization.</strong> Nothing physical here — a business execution question. Losing $6.35B/yr against ChatGPT + Gemini + Claude is not a fixable "just launch harder" problem.</li>
-          <li><strong>Regulatory throughput.</strong> Starship is currently <em>grounded</em> pending FAA acceptance of the Flight 12 booster investigation. FAA licensing + state environmental review + international spectrum coordination are all bottleneck-capable.</li>
+          <li><strong>Grok / xAI monetization.</strong> Nothing physical here — a business execution question. Lost $6.35B in FY2025 against ChatGPT + Gemini + Claude; in Q2'26 the segment was adj.-EBITDA positive mainly by <em>renting compute to rivals</em> (Anthropic, Google, Reflection) on contracts cancellable at 90 days' notice (Anthropic). Not a fixable "just launch harder" problem.</li>
+          <li><strong>Regulatory throughput.</strong> Each Starship flight still needs FAA licensing/mishap closure; the Flight 14 engine shutdown is the latest item to watch. FAA licensing + state environmental review + international spectrum coordination are all bottleneck-capable.</li>
           <li><strong>Political tail risks.</strong> Musk's political entanglement + concentration risk on one CEO. Executable via succession, but currently unmitigated.</li>
         </ul>
       </div>
@@ -2230,14 +2295,14 @@
         <h3>Falcon 9 + Starlink V2 Mini</h3>
         <div class="metric">$6.55/Mbps</div>
         <div class="metric-label">Bandwidth cost to LEO</div>
-        <p>Reusable Falcon 9 at ~$1,000/kg. V2 Mini satellites at ~150–170 Mbps/kg. A ~10× improvement on the prior regime — enough to make Starlink real. <strong>12M+ subscribers</strong> as of mid-2026, still doubling annually. First profitable satellite broadband ever.</p>
+        <p>Reusable Falcon 9 at ~$1,000/kg. V2 Mini satellites at ~150–170 Mbps/kg. A ~10× improvement on the prior regime — enough to make Starlink real. <strong>12.0M subscribers</strong> at Jun 30, 2026 (6.0M a year earlier) — still doubling annually, though ARPU fell from $85 to $66 as Starlink expands into cheaper markets. First profitable satellite broadband ever.</p>
       </div>
       <div class="era future">
         <div class="tag">Era 3 · 2026+</div>
         <h3>Starship + V3<span class="badge">Flying</span></h3>
         <div class="metric">$0.30/Mbps</div>
         <div class="metric-label">Bandwidth cost to LEO</div>
-        <p>Starship at &lt;$185/kg with 100–200 t payload. V3 satellites at 500–600 Mbps/kg (4× the density of V2 Mini). Combined: another ~20× improvement. <strong>Flight 12 (May 2026)</strong> was the Block 3 debut and the first flight to deploy actual modified V3 satellites — 20 simulators + 2 real V3s from Pad-2. Ship recovered cleanly; booster stumbled on boostback (20/33 engines lit) and is under FAA review. <strong>Flight 13 targeted for July 2026</strong>.</p>
+        <p>Starship at &lt;$185/kg with 100–200 t payload. V3 satellites at 500–600 Mbps/kg (4× the density of V2 Mini). Combined: another ~20× improvement. Flight 12 (May 2026) was the Block 3 debut; V3s debuted on Flight 13 (suborbital). <strong>Flight 14 (Sep 28, 2026)</strong> was the first orbital flight and deployed <strong>26 operational Starlink V3s</strong> at ~269 km before a planned ~10-hour mission was cut to ~3 hours by an engine issue. <span class="src-ref">(<a href="https://www.spacex.com/launches/starship-flight-14" target="_blank" rel="noopener">SpaceX</a>, <a href="https://www.reuters.com/business/media-telecom/spacexs-starship-launches-14th-flight-first-headed-orbit-2026-09-28/" target="_blank" rel="noopener">Reuters</a>)</span></p>
       </div>
     </div>
 
@@ -2267,7 +2332,7 @@
           <div class="status-info">Mature reuse economics — the 2024 baseline Starship needs to beat. Falcon 9 is the workhorse for Starlink V2 Mini deployments today.</div>
         </div>
         <div class="input-row">
-          <label>Payload to LEO<span class="hint">Reusable-config payload<span class="convert" id="f9_payload_conv">· 17.0 t</span></span></label>
+          <label>Payload to LEO<span class="hint">Reusable-config payload<span class="convert" id="f9_payload_conv">· 17 t</span></span></label>
           <input type="number" id="f9_payload" value="17000" step="500" min="0" />
         </div>
         <div class="input-row">
@@ -2275,7 +2340,7 @@
           <input type="number" id="f9_costkg" value="1000" step="50" min="0" />
         </div>
         <div class="input-row">
-          <label>Satellite mass<span class="hint">V2 Mini optimized, kg<span class="convert" id="f9_satmass_conv">· 0.58 t</span></span></label>
+          <label>Satellite mass<span class="hint">V2 Mini optimized, kg<span class="convert" id="f9_satmass_conv">· 0.57 t</span></span></label>
           <input type="number" id="f9_satmass" value="575" step="25" min="0" />
         </div>
         <div class="input-row">
@@ -2287,17 +2352,17 @@
           <div class="result-block">
             <div class="result-label">Launch cost</div>
             <div class="result-value" id="f9_launchcost">$17.0M</div>
-            <div class="result-sub" id="f9_launchsub">— per mission</div>
+            <div class="result-sub" id="f9_launchsub">29 sats · 17 t</div>
           </div>
           <div class="result-block">
             <div class="result-label">Bandwidth</div>
-            <div class="result-value" id="f9_bandwidth">2,838 Gbps</div>
-            <div class="result-sub" id="f9_bandwidthsub">— per launch</div>
+            <div class="result-value" id="f9_bandwidth">2,784 Gbps</div>
+            <div class="result-sub" id="f9_bandwidthsub">29 × 96 Gbps</div>
           </div>
           <div class="result-block">
             <div class="result-label">Cost per Mbps</div>
-            <div class="result-value" id="f9_costmbps">$5.99</div>
-            <div class="result-sub" id="f9_costmbpssub">Rob: $6.55</div>
+            <div class="result-value" id="f9_costmbps">$6.11</div>
+            <div class="result-sub" id="f9_costmbpssub">$6,106 / Gbps · Rob $6.55</div>
           </div>
         </div>
       </div>
@@ -2313,7 +2378,7 @@
           <div class="preset-info" id="presetInfo">Rob Maurer's conservative near-term operational figure: 100 t reusable at $185/kg.</div>
         </div>
         <div class="input-row">
-          <label>Payload to LEO<span class="hint">Reusable payload (kg). SpaceX V2 target: 200 t.<span class="convert" id="ss_payload_conv">· 100.0 t</span></span></label>
+          <label>Payload to LEO<span class="hint">Reusable payload (kg). SpaceX V2 target: 200 t.<span class="convert" id="ss_payload_conv">· 100 t</span></span></label>
           <input type="number" id="ss_payload" value="100000" step="5000" min="0" />
         </div>
         <div class="input-row">
@@ -2333,24 +2398,24 @@
           <div class="result-block">
             <div class="result-label">Launch cost</div>
             <div class="result-value" id="ss_launchcost">$18.5M</div>
-            <div class="result-sub" id="ss_launchsub">— per mission</div>
+            <div class="result-sub" id="ss_launchsub">50 sats · 100 t</div>
           </div>
           <div class="result-block">
             <div class="result-label">Bandwidth</div>
             <div class="result-value" id="ss_bandwidth">50,000 Gbps</div>
-            <div class="result-sub" id="ss_bandwidthsub">— per launch</div>
+            <div class="result-sub" id="ss_bandwidthsub">50 × 1000 Gbps</div>
           </div>
           <div class="result-block">
             <div class="result-label">Cost per Mbps</div>
             <div class="result-value" id="ss_costmbps">$0.37</div>
-            <div class="result-sub" id="ss_costmbpssub">Rob: $0.30</div>
+            <div class="result-sub" id="ss_costmbpssub">$370 / Gbps · Rob $0.30</div>
           </div>
         </div>
       </div>
     </div>
 
     <div class="comparison-bar">
-      <div class="big-num" id="improvement_factor">22×</div>
+      <div class="big-num" id="improvement_factor">16.5×</div>
       <div class="big-label">Improvement — Starship + V3 vs Falcon 9 + V2 Mini</div>
     </div>
   </div>
@@ -2431,7 +2496,7 @@
       </div>
     </div>
 
-    <table class="scenario-table">
+    <div class="table-scroll"><table class="scenario-table">
       <thead>
         <tr>
           <th>Scenario</th>
@@ -2444,7 +2509,7 @@
       <tbody id="scenarioTable">
         <!-- populated by JS -->
       </tbody>
-    </table>
+    </table></div>
   </div>
 </section>
 
@@ -2526,7 +2591,7 @@
     <div class="eyebrow">What it means for the business</div>
     <h2>Starlink at scale — the 5-year projection.</h2>
     <p class="lead">
-      Starlink has ~<strong>12M subscribers</strong> today, doubling annually at a <strong>63% adjusted EBITDA margin</strong> (Rob Maurer's numbers — that's connectivity-segment adjusted EBITDA, excluding Starship R&amp;D and SpaceX-wide overhead). Pick a growth scenario, dial the inputs, and watch every year of the projection recompute — including both EV/EBITDA and price/sales multiples.
+      Starlink had <strong>12.0M subscribers</strong> at Jun 30, 2026 (doubling y/y) at a <strong>$66/mo ARPU</strong> (down from $85 a year earlier as it expands into cheaper markets), and the Connectivity segment ran a <strong>60.5% adjusted EBITDA margin</strong> in Q2'26 (62.1% for H1). Enterprise &amp; Government — aviation, maritime, enterprise, government/Starshield-related — is now 42% of Connectivity revenue and growing 108% y/y, so it gets its own line below. <span class="src-ref">Source: <a href="https://ir.spacex.com/files/doc_financials/2026/q2/SpaceX-Reports-Second-Quarter-2026-Results.pdf" target="_blank" rel="noopener">Q2'26 release</a>.</span> Pick a growth scenario, dial the inputs, and watch every year of the projection recompute — including both EV/EBITDA and price/sales multiples.
     </p>
 
     <div class="presets" id="growthPresets">
@@ -2552,14 +2617,29 @@
           <div class="val" id="v_growth_v">80%</div>
         </div>
         <div class="slider-row">
-          <label>Blended ARPU ($/mo)</label>
-          <input type="range" id="v_arpu" min="40" max="200" step="5" value="90" />
-          <div class="val" id="v_arpu_v">$90</div>
+          <label>Consumer ARPU ($/mo) · Q2'26: $66</label>
+          <input type="range" id="v_arpu" min="30" max="200" step="1" value="66" />
+          <div class="val" id="v_arpu_v">$66</div>
         </div>
         <div class="slider-row">
-          <label>EBITDA margin</label>
-          <input type="range" id="v_margin" min="20" max="80" step="1" value="63" />
-          <div class="val" id="v_margin_v">63%</div>
+          <label>ARPU drift per year (mix shift)</label>
+          <input type="range" id="v_arpu_drift" min="-15" max="10" step="1" value="-5" />
+          <div class="val" id="v_arpu_drift_v">-5%</div>
+        </div>
+        <div class="slider-row">
+          <label>Enterprise &amp; Gov revenue now ($B/yr) · Q2'26 run-rate $7.2B</label>
+          <input type="range" id="v_eg_rev" min="0" max="30" step="0.1" value="7.2" />
+          <div class="val" id="v_eg_rev_v">$7.2B</div>
+        </div>
+        <div class="slider-row">
+          <label>Enterprise &amp; Gov growth (Y1, decays like subs)</label>
+          <input type="range" id="v_eg_growth" min="0" max="150" step="5" value="50" />
+          <div class="val" id="v_eg_growth_v">50%</div>
+        </div>
+        <div class="slider-row">
+          <label>Connectivity adj. EBITDA margin · Q2'26 60.5%</label>
+          <input type="range" id="v_margin" min="20" max="80" step="1" value="61" />
+          <div class="val" id="v_margin_v">61%</div>
         </div>
         <div class="slider-row">
           <label>Projection years</label>
@@ -2590,38 +2670,38 @@
 
       <div class="val-output">
         <div>
-          <div class="big" id="v_ev">$540B</div>
+          <div class="big" id="v_ev">$1.2T</div>
           <div class="big-label">Starlink enterprise value at year <span id="v_year_label">5</span></div>
         </div>
         <div class="breakdown">
           <div class="metric">
-            <div class="val-num" id="v_endsubs">168 M</div>
+            <div class="val-num" id="v_endsubs">121M</div>
             <div class="val-lbl">End subs</div>
           </div>
           <div class="metric">
-            <div class="val-num" id="v_revenue">$181B</div>
+            <div class="val-num" id="v_revenue">$109B</div>
             <div class="val-lbl">Y5 revenue</div>
           </div>
           <div class="metric">
-            <div class="val-num" id="v_ebitda">$114B</div>
+            <div class="val-num" id="v_ebitda">$66B</div>
             <div class="val-lbl">Y5 EBITDA</div>
           </div>
         </div>
         <div class="val-secondary">
           <div class="metric-alt">
-            <div class="val-num-alt" id="v_ev_pfs">$1.45T</div>
+            <div class="val-num-alt" id="v_ev_pfs">$870B</div>
             <div class="val-lbl-alt">P/S valuation</div>
-            <div class="val-note" id="v_ps_note">at 8× revenue</div>
+            <div class="val-note" id="v_ps_note">at 8.0× revenue</div>
           </div>
           <div class="metric-alt">
-            <div class="val-num-alt" id="v_ev_ebitda">$2.05T</div>
+            <div class="val-num-alt" id="v_ev_ebitda">$1.2T</div>
             <div class="val-lbl-alt">EV/EBITDA valuation</div>
             <div class="val-note" id="v_ev_note">at 18× EBITDA</div>
           </div>
           <div class="metric-alt">
-            <div class="val-num-alt" id="v_ev_pe">$990B</div>
+            <div class="val-num-alt" id="v_ev_pe">$802B</div>
             <div class="val-lbl-alt">P/E valuation (fwd Y5)</div>
-            <div class="val-note" id="v_pe_note">22× on ~$45B Y5 net income</div>
+            <div class="val-note" id="v_pe_note">22× on $36B Y5 net income</div>
           </div>
         </div>
       </div>
@@ -2631,10 +2711,10 @@
       <div class="chart-header">
         <div>
           <h3>Year-by-year projection</h3>
-          <div class="chart-note">Every year: subs × ARPU × 12 = revenue; revenue × margin = EBITDA. Growth rate decays each year on an S-curve.</div>
+          <div class="chart-note">Every year: subs × ARPU × 12 (ARPU drifts each year) + Enterprise &amp; Gov revenue = Connectivity revenue; revenue × margin = EBITDA. Sub and E&amp;G growth rates decay each year on an S-curve.</div>
         </div>
       </div>
-      <table class="scenario-table year-table">
+      <div class="table-scroll"><table class="scenario-table year-table">
         <thead>
           <tr>
             <th>Year</th>
@@ -2642,12 +2722,12 @@
             <th>Subs</th>
             <th>Revenue</th>
             <th>EBITDA</th>
-            <th>EV @ 18× EBITDA</th>
-            <th>EV @ 8× revenue</th>
+            <th id="yt_ev_hdr">EV @ 18× EBITDA</th>
+            <th id="yt_ps_hdr">EV @ 8× revenue</th>
           </tr>
         </thead>
         <tbody id="yearTable"></tbody>
-      </table>
+      </table></div>
     </div>
 
     <div class="chart-box">
@@ -2662,58 +2742,34 @@
       </div>
     </div>
 
-    <h3 style="margin-top: 48px;">What makes up the blended $90 ARPU?</h3>
-    <p style="max-width: 1080px;">The single ARPU number hides a huge spread. Consumer households pay $30–120/mo. Aviation and maritime pay $2,000–25,000/mo per aircraft/ship. Defense contracts (Starshield) are $100M+ annual with no per-user metering. The blend depends on the mix.</p>
+    <h3 style="margin-top: 48px;">Where Connectivity revenue actually comes from (Q2'26)</h3>
+    <p style="max-width: 1080px;">The old version of this section used an illustrative tier mix. SpaceX now reports Connectivity in two lines. Starshield is not broken out (it sits inside Enterprise &amp; Government; >$6B of multi-year US government Starshield awards were announced in Q2'26).</p>
 
     <div class="tier-mix" id="tierMix">
       <div class="tier-card">
         <div class="tier-icon">🏠</div>
-        <div class="tier-name">Consumer · Developed</div>
-        <div class="tier-subs">10.5M</div>
-        <div class="tier-arpu">$90/mo</div>
-        <div class="tier-rev">= $11.3B/yr</div>
-        <div class="tier-bar"><div class="tier-bar-fill" style="width: 82%;"></div></div>
-      </div>
-      <div class="tier-card">
-        <div class="tier-icon">🌍</div>
-        <div class="tier-name">Consumer · Emerging</div>
-        <div class="tier-subs">1.0M</div>
-        <div class="tier-arpu">$35/mo</div>
-        <div class="tier-rev">= $420M/yr</div>
-        <div class="tier-bar"><div class="tier-bar-fill" style="width: 32%;"></div></div>
-      </div>
-      <div class="tier-card">
-        <div class="tier-icon">✈️</div>
-        <div class="tier-name">Mobility · Aviation/Maritime</div>
-        <div class="tier-subs">45K</div>
-        <div class="tier-arpu">$4,500/mo</div>
-        <div class="tier-rev">= $2.4B/yr</div>
-        <div class="tier-bar"><div class="tier-bar-fill" style="width: 100%;"></div></div>
+        <div class="tier-name">Consumer</div>
+        <div class="tier-subs">12.0M subs</div>
+        <div class="tier-arpu">$66/mo ARPU</div>
+        <div class="tier-rev">Q2 $2.49B · ≈$9.9B/yr</div>
+        <div class="tier-bar"><div class="tier-bar-fill" style="width: 58%;"></div></div>
       </div>
       <div class="tier-card">
         <div class="tier-icon">🏢</div>
-        <div class="tier-name">Enterprise · SLA tiers</div>
-        <div class="tier-subs">380K</div>
-        <div class="tier-arpu">$1,200/mo</div>
-        <div class="tier-rev">= $5.5B/yr</div>
-        <div class="tier-bar"><div class="tier-bar-fill" style="width: 100%;"></div></div>
-      </div>
-      <div class="tier-card">
-        <div class="tier-icon">🛰️</div>
-        <div class="tier-name">Defense · Starshield</div>
-        <div class="tier-subs">n/a</div>
-        <div class="tier-arpu">contract</div>
-        <div class="tier-rev">= ~$1.5B/yr</div>
-        <div class="tier-bar"><div class="tier-bar-fill" style="width: 60%;"></div></div>
+        <div class="tier-name">Enterprise &amp; Government</div>
+        <div class="tier-subs">aviation · maritime · enterprise · gov</div>
+        <div class="tier-arpu">+108% y/y</div>
+        <div class="tier-rev">Q2 $1.81B · ≈$7.2B/yr</div>
+        <div class="tier-bar"><div class="tier-bar-fill" style="width: 42%;"></div></div>
       </div>
     </div>
 
     <p style="font-size: 13px; color: var(--dim); margin-top: 12px; max-width: 1080px;">
-      <em>Note:</em> the tier totals here sum to roughly $21B/yr in revenue against ~12M subs — that's an implied blended ARPU of ~$146/mo, higher than the $90 default in the sliders. That's because mobility and enterprise pay 10–50× consumer rates. Rob Maurer's $90 is a conservative consumer-focused figure; bumping the ARPU slider to $120–150 gives a mix that includes the high-value tiers. Actual Starlink revenue in 2025 was ~$12B on ~5.5M subs, or ~$180/mo blended — the mix is real.
+      <em>Note:</em> Q2'26 Connectivity revenue of $4.29B ÷ ~11.15M average subs ÷ 3 months ≈ $128/mo per subscriber all-in, vs. the reported $66 ARPU — the gap is Enterprise &amp; Government revenue, which is why it is modeled as its own line rather than by inflating ARPU. Source: <a href="https://ir.spacex.com/files/doc_financials/2026/q2/SpaceX-Reports-Second-Quarter-2026-Results.pdf" target="_blank" rel="noopener">Q2'26 release</a> (derived).
     </p>
 
     <div class="callout" style="margin-top: 32px;">
-      <strong>How to read the multiples.</strong> Comcast (mature telco) trades at ~1× revenue / ~7× EBITDA. Hyperscaler cloud (AWS, Azure) at ~8× revenue / ~18× EBITDA. Growth SaaS at ~10–15× revenue. Starlink sits between hyperscaler and infrastructure telco — with defense optionality, 60%+ margin, and 80%+ growth. The base-case 18× EBITDA / 8× revenue multiples are aggressive-but-defendable. Bear case would be 8× EBITDA / 3× revenue. Note this is <em>just</em> Starlink connectivity — SpaceX consolidated (with $23.7B cash on the balance sheet, Falcon/Starship launch, Starshield, and AI compute optionality) is trading at $2.075T. The bull/bear debate hinges on what fraction of that $2T the connectivity segment alone can support.
+      <strong>How to read the multiples.</strong> Comcast (mature telco) trades at ~1× revenue / ~7× EBITDA. Hyperscaler cloud (AWS, Azure) at ~8× revenue / ~18× EBITDA. Growth SaaS at ~10–15× revenue. Starlink sits between hyperscaler and infrastructure telco — with defense optionality, 60%+ margin, and 80%+ growth. The base-case 18× EBITDA / 8× revenue multiples are aggressive-but-defendable. Bear case would be 8× EBITDA / 3× revenue. Note this is <em>just</em> Starlink connectivity — SpaceX consolidated (with ≈$100B cash + securities at 6/30, Falcon/Starship launch, Starshield, and AI compute) is trading at <span class="mkt-cap">$2.21T</span>. The bull/bear debate hinges on what fraction of that $2T the connectivity segment alone can support.
     </div>
   </div>
 </section>
@@ -2724,7 +2780,7 @@
     <div class="eyebrow">The real prize</div>
     <h2>The global TAM — 2.6B unconnected, 1.5B underserved.</h2>
     <p class="lead">
-      The world has ~8 billion people. About <strong>5.4B</strong> use the internet, but hundreds of millions of them have unreliable or slow connections. <strong>2.6B</strong> aren't online at all. Starlink today has 12M subs — that's <strong>0.15% of humanity</strong> and <strong>~0.6% of the reachable-by-satellite market</strong>. The addressable market isn't the problem. The economics were.
+      The world has ~8 billion people. About <strong>5.4B</strong> use the internet, but hundreds of millions of them have unreliable or slow connections. <strong>2.6B</strong> aren't online at all. Starlink today has 12.0M subs — that's <strong>0.15% of humanity</strong> and <strong>~0.6% of the reachable-by-satellite market</strong>. The addressable market isn't the problem. The economics were.
     </p>
 
     <div class="tam-grid">
@@ -2743,7 +2799,7 @@
 
       <div class="tam-capture">
         <div>
-          <div class="capture-big" id="tam_subs">204M</div>
+          <div class="capture-big" id="tam_subs">202M</div>
           <div class="capture-big-label">Starlink subscribers at capture rate</div>
 
           <div class="slider-row">
@@ -2765,38 +2821,38 @@
 
         <div class="capture-stats">
           <div class="cap-stat">
-            <div class="cs-v" id="tam_revenue">$135B</div>
+            <div class="cs-v" id="tam_revenue">$133B</div>
             <div class="cs-l">Annual revenue</div>
           </div>
           <div class="cap-stat">
-            <div class="cs-v" id="tam_ebitda">$85B</div>
-            <div class="cs-l">Annual EBITDA @ 63%</div>
+            <div class="cs-v" id="tam_ebitda">$81B</div>
+            <div class="cs-l">Annual EBITDA @ <span class="tam_margin_lbl">61%</span> <span class="src-ref">(valuation slider)</span></div>
           </div>
           <div class="cap-stat">
             <div class="cs-v" id="tam_ev_tam">$1.5T</div>
-            <div class="cs-l">Implied EV @ 18× EBITDA</div>
+            <div class="cs-l">Implied EV @ <span class="tam_mult_lbl">18×</span> EBITDA <span class="src-ref">(valuation slider)</span></div>
           </div>
           <div class="cap-stat">
-            <div class="cs-v" id="tam_penetration">2.5%</div>
+            <div class="cs-v" id="tam_penetration">2.53%</div>
             <div class="cs-l">% of world population</div>
           </div>
         </div>
       </div>
     </div>
 
-    <table class="scenario-table" style="margin-top: 32px;">
+    <div class="table-scroll"><table class="scenario-table" style="margin-top: 32px;">
       <thead>
         <tr>
           <th>Capture scenario</th>
           <th>Underserved</th>
           <th>Unconnected</th>
           <th>Total subs</th>
-          <th>Revenue @ $55 ARPU</th>
-          <th>EBITDA @ 63%</th>
+          <th>Revenue @ <span id="tam_arpu_hdr">$55</span> ARPU</th>
+          <th>EBITDA @ <span class="tam_margin_lbl">61%</span></th>
         </tr>
       </thead>
       <tbody id="tamTable"></tbody>
-    </table>
+    </table></div>
 
     <div class="callout" style="margin-top: 32px;">
       <strong>Perspective on 200M subs.</strong> That's roughly the size of Netflix's global subscriber base or T-Mobile US's postpaid customer count. It's ~10× Comcast Xfinity broadband subs (32M). Reaching 200M would take Starlink from 0.15% of humanity to 2.5% — still leaving 97.5% of the planet as future growth. At Starship+V3 economics, the launch cost per net-new customer added is roughly <strong>$5–10 over their subscription lifetime</strong>. That's the leverage the cost curve unlocks.
@@ -2810,7 +2866,7 @@
     <div class="eyebrow">Follow the dollars</div>
     <h2>What does $90/mo actually cost to deliver — and what if it were one price for the world?</h2>
     <p class="lead">
-      A 63% adjusted EBITDA margin means Starlink spends about <strong>$33 to serve every $90 subscriber</strong>. Break that $33 into its constituents below and you can see where Starship+V3 collapses each line. Then the more interesting question: what if SpaceX bundled broadband + direct-to-cell cellular + roaming into one $100/mo plan that works anywhere on Earth? Legacy telcos have a <strong>$1.5T combined market cap</strong> defending exactly that geography.
+      A ~63% adjusted EBITDA margin (Connectivity actual: 62.1% H1'26, 60.5% Q2'26) means Starlink spends about <strong>$33 to serve every $90 subscriber</strong>. Break that $33 into its constituents below and you can see where Starship+V3 collapses each line. Then the more interesting question: what if SpaceX bundled broadband + direct-to-cell cellular + roaming into one $100/mo plan that works anywhere on Earth? Legacy telcos have a <strong>$1.5T combined market cap</strong> defending exactly that geography.
     </p>
 
     <div class="econ-grid">
@@ -2878,7 +2934,7 @@
         <div class="op-slider slider-row">
           <label>Smartphone users captured</label>
           <input type="range" id="op_capture" min="0" max="30" step="0.5" value="8" />
-          <div class="val" id="op_capture_v">8%</div>
+          <div class="val" id="op_capture_v">8.0%</div>
         </div>
         <div class="op-slider slider-row">
           <label>Cost to serve ($/mo)</label>
@@ -2939,15 +2995,24 @@
         <p>Google unveiled plans for a constellation of TPU-carrying satellites connected by inter-satellite laser links, framed as "solar-powered AI training in orbit." Direct competitor for the orbital-compute TAM SpaceX is aiming at.</p>
       </div>
       <div class="milestone">
-        <div class="m-date">May 2026 · flew (Block 3)</div>
-        <h3>Starship Flight 12 — first V3s deployed</h3>
-        <p>Starship Block 3 debut from Pad-2 at Starbase. Ship deployed <strong>2 modified Starlink V3 satellites + 20 simulators</strong> (~44 t payload) and splashed down cleanly in the Indian Ocean. Booster failed on boostback (20/33 engines lit). FAA investigation gates Flight 13, targeted July 2026 — the payload path for AI1 satellites is now flight-proven.</p>
+        <div class="m-date">Sep 28, 2026 · flew (orbital)</div>
+        <h3>Starship Flight 14 — first orbit, 26 operational V3s</h3>
+        <p>First orbital Starship flight. Ship 41 deployed <strong>all 26 Starlink V3 satellites</strong> into low Earth orbit; mission shortened from ~10 h to ~3 h after an engine issue; ship splashed down north of Hawaii, booster in the Gulf (no catch). Earlier: Flight 12 (May 2026, Block 3 debut) and Flight 13 (V3 debut, suborbital). The V3 bus — the platform for AI1 — is now operating in orbit.</p>
       </div>
       <div class="milestone">
         <div class="m-date">2027 · in dev</div>
         <h3>Starlink AI1 (NVIDIA-partnered)</h3>
-        <p>SpaceX's AI-optimized satellite variant on the V3 bus, co-developed with NVIDIA. Combines Starlink's inter-sat laser mesh (already flying) with rack-scale GPUs to make each Starship launch a mini datacenter delivery. Now that the V3 bus itself has flown on Flight 12, the AI1 payload path is closer to real.</p>
+        <p>SpaceX's AI-optimized satellite variant on the V3 bus, co-developed with NVIDIA. Combines Starlink's inter-sat laser mesh (already flying) with rack-scale GPUs to make each Starship launch a mini datacenter delivery. Now that operational V3s are in orbit (Flight 14), the AI1 payload path is closer to real.</p>
       </div>
+    </div>
+
+    <div class="callout" style="margin-top: 32px; border-left-color: var(--falcon);">
+      <strong>Update (Oct 2026): the compute business that exists today is on the ground.</strong> After merging with xAI (Feb 2026), SpaceX began renting Colossus capacity to other AI labs. Q2'26: <strong>$14.1B of contracted Cloud Services Agreements</strong>, 1.4 GW nameplate compute, AI segment adj. EBITDA +$1.15B. Named deals:
+      <strong>Anthropic</strong> — Colossus 1, up to $1.25B/month through May 2029, terminable on 90 days' notice (<a href="https://www.datacenterdynamics.com/en/news/spacex-ipo-filing-reveals-anthropic-set-to-pay-musks-firm-125bn-a-month-to-rent-xai-data-center-space/" target="_blank" rel="noopener">DCD</a>, <a href="https://x.ai/news/anthropic-compute-partnership" target="_blank" rel="noopener">x.ai</a>);
+      <strong>Google</strong> — $920M/month from Oct 2026 through Jun 2029 <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span>;
+      <strong>Reflection AI</strong> — GB300s at Colossus 2, $150M/month from Jul 2026 through 2029 (<a href="https://www.cnbc.com/2026/06/22/spacex-ai-colossus-data-center-reflection.html" target="_blank" rel="noopener">CNBC</a>);
+      an unnamed $1.11B/month customer from Dec 2026 <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span> and Microsoft talks <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span> (<a href="https://cryptobriefing.com/spacex-microsoft-computing-capacity-lease-talks/" target="_blank" rel="noopener">Crypto Briefing</a>).
+      Named contracts annualize to ≈<strong>$27.8B/yr</strong> by Dec 2026 (≈$41B incl. the unverified one). Cursor, an early customer, was acquired (closed Aug 14, $60B in stock). The orbital calculator below is still the long-dated option; the terrestrial rental line is modeled in the sum-of-parts and DCF.
     </div>
 
     <h3 style="margin-top: 48px;">Why compute in orbit actually works</h3>
@@ -2990,7 +3055,7 @@
         <div class="slider-row">
           <label>Launch cost per kg ($)</label>
           <input type="range" id="c_costkg" min="60" max="1000" step="10" value="185" />
-          <div class="val" id="c_costkg_v">$185</div>
+          <div class="val" id="c_costkg_v">$190</div>
         </div>
         <div class="slider-row">
           <label>GPU mass (kg, all-in)</label>
@@ -3048,11 +3113,11 @@
             <div class="l">Compute deployed / launch</div>
           </div>
           <div class="csub-stat">
-            <div class="v" id="c_gpu_value">$171M</div>
+            <div class="v" id="c_gpu_value">$171.4M</div>
             <div class="l">GPU capex per launch</div>
           </div>
           <div class="csub-stat">
-            <div class="v" id="c_launch_cost">$18.5M</div>
+            <div class="v" id="c_launch_cost">$19.0M</div>
             <div class="l">Launch cost</div>
           </div>
           <div class="csub-stat">
@@ -3060,11 +3125,11 @@
             <div class="l">Launch as % of total capex</div>
           </div>
           <div class="csub-stat">
-            <div class="v" id="c_annual_rev">$106M</div>
+            <div class="v" id="c_annual_rev">$106.4M</div>
             <div class="l">Annual rental revenue / launch</div>
           </div>
           <div class="csub-stat">
-            <div class="v" id="c_lifetime_rev">$532M</div>
+            <div class="v" id="c_lifetime_rev">$531.8M</div>
             <div class="l">Lifetime revenue / launch</div>
           </div>
           <div class="csub-stat">
@@ -3072,7 +3137,7 @@
             <div class="l">Capex payback period</div>
           </div>
           <div class="csub-stat">
-            <div class="v" id="c_lifetime_profit">$254M</div>
+            <div class="v" id="c_lifetime_profit">$181.9M</div>
             <div class="l">Lifetime gross profit / launch</div>
           </div>
         </div>
@@ -3080,11 +3145,11 @@
     </div>
 
     <div class="callout" style="margin-top: 32px;">
-      <strong>The business, in one sentence.</strong> Every Starship launch of AI1 satellites deploys ~<span id="callout_capex">$170M</span> of GPU capex + <span id="callout_launchcost">$18.5M</span> of launch cost. That fleet generates <strong>~<span id="callout_annual_rev">$106M</span>/year in rental revenue</strong> at commodity pricing, pays itself back in <strong id="callout_payback_yrs">1.8 years</strong>, and throws off <strong>~<span id="callout_annual_profit">$74M</span>/year in gross profit for 3–8 more years</strong>. Do that <span id="callout_launches">500</span> times cumulative by Y5 and it's a <strong id="callout_fleet_rev">$53B/year</strong> revenue line — and that's before the price premium orbital compute can charge for zero-carbon, physically-isolated, latency-tolerant training workloads. This is why the AI Compute segment lives on the hero tile, and why the sum-of-parts base case has real revenue by 2031. It's not vaporware; it's a rental business with real payback math.
+      <strong>The business, in one sentence.</strong> Every Starship launch of AI1 satellites deploys ~<span id="callout_capex">$171.4M</span> of GPU capex + <span id="callout_launchcost">$19.0M</span> of launch cost. That fleet generates <strong>~<span id="callout_annual_rev">$106.4M</span>/year in rental revenue</strong> at commodity pricing, pays itself back in <strong id="callout_payback_yrs">1.8 years</strong>, and throws off <strong>~<span id="callout_annual_profit">$74.5M</span>/year in gross profit for 3–8 more years</strong>. Do that <span id="callout_launches">500</span> times cumulative by Y5 and it's a <strong id="callout_fleet_rev">$53B/year</strong> revenue line — and that's before the price premium orbital compute can charge for zero-carbon, physically-isolated, latency-tolerant training workloads. This is why the AI Compute segment lives on the hero tile, and why the sum-of-parts base case has real revenue by 2031. It's not vaporware; it's a rental business with real payback math.
     </div>
 
     <div class="callout" style="margin-top: 20px; border-left-color: var(--gain); background: rgba(52, 211, 153, 0.06);">
-      <strong>The S-1 reversal — why today's "loss" flips to profit fast.</strong> The bear case above (Bear #2, Bear #3) leans on the S-1's <strong>−$2.58B consolidated operating loss</strong> and calls the AI segment a "capital incinerator." But re-read the loss line with the calculator above in view: SpaceX isn't burning $2.58B — it's spending it on <strong>GPU racks and launch infrastructure that pay themselves back in <span id="callout_payback_short">under 2 years</span></strong>. Every 20 AI1 launches per year adds a <strong>~<span id="callout_20_rev">$2.1B</span> annual revenue line</strong> — enough to erase the entire current consolidated operating loss with a single year of orbital compute deployment. Run 100 launches/year (well within Starfactory's 1,000/yr design capacity and Falcon 9's proven 138/yr cadence) and the AI segment turns into a <strong>~<span id="callout_100_rev">$11B</span>+ revenue business at ~<span id="callout_gross_margin">70%</span> gross margin</strong>. That's Amazon 2000 or Netflix 2012 — an income-statement loss today masking a rental business whose payback math has already been proven at Earth data centers, now applied to a lower-cost operating environment. The S-1 shows the cost. The 2028 P&amp;L will show the payoff.
+      <strong>The S-1 reversal — why today's "loss" flips to profit fast.</strong> The bear case above (Bear #2, Bear #3) leans on the S-1's <strong>−$2.58B consolidated operating loss</strong> and calls the AI segment a "capital incinerator." But re-read the loss line with the calculator above in view: SpaceX isn't burning $2.58B — it's spending it on <strong>GPU racks and launch infrastructure that pay themselves back in <span id="callout_payback_short">under 2 years</span></strong>. Every 20 AI1 launches per year adds a <strong>~<span id="callout_20_rev">$2B</span> annual revenue line</strong> — enough to erase the entire current consolidated operating loss with a single year of orbital compute deployment. Run 100 launches/year (well within Starfactory's 1,000/yr design capacity and Falcon 9's proven 138/yr cadence) and the AI segment turns into a <strong>~<span id="callout_100_rev">$11B</span>+ revenue business at ~<span id="callout_gross_margin">70%</span> gross margin</strong>. That's Amazon 2000 or Netflix 2012 — an income-statement loss today masking a rental business whose payback math has already been proven at Earth data centers, now applied to a lower-cost operating environment. The S-1 shows the cost. The 2028 P&amp;L will show the payoff.
     </div>
 
     <div class="kpi-grid" style="margin-top: 32px;">
@@ -3118,10 +3183,10 @@
     <div class="eyebrow">The bull case</div>
     <h2>Sum-of-parts: if they execute, the $2T holds — and grows.</h2>
     <p class="lead">
-      Everything you've played with above is the input to this final number. If Starship hits its cost curve, if V3/AI1 deploy on schedule, if Direct-to-Cell scales, and if AI compute in orbit becomes a real revenue line — then the $2.075T market cap today <strong>isn't the ceiling, it's the entry point.</strong> Here's the segment math at year 5.
+      Everything you've played with above is the input to this final number. If Starship hits its cost curve, if V3/AI1 deploy on schedule, if Direct-to-Cell scales, and if AI compute in orbit becomes a real revenue line — then the <span class="mkt-cap">$2.21T</span> market cap today <strong>isn't the ceiling, it's the entry point.</strong> Here's the segment math at year 5. Rows other than Starlink and orbital compute are now editable inputs (type in the boxes); each shows where its default comes from. Note: this is a <em>Year-5</em> value, not today's — the DCF section below discounts it back.
     </p>
 
-    <table class="sop-table">
+    <div class="table-scroll"><table class="sop-table">
       <thead>
         <tr>
           <th>Segment</th>
@@ -3135,51 +3200,59 @@
       <tbody>
         <tr>
           <td>Starlink Connectivity <span style="color: var(--muted); font-weight: 400;">(from the valuation model above)</span></td>
-          <td id="sop_star_rev">$130B</td>
-          <td id="sop_star_margin">63%</td>
-          <td id="sop_star_ebitda">$82B</td>
+          <td id="sop_star_rev">$109B</td>
+          <td id="sop_star_margin">61%</td>
+          <td id="sop_star_ebitda">$66B</td>
           <td id="sop_star_mult">18×</td>
-          <td id="sop_star_ev">$1,476B</td>
+          <td id="sop_star_ev">$1.2T</td>
         </tr>
         <tr>
-          <td>Space / Launch <span style="color: var(--muted); font-weight: 400;">(Starship monopoly + defense)</span></td>
-          <td>$30B</td>
-          <td>40%</td>
-          <td>$12B</td>
-          <td>15×</td>
-          <td>$180B</td>
+          <td>Space / Launch <span style="color: var(--muted); font-weight: 400;">(Starship monopoly + gov launch)</span><div class="src-ref">Rev <span class="unv" style="background:#9aa3c7" title="Author assumption — not a reported figure">assumption</span>; 45% margin = Damodaran's target Space margin (Jun 4 2026); Q2'26 run-rate ≈$3.85B</div></td>
+          <td>$<input class="sop-in" type="number" id="sop_launch_rev" min="0" step="1" value="30" />B</td>
+          <td><input class="sop-in" type="number" id="sop_launch_margin" min="-50" max="90" step="1" value="45" />%</td>
+          <td id="sop_launch_ebitda">$14B</td>
+          <td><input class="sop-in" type="number" id="sop_launch_mult" min="0" max="60" step="0.5" value="15" />×</td>
+          <td id="sop_launch_ev">$203B</td>
         </tr>
         <tr>
           <td>AI Compute in orbit <span style="color: var(--muted); font-weight: 400;">(rent GPUs to hyperscalers · &lt;2 yr payback per launch)</span></td>
-          <td id="sop_ai_rev">$60B</td>
-          <td id="sop_ai_margin">50%</td>
-          <td id="sop_ai_ebitda">$30B</td>
+          <td id="sop_ai_rev">$53B</td>
+          <td id="sop_ai_margin">70%</td>
+          <td id="sop_ai_ebitda">$37B</td>
           <td id="sop_ai_mult">20×</td>
-          <td id="sop_ai_ev">$600B</td>
+          <td id="sop_ai_ev">$745B</td>
         </tr>
         <tr>
-          <td>Starshield / Defense <span style="color: var(--muted); font-weight: 400;">(DoD constellation + ISR)</span></td>
-          <td>$10B</td>
-          <td>50%</td>
-          <td>$5B</td>
-          <td>15×</td>
-          <td>$75B</td>
+          <td>AI Compute on the ground <span style="color: var(--muted); font-weight: 400;">(Colossus rentals to Anthropic, Google, Reflection…)</span><div class="src-ref">Rev = named contracts' annualized run-rate ≈$27.8B (Dec 2026); margin ≈ Q2'26 AI adj. EBITDA margin 45%; multiple <span class="unv" style="background:#9aa3c7" title="Author assumption — not a reported figure">assumption</span></div></td>
+          <td>$<input class="sop-in" type="number" id="sop_aiinfra_rev" min="0" step="1" value="28" />B</td>
+          <td><input class="sop-in" type="number" id="sop_aiinfra_margin" min="-50" max="90" step="1" value="45" />%</td>
+          <td id="sop_aiinfra_ebitda">$13B</td>
+          <td><input class="sop-in" type="number" id="sop_aiinfra_mult" min="0" max="60" step="0.5" value="15" />×</td>
+          <td id="sop_aiinfra_ev">$189B</td>
         </tr>
         <tr>
-          <td>Grok / xAI <span style="color: var(--muted); font-weight: 400;">(rev grows, still marginal)</span></td>
-          <td>$25B</td>
-          <td>10%</td>
-          <td>$2.5B</td>
-          <td>15×</td>
-          <td>$38B</td>
+          <td>Starshield / Defense <span style="color: var(--muted); font-weight: 400;">(DoD constellation + ISR)</span><div class="src-ref">&gt;$6B awards in Q2'26 (multi-year); rev/margin <span class="unv" style="background:#9aa3c7" title="Author assumption — not a reported figure">assumption</span></div></td>
+          <td>$<input class="sop-in" type="number" id="sop_defense_rev" min="0" step="1" value="10" />B</td>
+          <td><input class="sop-in" type="number" id="sop_defense_margin" min="-50" max="90" step="1" value="50" />%</td>
+          <td id="sop_defense_ebitda">$5B</td>
+          <td><input class="sop-in" type="number" id="sop_defense_mult" min="0" max="60" step="0.5" value="15" />×</td>
+          <td id="sop_defense_ev">$75B</td>
         </tr>
         <tr>
-          <td>Mars / Cislunar / options <span style="color: var(--muted); font-weight: 400;">(NASA contracts + optionality)</span></td>
+          <td>Grok / xAI / X / Cursor <span style="color: var(--muted); font-weight: 400;">(software + ads, still marginal)</span><div class="src-ref">Cursor ($60B deal) closed Aug 14 2026; rev/margin <span class="unv" style="background:#9aa3c7" title="Author assumption — not a reported figure">assumption</span></div></td>
+          <td>$<input class="sop-in" type="number" id="sop_grok_rev" min="0" step="1" value="25" />B</td>
+          <td><input class="sop-in" type="number" id="sop_grok_margin" min="-50" max="90" step="1" value="10" />%</td>
+          <td id="sop_grok_ebitda">$3B</td>
+          <td><input class="sop-in" type="number" id="sop_grok_mult" min="0" max="60" step="0.5" value="15" />×</td>
+          <td id="sop_grok_ev">$38B</td>
+        </tr>
+        <tr>
+          <td>Mars / Cislunar / options <span style="color: var(--muted); font-weight: 400;">(NASA contracts + optionality)</span><div class="src-ref">Option value <span class="unv" style="background:#9aa3c7" title="Author assumption — not a reported figure">assumption</span></div></td>
           <td>—</td>
           <td>—</td>
           <td>—</td>
           <td>option</td>
-          <td>$100B</td>
+          <td>$<input class="sop-in" type="number" id="sop_options_ev" min="0" step="10" value="100" />B</td>
         </tr>
       </tbody>
       <tfoot>
@@ -3187,15 +3260,15 @@
           <td>Total sum-of-parts EV at Year 5</td>
           <td id="sop_total_rev">$255B rev</td>
           <td>—</td>
-          <td id="sop_total_ebitda">$132B EBITDA</td>
+          <td id="sop_total_ebitda">$137B EBITDA</td>
           <td>—</td>
-          <td id="sop_total_ev">$2,469B</td>
+          <td id="sop_total_ev">$2.5T</td>
         </tr>
       </tfoot>
-    </table>
+    </table></div>
 
     <p style="margin-top: 20px; font-size: 13px; color: var(--muted); max-width: 1080px;">
-      Every one of these numbers is derived from the interactive models above. The Starlink line is base case at the default sliders. The Space line assumes Starship becomes the dominant launcher for both SpaceX's own constellation and third parties. The AI compute line applies 33fg's estimate of $30–80B/yr orbital compute revenue, midpointed. The Starshield line assumes DoD contracts scale with the constellation. Grok is intentionally modeled at just-break-even to reflect competitive AI pressure. Mars is optionality, not baseline.
+      The Starlink and orbital-compute lines come from the interactive models above. The other rows are inputs you can edit; defaults are labeled as sourced or as author assumptions. The terrestrial compute row uses only contracts already announced (no growth), so it is conservative versus Goldman's ~2 GW → 36 GW (2030) build-out. Grok is intentionally modeled near break-even. Mars is optionality, not baseline.
     </p>
 
     <h3 style="margin-top: 48px;">Three cases — pick your probability</h3>
@@ -3203,30 +3276,30 @@
       <div class="sop-case bear">
         <div class="case-name">Bear case</div>
         <div class="case-val">$650B</div>
-        <div class="case-lbl">Year 5 EV · 68% below today</div>
+        <div class="case-lbl" id="case_bear_lbl">Year 5 EV · 71% below today</div>
         <p class="case-desc">Starship stalls at $250/kg. V3 delayed 2 years. Starlink caps at 50M subs. AI compute never monetizes. Grok never breaks even. Musk key-person event. The "Metaverse of 2026" outcome.</p>
       </div>
       <div class="sop-case base">
         <div class="case-name">Base case · SoP above</div>
         <div class="case-val" id="case_base_val">$2.5T</div>
-        <div class="case-lbl" id="case_base_lbl">Year 5 EV · 20% above today</div>
+        <div class="case-lbl" id="case_base_lbl">Year 5 EV · 15% above today</div>
         <p class="case-desc">Starship hits $60–100/kg. Starlink reaches 120M subs. AI compute reaches $60B revenue by 2031. Grok breaks even. Defense contracts scale. Market is roughly pricing this in.</p>
       </div>
       <div class="sop-case bull">
         <div class="case-name">Bull case</div>
         <div class="case-val">$4.5T</div>
-        <div class="case-lbl">Year 5 EV · 2.2× today</div>
+        <div class="case-lbl" id="case_bull_lbl">Year 5 EV · 2.0× today</div>
         <p class="case-desc">One-plan-everywhere ($300B rev) + AI compute at 50% of orbital TAM + successful Mars cargo contracts + Starship becomes global cargo backbone. Nvidia-scale multiple on a Nvidia-scale opportunity.</p>
       </div>
     </div>
 
     <div class="callout" style="margin-top: 32px; border-left-color: var(--gain); background: rgba(52, 211, 153, 0.06);">
-      <strong>The bull's punchline.</strong> At $2.075T market cap today, the market is essentially pricing in the base-case sum-of-parts with modest execution risk — <strong>roughly <span id="punchline_pct">82%</span> probability of execution</strong> (2.075 / <span id="punchline_base">2.5</span>T ≈ same %). That's aggressive but not insane if you believe in the physics-is-solved thesis. The bear thinks the execution success rate is closer to 30%. The bull thinks it's 95%+ and thinks the market is missing the AI compute upside entirely. Reasonable people disagree because the physics is settled and the engineering isn't — and the market has to price a probability distribution, not a certainty.
+      <strong>The bull's punchline.</strong> At <span class="mkt-cap">$2.21T</span> market cap today, the market is essentially pricing in the base-case sum-of-parts with modest execution risk — <strong>roughly <span id="punchline_pct">87%</span> probability of execution</strong> (<span id="punchline_mcap">2.21</span> / <span id="punchline_base">2.5</span>T ≈ same %; ignores discounting — see DCF). That's aggressive but not insane if you believe in the physics-is-solved thesis. The bear thinks the execution success rate is closer to 30%. The bull thinks it's 95%+ and thinks the market is missing the AI compute upside entirely. Reasonable people disagree because the physics is settled and the engineering isn't — and the market has to price a probability distribution, not a certainty.
     </div>
 
     <div class="kpi-grid" style="margin-top: 32px;">
       <div class="kpi">
-        <div class="kpi-num">$2.075T</div>
+        <div class="kpi-num mkt-cap">$2.21T</div>
         <div class="kpi-lbl">Market cap today</div>
       </div>
       <div class="kpi">
@@ -3234,13 +3307,282 @@
         <div class="kpi-lbl">Base-case Y5 sum-of-parts</div>
       </div>
       <div class="kpi">
-        <div class="kpi-num" id="kpi_implied_pct">82%</div>
+        <div class="kpi-num" id="kpi_implied_pct">87%</div>
         <div class="kpi-lbl">Implied execution probability</div>
       </div>
       <div class="kpi">
-        <div class="kpi-num">7×</div>
-        <div class="kpi-lbl">Bull-case upside over 5yr</div>
+        <div class="kpi-num" id="kpi_bull_x">2.0×</div>
+        <div class="kpi-lbl">Bull-case ($4.5T) upside over 5yr</div>
       </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- V3 CONSTELLATION SCALE-UP -->
+<section id="scaleup">
+  <div class="wrap">
+    <div class="eyebrow">From launch cadence to subscribers</div>
+    <h2>V3 constellation scale-up: what full Starship loads do to capacity.</h2>
+    <p class="lead">
+      Flight 14 put <strong>26 V3 satellites</strong> in orbit, about 26 Tbps of designed downlink and roughly ten Falcon 9 Starlink launches' worth. SpaceX's design target is <strong>up to 60 V3s per Starship</strong> at ~1 Tbps each. This section links Starship cadence and loading to constellation capacity, then to how many subscribers that capacity can serve, then to a Starlink revenue ceiling. A toggle feeds the result into the DCF below. Starting point: ~800 Tbps across ~9,600 broadband satellites (Jun 30, 2026, Q2 call).
+    </p>
+
+    <div class="presets" id="scPresets">
+      <span class="preset-label">V3s per flight</span>
+      <button data-v3="26" class="active">26 (Flight 14)</button>
+      <button data-v3="40">40</button>
+      <button data-v3="60">60 (design max)</button>
+      <div class="preset-info" id="scPresetInfo">Flight 14 deployed 26 V3s. SpaceX's stated design figure is up to 60 V3s per Starship, about 60 Tbps per launch. Neither the full 60-satellite load nor the 1 Tbps per satellite has been shown in service yet.</div>
+    </div>
+
+    <div class="dcf-grid">
+      <div>
+        <h3>Launch cadence</h3>
+          <div class="presets" id="scCadence">
+            <span class="preset-label">Cadence</span>
+            <button data-cad="conservative" class="active">Conservative</button>
+            <button data-cad="musk">Musk targets</button>
+            <button data-cad="faa">FAA-limited</button>
+            <div class="preset-info" id="scCadenceInfo"></div>
+          </div>
+          <div class="slider-row"><label>Starship Starlink flights, 2026 (Flight 14 = 1)</label><input type="range" id="sc_ss26" min="0" max="10" step="1" /><div class="val" id="sc_ss26_v">1</div></div>
+          <div class="slider-row"><label>Starship Starlink flights, 2027</label><input type="range" id="sc_ss27" min="0" max="200" step="1" /><div class="val" id="sc_ss27_v">30</div></div>
+          <div class="slider-row"><label>Starship Starlink flights, 2028</label><input type="range" id="sc_ss28" min="0" max="500" step="1" /><div class="val" id="sc_ss28_v">80</div></div>
+          <div class="slider-row"><label>Starship Starlink flights/yr, 2029+</label><input type="range" id="sc_ss29" min="0" max="1000" step="1" /><div class="val" id="sc_ss29_v">150</div></div>
+          <div class="seg-src">The sliders count <em>Starlink</em> Starship flights. The presets convert total Starship flights using an <strong>80% Starlink share</strong> <span class="unv" style="background:#9aa3c7" title="Author assumption — not a reported figure">assumption</span>. Starlink is the main payload, but HLS demo and tanker flights, direct-to-cell satellites and outside customers also need Starship flights. R40's weekly-Starship model assumes 90%, and that figure is a third-party assumption, not SpaceX guidance. Approved Starship launch envelopes: Starbase 25/yr (FAA, May 2025), LC-39A 44/yr (FAA ROD, early 2026) and SLC-37 76/yr (Air Force ROD 2025; the FAA's supplemental review opened Sep 29 2026). Together that is <strong>145/yr</strong>, which is the source of the "~145 flights" figure. It is not a Starbase-only limit. Satellite supply is also a constraint the model doesn't include: Redmond's ~70 satellites a week (S-1) is about 3,640 a year, or ~140 flights at 26 per flight and ~61 at 60.</div>
+          <div class="slider-row"><label>V3s per Starship flight</label><input type="range" id="sc_v3pf" min="10" max="60" step="1" /><div class="val" id="sc_v3pf_v">26</div></div>
+          <div class="slider-row"><label>Downlink per V3 (Gbps, design 1,000)</label><input type="range" id="sc_v3gbps" min="200" max="1500" step="50" /><div class="val" id="sc_v3gbps_v">1,000</div></div>
+          <div class="slider-row"><label>Falcon 9 Starlink (V2 Mini) launches, 2026</label><input type="range" id="sc_f9" min="0" max="200" step="1" /><div class="val" id="sc_f9_v">115</div></div>
+          <div class="slider-row"><label>Falcon Starlink phase-out year (linear fade)</label><input type="range" id="sc_f9end" min="2027" max="2036" step="1" /><div class="val" id="sc_f9end_v">2029</div></div>
+          <div class="slider-row"><label>V2 Minis per Falcon launch</label><input type="range" id="sc_f9pf" min="15" max="30" step="1" /><div class="val" id="sc_f9pf_v">26</div></div>
+          <div class="slider-row"><label>Downlink per new V2 Mini (Gbps)</label><input type="range" id="sc_v2gbps" min="50" max="150" step="1" /><div class="val" id="sc_v2gbps_v">96</div></div>
+        <h3 style="margin-top:18px;">Satellite production</h3>
+          <div class="slider-row"><label>Satellites produced, 2026 run-rate (per yr)</label><input type="range" id="sc_prod" min="1000" max="20000" step="10" /><div class="val" id="sc_prod_v">3,640</div></div>
+          <div class="slider-row"><label>Annual production growth</label><input type="range" id="sc_prodg" min="0" max="60" step="1" /><div class="val" id="sc_prodg_v">17%</div></div>
+          <div class="slider-row"><label>Max inventory carried over (months of output)</label><input type="range" id="sc_inv" min="0" max="12" step="1" /><div class="val" id="sc_inv_v">3</div></div>
+          <div class="seg-src">The 2026 default of ~3,640/yr is Redmond's average of ~70 satellites a week from Dec 2025 to Apr 2026, per SpaceX's S-1 (GeekWire). A SpaceX Starlink production director has also cited the "70-satellite-a-week rate" (PCMag). The <strong>V3 vs V2 Mini split is not disclosed</strong>. That window predates Flight 14, so the output was mostly V2 Minis; the model treats one V3 as one factory slot <span class="unv" style="background:#9aa3c7" title="Author assumption — not a reported figure">assumption</span>. Growth default: 120/month in 2020 (SpaceX via PCMag) to 3,640/yr in 2026 is about <strong>17%/yr</strong> compound, extrapolated here <span class="unv" style="background:#9aa3c7" title="Author assumption — not a reported figure">assumption</span>. There is no announced V3 factory or ramp plan. Bastrop, TX builds user terminals (target 10M kits/yr by end-2026; PCMag, Elgin Courier), not satellites; one blog's claim that Bastrop builds V3s conflicts with this. V3 unit cost: ~$1.2M (Quilty 2024 forecast) or ~$1M (33FG estimate) <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span>. Each year V3s are filled first, Falcon V2 Minis get the remainder, and unused output carries over up to the inventory limit.</div>
+        <h3 style="margin-top:18px;">Fleet</h3>
+          <div class="slider-row"><label>Starting nominal capacity (Tbps, Jun 30 2026)</label><input type="range" id="sc_cap0" min="200" max="2000" step="10" /><div class="val" id="sc_cap0_v">800</div></div>
+          <div class="slider-row"><label>Starting broadband satellites (Jun 30 2026)</label><input type="range" id="sc_sats0" min="5000" max="15000" step="100" /><div class="val" id="sc_sats0_v">9,600</div></div>
+          <div class="slider-row"><label>Satellite lifetime (yrs) → attrition 1/life per yr</label><input type="range" id="sc_life" min="3" max="10" step="0.5" /><div class="val" id="sc_life_v">5.0</div></div>
+          <div class="presets" id="scFcc">
+            <span class="preset-label">FCC</span>
+            <button data-fcc="current">Current approval</button>
+            <button data-fcc="best" class="active">Best estimate</button>
+            <button data-fcc="full">Full Gen2 request</button>
+            <button data-fcc="gen3">Gen3 filing</button>
+            <div class="preset-info" id="scFccInfo"></div>
+          </div>
+          <div class="slider-row"><label>Authorized cap today (satellites)</label><input type="range" id="sc_cap" min="10000" max="45000" step="100" /><div class="val" id="sc_cap_v">19,400</div></div>
+          <div class="slider-row"><label>Extra satellites approved later</label><input type="range" id="sc_capx" min="0" max="120000" step="1" /><div class="val" id="sc_capx_v">7,500</div></div>
+          <div class="slider-row"><label>Year the extra approval lands (cap steps up)</label><input type="range" id="sc_capyr" min="2027" max="2036" step="1" /><div class="val" id="sc_capyr_v">2028</div></div>
+          <div class="seg-src">Today's cap = 4,408 Gen1 + 15,000 Gen2. The Gen2 figure comes from FCC DA-26-36 (Jan 9 2026), which granted 15,000 of the 29,988 requested and deferred the other 14,988, including all shells above 600 km. Gen2 milestones: 50% by Dec 1 2028, 100% by Dec 1 2031. These are deployment deadlines, not caps, so the model treats a new approval as a one-step increase in its landing year. Once the cap binds, new V3s replace V2s first. ITU Resolution 35 requires 10% / 50% / 100% deployment 2 / 5 / 7 years after a filing is first used, or the filing shrinks. That limits unused filings rather than SpaceX's near-term build.</div>
+        <h3 style="margin-top:18px;">Capacity → subscribers → revenue</h3>
+          <div class="slider-row"><label>Usable share of nameplate capacity</label><input type="range" id="sc_usable" min="5" max="60" step="1" /><div class="val" id="sc_usable_v">21%</div></div>
+          <div class="slider-row"><label>Capacity reserved for E&amp;G / mobility</label><input type="range" id="sc_eg" min="0" max="70" step="1" /><div class="val" id="sc_eg_v">30%</div></div>
+          <div class="slider-row"><label>Peak plan speed per subscriber (Mbps)</label><input type="range" id="sc_mbps" min="25" max="1000" step="5" /><div class="val" id="sc_mbps_v">100</div></div>
+          <div class="slider-row"><label>Oversubscription (x : 1)</label><input type="range" id="sc_oversub" min="5" max="60" step="1" /><div class="val" id="sc_oversub_v">20:1</div></div>
+          <div class="slider-row"><label>Busy-hour demand growth per sub (%/yr)</label><input type="range" id="sc_dgrow" min="0" max="40" step="1" /><div class="val" id="sc_dgrow_v">15%</div></div>
+          <div class="slider-row"><label>Consumer ARPU ($/mo, drifts with the valuation ARPU-drift slider)</label><input type="range" id="sc_arpu" min="20" max="150" step="1" /><div class="val" id="sc_arpu_v">$66</div></div>
+          <div class="seg-src">Usable share: ABI Research estimates ~21% of nameplate is usable once you account for ocean and polar coverage, beam overlap and spectrum limits. Oversubscription of 20:1 is the industry-standard contention ratio used in the X-Lab Starlink working paper. Supportable subs = consumer usable Gbps × oversubscription ÷ plan Mbps. The E&amp;G share and per-sub demand growth are author assumptions <span class="unv" style="background:#9aa3c7" title="Author assumption — not a reported figure">assumption</span>.</div>
+        <div class="dcf-toggles" style="margin-top:14px;">
+          <label><input type="checkbox" id="sc_feed_dcf" /> Feed the capacity-constrained subscriber path into the DCF Starlink consumer + E&amp;G segments</label>
+        </div>
+      </div>
+
+      <div>
+        <div class="val-output" style="position:sticky; top:80px;">
+          <div class="big-label">2030 nominal constellation capacity</div>
+          <div class="dcf-out-big" id="sc_cap2030">9.27 Pbps</div>
+          <div id="sc_cap2030_sub" style="font-size:14px; margin-top:4px; color:var(--muted);">11.6× today's 800 Tbps · usable ≈ 1.95 Pbps</div>
+          <div class="dcf-kpis">
+            <div class="dcf-kpi"><div class="v" id="sc_sats2030">14,571</div><div class="l" id="sc_sats2030_l">Satellites in 2030 (60% V3)</div></div>
+            <div class="dcf-kpi"><div class="v" id="sc_subs2030">156M</div><div class="l">Supportable consumer subs, 2030</div></div>
+            <div class="dcf-kpi"><div class="v" id="sc_ceil2030">$101B</div><div class="l">Consumer revenue ceiling, 2030</div></div>
+            <div class="dcf-kpi"><div class="v" id="sc_bind">2033</div><div class="l">First year demand exceeds capacity</div></div>
+            <div class="dcf-kpi"><div class="v" id="sc_cap2035">16.1 Pbps</div><div class="l">2035 nominal capacity</div></div>
+            <div class="dcf-kpi"><div class="v" id="sc_capbind_yr">not before 2037</div><div class="l">Year the authorized cap binds</div></div>
+            <div class="dcf-kpi"><div class="v" id="sc_bind2030">Launch</div><div class="l">Binding constraint, 2030</div></div>
+            <div class="dcf-kpi"><div class="v" id="sc_prodyr">none to 2036</div><div class="l">First production-limited year</div></div>
+            <div class="dcf-kpi"><div class="v" id="sc_dcf26">$135</div><div class="l">DCF $/share, capacity-fed, 26 V3/flight</div></div>
+            <div class="dcf-kpi"><div class="v" id="sc_dcf60">$142</div><div class="l">DCF $/share, capacity-fed, 60 V3/flight</div></div>
+          </div>
+          <div id="sc_dcf_delta" style="font-size:14px; margin-top:10px;">60 vs 26 per flight: +$7.0/share (perpetual growth). If capacity never binds (demand only): $157.</div>
+          <div class="disclaimer">The 26-vs-60 DCF uses the DCF section's current inputs (method, WACC, other segments). The only things that change are V3s per flight and the capacity-fed Starlink path. Demand comes from the Starlink valuation sliders: subs, growth scenario, ARPU drift, E&amp;G.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-box">
+      <div class="chart-header"><div><h3>Constellation capacity and satellite count, 2026–2035</h3><div class="chart-note">Stacked bars show nominal (nameplate) downlink in Tbps, split into V2-generation and V3 satellites. The line shows satellites in orbit (right axis; both axes start at 0). Values are end of year.</div></div></div>
+      <div class="chart-canvas-wrap"><canvas id="scCapChart"></canvas></div>
+      <div class="sc-bind-row" id="scBindRow" aria-label="Binding constraint by year"></div>
+      <div class="sc-legend" id="scBindLegend"><span class="sc-legend-title">Binding constraint (row under the bars):</span><span class="item"><span class="sc-bind b-launch">Launch</span> flights × per-flight load</span><span class="item"><span class="sc-bind b-prod">Production</span> output + carried-over inventory</span><span class="item"><span class="sc-bind b-fcc">FCC</span> room under the cap + replaceable V2s</span></div>
+    </div>
+
+    <div class="chart-box">
+      <div class="chart-header"><div><h3>Supportable subscribers vs demand</h3><div class="chart-note">Demand follows the Starlink valuation section's subscriber path. Supportable subscribers come from the capacity you can actually use after the usable-share derate and the E&amp;G reservation. Served subscribers are the lower of the two.</div></div></div>
+      <div class="chart-canvas-wrap"><canvas id="scSubsChart"></canvas></div>
+    </div>
+
+    <div class="chart-box">
+      <div class="chart-header"><div><h3>Year-by-year</h3><div class="chart-note">2026 runs from the Jun 30 baseline: half a year of Falcon launches, production and attrition, plus all 2026 Starship flights. Deployed = min(launch capacity, production + inventory, FCC room).</div></div></div>
+      <div class="table-scroll"><table class="scenario-table year-table sc-year-table">
+        <thead><tr><th>Year</th><th>Flights (Starship / Falcon)</th><th>Launch capacity</th><th>Produced</th><th>Deployed</th><th>Binding</th><th>Satellites (V3)</th><th>Nominal Tbps</th><th>Usable Tbps</th><th>Supportable subs</th><th>Demand subs</th><th>Revenue ceiling</th></tr></thead>
+        <tbody id="scTable"></tbody>
+      </table></div>
+    </div>
+
+    <div class="callout" style="margin-top: 24px;" id="sc_callout">
+      <p><strong>What 60-V3 flights mean.</strong>
+      A 26-V3 flight adds <span id="sc_c_t26">26 Tbps</span> of design capacity, about <span id="sc_c_f26">10</span> Falcon launches' worth. A full 60-V3 flight adds <span id="sc_c_t60">60 Tbps</span>, or <span id="sc_c_f60">24</span> Falcon launches. Adding the equivalent of today's whole ~<span class="sc_cap0_lbl">800</span> Tbps constellation takes <span id="sc_c_n26">31</span> flights at 26 per flight but only <span id="sc_c_n60">14</span> at 60.</p>
+      <p>On this cadence, 2030 nominal capacity is <span id="sc_c_cap26">9.27 Pbps</span> with 26 per flight versus <span id="sc_c_cap60">16.0 Pbps</span> with 60. Supportable consumer subs are <span id="sc_c_sub26">156M</span> versus <span id="sc_c_sub60">269M</span>, and the 2030 consumer revenue ceiling is <span id="sc_c_ceil26">$101B</span> versus <span id="sc_c_ceil60">$174B</span>.</p>
+      <p>Satellite supply matters too. At ~<span id="sc_c_prod">3,640</span> satellites a year today, the factory fills <span id="sc_c_prodf26">140</span> flights a year at 26 per flight but only <span id="sc_c_prodf60">60</span> at 60. Binding constraints by year: at 26, <span id="sc_c_bind26">Launch 2026–2035</span>; at 60, <span id="sc_c_bind60">Launch 2026–2027 → Production 2028–2031 → Launch 2032 → FCC 2033–2035</span>. FCC setting: <span id="sc_c_fcc">19,400 satellites authorized today, +7,500 from 2028 (26,900 total)</span>.</p>
+      <p>With 60 per flight, the authorized cap binds in <span id="sc_c_capyr60">2032</span>. After that, FCC authorization, satellite lifetime and spectrum are the limits, not launch. At the full cap, replacing satellites as they reach end of life takes ~<span id="sc_c_rep">5,380</span> V3s a year: <span id="sc_c_rep26">207</span> flights at 26 per flight versus <span id="sc_c_rep60">90</span> at 60. Full loads are mostly a launch-cost lever once the constellation is full. With the capacity-fed DCF, fair value moves from <span id="sc_c_dcf26">$135</span> to <span id="sc_c_dcf60">$142</span> per share (<span id="sc_c_dcfd">+$7.0/share, +5%</span>).</p>
+      <p class="sc-callout-src"><span class="src-ref">Sources: Q2'26 call (800 Tbps, ~9,600 broadband sats, ~1,000 V3s for "critical mass" ~Q2 2027); SpaceX/PCMag (V3 1 Tbps down, 60 per Starship); ABI Research (Flight 14 ≈ 10 Falcon launches; ~21% usable); FCC DA-26-36. V3 in-orbit throughput is a design figure, not yet a measured one <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span>.</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- DCF FAIR VALUE -->
+<section id="dcf">
+  <div class="wrap">
+    <div class="eyebrow">What is it worth today?</div>
+    <h2>DCF fair value — discount the plan back to today.</h2>
+    <p class="lead">
+      Everything above values SpaceX at <em>Year 5</em> with multiples. A discounted-cash-flow model asks a harder question: after ~$65B of capex in 2026 alone, do the free cash flows ever arrive, and what are they worth <strong>today</strong>? Segments are projected 2027–2036 from 2026E, then valued with either a perpetual-growth or an exit-multiple terminal value. Connectivity can be driven directly by the Starlink sliders above, and the orbital-compute calculator can be added as an extra segment.
+    </p>
+
+    <div class="presets" id="dcfPresets">
+      <span class="preset-label">Scenario</span>
+      <button data-dcf="bear">Bear</button>
+      <button data-dcf="base" class="active">Base</button>
+      <button data-dcf="bull">Bull</button>
+      <button data-dcf="ms_bear">MS Bear $75</button>
+      <button data-dcf="ms_base">MS Base $300</button>
+      <button data-dcf="ms_bull">MS Bull $600</button>
+      <button data-dcf="gs">Goldman $220</button>
+      <button data-dcf="jpm">JPMorgan $225</button>
+      <button data-dcf="damodaran">Damodaran ~$100</button>
+      <div class="preset-info" id="dcfPresetInfo">Base: 2026E revenue ≈$47B (Goldman 2026E $47.6B), 2030 ≈$373B, FCF positive 2031 (Goldman: Q4 2030). WACC 9.5% (between Damodaran 8.37% and Goldman 12%).</div>
+    </div>
+    <div class="presets" id="dcfMethod">
+      <span class="preset-label">Terminal value</span>
+      <button data-method="gordon" class="active">Perpetual growth</button>
+      <button data-method="exit">Exit multiple</button>
+    </div>
+    <div class="dcf-toggles">
+      <label><input type="checkbox" id="dcf_link_conn" /> Drive Starlink consumer + E&amp;G from the valuation sliders above (subs, growth scenario, ARPU, drift, E&amp;G, margin)</label>
+      <label><input type="checkbox" id="dcf_link_orbital" /> Add orbital compute (from the Space DCs calculator, ramps over 5 yrs)</label>
+      <span id="dcf_cap_status" style="font-size:13px;color:var(--muted);">V3 capacity constraint: off (toggle in the V3 scale-up section)</span>
+    </div>
+
+    <div class="dcf-grid">
+      <div>
+        <h3>Segments</h3>
+          <div class="dcf-seg" id="dcfseg_consumer">
+            <h4>Starlink consumer </h4>
+            <div class="seg-src">Base-year default ≈ Q2'26 consumer run-rate $9.9B, rising. Target margin vs Damodaran 60% Connectivity. Link → uses the Starlink sliders above.</div>
+            <div class="slider-row"><label>2026E revenue ($B)</label><input type="range" id="dcf_consumer_rev" min="0" max="40" step="0.1" /><div class="val" id="dcf_consumer_rev_v">$10.5B</div></div>
+            <div class="slider-row"><label>2027 growth (decays toward terminal)</label><input type="range" id="dcf_consumer_g1" min="0" max="300" step="0.25" /><div class="val" id="dcf_consumer_g1_v">40.0%</div></div>
+            <div class="slider-row"><label>Target EBITDA margin</label><input type="range" id="dcf_consumer_mT" min="-20" max="80" step="1" /><div class="val" id="dcf_consumer_mT_v">62%</div></div>
+          </div>
+          <div class="dcf-seg" id="dcfseg_eg">
+            <h4>Starlink enterprise &amp; government (incl. Starshield-related) </h4>
+            <div class="seg-src">Q2'26 run-rate $7.2B, +108% y/y; >$6B Starshield awards in Q2.</div>
+            <div class="slider-row"><label>2026E revenue ($B)</label><input type="range" id="dcf_eg_rev" min="0" max="30" step="0.1" /><div class="val" id="dcf_eg_rev_v">$8.0B</div></div>
+            <div class="slider-row"><label>2027 growth (decays toward terminal)</label><input type="range" id="dcf_eg_g1" min="0" max="300" step="0.25" /><div class="val" id="dcf_eg_g1_v">50.0%</div></div>
+            <div class="slider-row"><label>Target EBITDA margin</label><input type="range" id="dcf_eg_mT" min="-20" max="80" step="1" /><div class="val" id="dcf_eg_mT_v">60%</div></div>
+          </div>
+          <div class="dcf-seg" id="dcfseg_launch">
+            <h4>Launch (external + government) </h4>
+            <div class="seg-src">Q2'26 $962M → ≈$3.85B/yr; Damodaran target Space margin 45%.</div>
+            <div class="slider-row"><label>2026E revenue ($B)</label><input type="range" id="dcf_launch_rev" min="0" max="20" step="0.1" /><div class="val" id="dcf_launch_rev_v">$4.0B</div></div>
+            <div class="slider-row"><label>2027 growth (decays toward terminal)</label><input type="range" id="dcf_launch_g1" min="0" max="300" step="0.25" /><div class="val" id="dcf_launch_g1_v">25.0%</div></div>
+            <div class="slider-row"><label>Target EBITDA margin</label><input type="range" id="dcf_launch_mT" min="-20" max="80" step="1" /><div class="val" id="dcf_launch_mT_v">45%</div></div>
+          </div>
+          <div class="dcf-seg" id="dcfseg_ai_infra">
+            <h4>AI infrastructure (compute rentals) </h4>
+            <div class="seg-src">≈$1.6B Q2 increment; named contracts ≈$27.8B/yr by Dec 2026; Goldman 2 GW → 36 GW (2030).</div>
+            <div class="slider-row"><label>2026E revenue ($B)</label><input type="range" id="dcf_ai_infra_rev" min="0" max="80" step="0.1" /><div class="val" id="dcf_ai_infra_rev_v">$20.0B</div></div>
+            <div class="slider-row"><label>2027 growth (decays toward terminal)</label><input type="range" id="dcf_ai_infra_g1" min="0" max="300" step="0.25" /><div class="val" id="dcf_ai_infra_g1_v">150.0%</div></div>
+            <div class="slider-row"><label>Target EBITDA margin</label><input type="range" id="dcf_ai_infra_mT" min="-20" max="80" step="1" /><div class="val" id="dcf_ai_infra_mT_v">45%</div></div>
+          </div>
+          <div class="dcf-seg" id="dcfseg_ai_sw">
+            <h4>AI software (Grok, X subs/ads, Cursor) <span class="unv" style="background:#9aa3c7" title="Author assumption — not a reported figure">assumption</span></h4>
+            <div class="seg-src">Revenue split and Cursor ARR not disclosed — base-year value is an author assumption. Damodaran target AI margin 25%.</div>
+            <div class="slider-row"><label>2026E revenue ($B)</label><input type="range" id="dcf_ai_sw_rev" min="0" max="30" step="0.1" /><div class="val" id="dcf_ai_sw_rev_v">$4.0B</div></div>
+            <div class="slider-row"><label>2027 growth (decays toward terminal)</label><input type="range" id="dcf_ai_sw_g1" min="0" max="300" step="0.25" /><div class="val" id="dcf_ai_sw_g1_v">80.0%</div></div>
+            <div class="slider-row"><label>Target EBITDA margin</label><input type="range" id="dcf_ai_sw_mT" min="-20" max="80" step="1" /><div class="val" id="dcf_ai_sw_mT_v">30%</div></div>
+          </div>
+          <div class="dcf-seg" id="dcfseg_mobile">
+            <h4>Starlink Mobile / direct-to-cell <span class="unv" style="background:#9aa3c7" title="Author assumption — not a reported figure">assumption</span></h4>
+            <div class="seg-src">Spectrum: Grain 800 MHz deal (Oct 8 2026, pending FCC). No disclosed revenue — author assumption.</div>
+            <div class="slider-row"><label>2026E revenue ($B)</label><input type="range" id="dcf_mobile_rev" min="0" max="10" step="0.1" /><div class="val" id="dcf_mobile_rev_v">$0.3B</div></div>
+            <div class="slider-row"><label>2027 growth (decays toward terminal)</label><input type="range" id="dcf_mobile_g1" min="0" max="300" step="0.25" /><div class="val" id="dcf_mobile_g1_v">200.0%</div></div>
+            <div class="slider-row"><label>Target EBITDA margin</label><input type="range" id="dcf_mobile_mT" min="-20" max="80" step="1" /><div class="val" id="dcf_mobile_mT_v">45%</div></div>
+          </div>
+
+        <h3 style="margin-top:18px;">Capital, tax &amp; discounting</h3>
+          <div class="slider-row"><label>WACC (Damodaran 8.37% · Goldman 12%)</label><input type="range" id="dcf_wacc" min="6" max="15" step="0.01" /><div class="val" id="dcf_wacc_v">9.50%</div></div>
+          <div class="slider-row"><label>Terminal growth (perpetual method)</label><input type="range" id="dcf_tg" min="0" max="5" step="0.25" /><div class="val" id="dcf_tg_v">3.00%</div></div>
+          <div class="slider-row"><label>Exit EV/EBITDA on 2036 (exit method)</label><input type="range" id="dcf_exit" min="5" max="40" step="1" /><div class="val" id="dcf_exit_v">18×</div></div>
+          <div class="slider-row"><label>Growth decay per year</label><input type="range" id="dcf_decay" min="0.5" max="0.95" step="0.01" /><div class="val" id="dcf_decay_v">0.70</div></div>
+          <div class="slider-row"><label>Capex % revenue, 2027 (2026E ≈136%)</label><input type="range" id="dcf_capex0" min="20" max="150" step="1" /><div class="val" id="dcf_capex0_v">75%</div></div>
+          <div class="slider-row"><label>Capex % revenue, mature</label><input type="range" id="dcf_capexT" min="5" max="40" step="1" /><div class="val" id="dcf_capexT_v">18%</div></div>
+          <div class="slider-row"><label>D&amp;A % revenue</label><input type="range" id="dcf_da" min="2" max="20" step="0.5" /><div class="val" id="dcf_da_v">8.0%</div></div>
+          <div class="slider-row"><label>Working capital % revenue</label><input type="range" id="dcf_nwc" min="0" max="5" step="0.5" /><div class="val" id="dcf_nwc_v">1.0%</div></div>
+          <div class="slider-row"><label>Cash tax rate, 2027 (NOL shield)</label><input type="range" id="dcf_tax0" min="0" max="30" step="1" /><div class="val" id="dcf_tax0_v">5%</div></div>
+          <div class="slider-row"><label>Cash tax rate, 2036 (US federal 21%)</label><input type="range" id="dcf_taxT" min="10" max="35" step="1" /><div class="val" id="dcf_taxT_v">21%</div></div>
+          <div class="slider-row"><label>Net cash ($B) · ≈$60.6B at 6/30 less Q3 burn</label><input type="range" id="dcf_netcash" min="-100" max="150" step="1" /><div class="val" id="dcf_netcash_v">$50B</div></div>
+          <div class="slider-row"><label>Annual dilution, next 3 yrs (SBC/raises)</label><input type="range" id="dcf_dil" min="0" max="5" step="0.25" /><div class="val" id="dcf_dil_v">1.50%</div></div>
+          <div class="slider-row"><label>Orbital compute first revenue year (if linked)</label><input type="range" id="dcf_orbital_start" min="2027" max="2036" step="1" /><div class="val" id="dcf_orbital_start_v">2029</div></div>
+      </div>
+
+      <div>
+        <div class="val-output" style="position:sticky; top:80px;">
+          <div class="big-label">Fair value per share (<span id="dcf_method_lbl">perpetual growth 3.00%</span>)</div>
+          <div class="dcf-out-big" id="dcf_ps">$127</div>
+          <div id="dcf_vs_price" style="font-size:15px; margin-top:4px;">vs $162.57 close (Oct 9, 2026) · −22%</div>
+          <div class="dcf-kpis">
+            <div class="dcf-kpi"><div class="v" id="dcf_alt_ps">$303</div><div class="l" id="dcf_alt_lbl">Exit-multiple method (18×)</div></div>
+            <div class="dcf-kpi"><div class="v" id="dcf_tv_share">81%</div><div class="l">of EV from terminal value</div></div>
+            <div class="dcf-kpi"><div class="v" id="dcf_ev">$1.75T</div><div class="l">Enterprise value (today)</div></div>
+            <div class="dcf-kpi"><div class="v" id="dcf_equity">$1.80T</div><div class="l">Equity value (EV + net cash)</div></div>
+            <div class="dcf-kpi"><div class="v" id="dcf_pv_fcff">$331B</div><div class="l">PV of 2027–2036 free cash flow</div></div>
+            <div class="dcf-kpi"><div class="v" id="dcf_fcf_pos">2031</div><div class="l">First FCF-positive year</div></div>
+            <div class="dcf-kpi"><div class="v" id="dcf_funding">$110B</div><div class="l">Peak cumulative cash need (funding gap)</div></div>
+            <div class="dcf-kpi"><div class="v" id="dcf_rev2030">$373B</div><div class="l">2030 revenue (GS $474B · JPM $470B)</div></div>
+          </div>
+          <div class="disclaimer">
+            <strong>Not investment advice.</strong> This is a teaching model. Bank presets only <em>approximate</em> each firm's published target by tuning this model's growth, discount rate and terminal inputs — they are not the banks' own DCFs, and the firms mostly use multiples rather than DCFs. Published targets: MS $75/$300/$600, Goldman $220 (raised from $205 Aug 6 <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span>), JPMorgan $225, Damodaran ≈$100.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-box">
+      <div class="chart-header"><div><h3>Free cash flow to the firm, 2027–2036</h3><div class="chart-note">FCFF = EBIT × (1 − tax) + D&amp;A − capex − Δworking capital. Negative bars = years that must be funded with debt or equity.</div></div></div>
+      <div class="chart-canvas-wrap"><canvas id="dcfChart"></canvas></div>
+    </div>
+
+    <div class="chart-box">
+      <div class="chart-header"><div><h3>Year-by-year</h3><div class="chart-note">Mid-year discounting from the Oct 2026 valuation date (first cash flow 0.75 yr out).</div></div></div>
+      <div class="table-scroll"><table class="scenario-table year-table">
+        <thead><tr><th>Year</th><th>Revenue</th><th>EBITDA</th><th>Capex</th><th>FCFF</th><th>PV of FCFF</th></tr></thead>
+        <tbody id="dcfTable"></tbody>
+      </table></div>
+    </div>
+
+    <div class="chart-box">
+      <div class="chart-header"><div><h3>Sensitivity — fair value per share (perpetual growth)</h3><div class="chart-note">Rows: WACC. Columns: terminal growth. Outlined cell = current inputs. Last row: exit-multiple method at the current WACC.</div></div></div>
+      <div class="table-scroll"><table class="scenario-table sens-table"><tbody id="dcfSens"></tbody></table></div>
+    </div>
+
+    <div class="callout" style="margin-top: 24px;">
+      <strong>Why the Street and the DCF disagree.</strong> At default inputs a perpetual-growth DCF lands near Damodaran (≈$100) and MoffettNathanson ($131). Getting to today's price and the bank cluster ($200–255) needs either a WACC near 8% with 4% terminal growth, or a 15–18× EBITDA exit multiple on 2036 — and in every scenario most of the value sits in the terminal year. That is what you're buying: a decade of funded build-out, then the terminal value.
+      <span class="src-ref">Defaults and sources: Q2'26 release, Goldman (Jul 7 / Aug 6 2026), JPMorgan (Jul 8 2026), Morgan Stanley (Jul 7 2026), Damodaran (Jun 4 2026). See the Sources section.</span>
     </div>
   </div>
 </section>
@@ -3251,7 +3593,7 @@
     <div class="eyebrow">Beyond Starlink</div>
     <h2>What $0.10/Mbps unlocks.</h2>
     <p class="lead">
-      At Starship maturity, $1B of launch spend deploys <strong>~10,000 Tbps</strong> of new bandwidth — roughly 15× the entire Starlink constellation today.
+      At the calculator's Starship inputs, $1B of launch spend deploys <strong id="tam_lead_tbps">~2,700 Tbps</strong> of new bandwidth, about <span id="tam_lead_x">3.4×</span> the entire Starlink constellation today (<span class="sc_cap0_lbl">800</span> Tbps, Q2'26 call; editable in the V3 scale-up section).
       That's ~90 days of Starlink operating income at current scale.
       When launch stops being the constraint, the market opens up.
     </p>
@@ -3291,16 +3633,16 @@
 
     <div class="kpi-grid">
       <div class="kpi">
-        <div class="kpi-num" id="tam_launches">54</div>
+        <div class="kpi-num" id="tam_launches">16</div>
         <div class="kpi-lbl">Starship launches to double capacity</div>
       </div>
       <div class="kpi">
-        <div class="kpi-num" id="tam_spend">$1.0B</div>
+        <div class="kpi-num" id="tam_spend">$296.0M</div>
         <div class="kpi-lbl">Cost to double capacity</div>
       </div>
       <div class="kpi">
-        <div class="kpi-num" id="tam_ratio">15×</div>
-        <div class="kpi-lbl">Bandwidth per $1B launch spend vs today</div>
+        <div class="kpi-num" id="tam_ratio">3.4×</div>
+        <div class="kpi-lbl">Bandwidth per $1B launch spend vs today's constellation</div>
       </div>
       <div class="kpi">
         <div class="kpi-num" id="tam_days">90</div>
@@ -3316,9 +3658,206 @@
     <div class="eyebrow">Show your work</div>
     <h2>Sources &amp; assumptions.</h2>
     <p class="lead">
-      This app synthesizes two primary sources plus public SpaceX/Starlink disclosures. All numbers in the calculator are editable — nothing is baked into the visualization that you can't overwrite.
+      This app synthesizes SpaceX's SEC filings and Q2'26 results, sell-side and independent valuations, and the original Rob Maurer / Mach33 analyses. All numbers in the calculator are editable — nothing is baked into the visualization that you can't overwrite.
     </p>
 
+    <h3>Added: V3 constellation scale-up</h3>
+    <div class="src-list">
+      <a href="https://www.fcc.gov/document/spacex-gen2-upgrade-applications-partial-grant" target="_blank" rel="noopener">
+        <div class="src-title">FCC DA-26-36: partial grant, 15,000 Gen2 authorized, 14,988 deferred incl. shells above 600 km (Jan 9 2026)</div>
+        <div class="src-url">www.fcc.gov/document/spacex-gen2-upgrade-applications-partial-grant</div>
+      </a>
+      <a href="https://spacenews.com/fcc-approves-7500-additional-starlink-satellites/" target="_blank" rel="noopener">
+        <div class="src-title">FCC approves 7,500 additional Starlink satellites (SpaceNews, Jan 10 2026)</div>
+        <div class="src-url">spacenews.com/fcc-approves-7500-additional-starlink-satellites/</div>
+      </a>
+      <a href="https://broadbandbreakfast.com/spacex-planning-100k-more-starlink-satellites/" target="_blank" rel="noopener">
+        <div class="src-title">SpaceX files for 100,000 Gen3 Starlink satellites (Broadband Breakfast, Jul 8 2026)</div>
+        <div class="src-url">broadbandbreakfast.com/spacex-planning-100k-more-starlink-satellites/</div>
+      </a>
+      <a href="https://docs.fcc.gov/public/attachments/DA-26-113A1.txt" target="_blank" rel="noopener">
+        <div class="src-title">FCC DA-26-113: accepts for filing SpaceX application for up to 1 million orbital data center satellites (Feb 4 2026)</div>
+        <div class="src-url">docs.fcc.gov/public/attachments/DA-26-113A1.txt</div>
+      </a>
+      <a href="https://spacenews.com/spacex-files-plans-for-million-satellite-orbital-data-center-constellation/" target="_blank" rel="noopener">
+        <div class="src-title">SpaceX files million-satellite orbital data center plans (SpaceNews, Jan 31 2026)</div>
+        <div class="src-url">spacenews.com/spacex-files-plans-for-million-satellite-orbital-data-center-constellation/</div>
+      </a>
+      <a href="https://www.itu.int/en/ITU-R/space/Documents/RES35%28REV.%20WRC-23%29.pdf" target="_blank" rel="noopener">
+        <div class="src-title">ITU Resolution 35 (Rev. WRC-23): NGSO 10% / 50% / 100% deployment milestones</div>
+        <div class="src-url">www.itu.int/en/ITU-R/space/Documents/RES35%28REV.%20WRC-23%29.pdf</div>
+      </a>
+      <a href="https://www.itu.int/net/ITU-R/space/res35/index.html" target="_blank" rel="noopener">
+        <div class="src-title">ITU Resolution 35 space network list (USASAT-NGSO filings and milestone status)</div>
+        <div class="src-url">www.itu.int/net/ITU-R/space/res35/index.html</div>
+      </a>
+      <a href="https://www.space.com/space-exploration/private-spaceflight/spacex-gets-faa-approval-for-25-starship-launches-per-year" target="_blank" rel="noopener">
+        <div class="src-title">FAA approves up to 25 Starship launches/yr from Starbase (Space.com, May 6 2025; Federal Register 2025-08269)</div>
+        <div class="src-url">www.space.com/space-exploration/private-spaceflight/spacex-gets-faa-approval-for-25-starsh</div>
+      </a>
+      <a href="https://www.faa.gov/space/stakeholder_engagement/spacex_starship_ksc/SpaceX-SSH-LC-39A-Final-EIS-ROD.pdf" target="_blank" rel="noopener">
+        <div class="src-title">FAA Record of Decision: up to 44 Starship launches/yr at LC-39A (Final EIS; Federal Register notice Feb 3 2026)</div>
+        <div class="src-url">www.faa.gov/space/stakeholder_engagement/spacex_starship_ksc/SpaceX-SSH-LC-39A-Final-EIS-R</div>
+      </a>
+      <a href="https://www.faa.gov/space/stakeholder_engagement/spacex_starship_ccsfs" target="_blank" rel="noopener">
+        <div class="src-title">SLC-37: Air Force ROD for up to 76 launches/yr; FAA supplemental EIS opened Sep 29 2026 (FAA)</div>
+        <div class="src-url">www.faa.gov/space/stakeholder_engagement/spacex_starship_ccsfs</div>
+      </a>
+      <a href="https://www.teslaoracle.com/2026/09/30/spacex-deployed-26-terabits-per-second-of-starlink-v3-bandwidth-in-a-single-starship-launch-flight-14/" target="_blank" rel="noopener">
+        <div class="src-title">Musk after Flight 14: "weekly or twice weekly launch cadence" next year (Tesla Oracle, Sep 30 2026, citing Sawyer Merritt clip)</div>
+        <div class="src-url">www.teslaoracle.com/2026/09/30/spacex-deployed-26-terabits-per-second-of-starlink-v3-bandw</div>
+      </a>
+      <a href="https://r40.io/news/spcx-weekly-starship-starlink-revenue-model/" target="_blank" rel="noopener">
+        <div class="src-title">Weekly-Starship Starlink model assuming 90% of flights carry V3 (R40, third-party assumption)</div>
+        <div class="src-url">r40.io/news/spcx-weekly-starship-starlink-revenue-model/</div>
+      </a>
+      <a href="https://www.nextbigfuture.com/2026/07/what-are-the-keys-to-1500-starship-launches-in-2028.html" target="_blank" rel="noopener">
+        <div class="src-title">"Today's approved ceiling is about 145 flights" (NextBigFuture, Jul 26 2026), which matches 25 + 44 + 76 across three sites</div>
+        <div class="src-url">www.nextbigfuture.com/2026/07/what-are-the-keys-to-1500-starship-launches-in-2028.html</div>
+      </a>
+      <a href="https://www.fool.com/earnings/call-transcripts/2026/08/11/spacex-spcx-q2-2026-earnings-call-transcript/" target="_blank" rel="noopener">
+        <div class="src-title">SpaceX Q2 2026 earnings call transcript: ~800 Tbps, ~9,600 broadband sats, ~1,000 V3s for critical mass (Motley Fool, Aug 11 2026)</div>
+        <div class="src-url">www.fool.com/earnings/call-transcripts/2026/08/11/spacex-spcx-q2-2026-earnings-call-transc</div>
+      </a>
+      <a href="https://au.pcmag.com/networking/109093/spacex-teases-1tbps-of-download-bandwidth-on-v3-starlink-satellites" target="_blank" rel="noopener">
+        <div class="src-title">V3 design: 1 Tbps down / 160 Gbps up, up to 60 per Starship (PCMag, from SpaceX progress report)</div>
+        <div class="src-url">au.pcmag.com/networking/109093/spacex-teases-1tbps-of-download-bandwidth-on-v3-starlink-sa</div>
+      </a>
+      <a href="https://www.abiresearch.com/market-research/insight/7788567-starship-launches-first-batch-of-v3-satell" target="_blank" rel="noopener">
+        <div class="src-title">Flight 14: 26 V3s ≈ 10 Falcon launches; nameplate vs usable (~21%) capacity scenarios (ABI Research)</div>
+        <div class="src-url">www.abiresearch.com/market-research/insight/7788567-starship-launches-first-batch-of-v3-sa</div>
+      </a>
+      <a href="https://docs.fcc.gov/public/attachments/DA-26-36A1.txt" target="_blank" rel="noopener">
+        <div class="src-title">FCC DA-26-36: +7,500 Gen2, 15,000 Gen2 authorized, 50%/100% milestones Dec 2028 / Dec 2031 (Jan 9 2026)</div>
+        <div class="src-url">docs.fcc.gov/public/attachments/DA-26-36A1.txt</div>
+      </a>
+      <a href="https://www.reuters.com/business/media-telecom/fcc-approves-spacex-plan-deploy-additional-7500-starlink-satellites-2026-01-09/" target="_blank" rel="noopener">
+        <div class="src-title">FCC approves 7,500 more Starlink Gen2 satellites (Reuters, Jan 9 2026)</div>
+        <div class="src-url">www.reuters.com/business/media-telecom/fcc-approves-spacex-plan-deploy-additional-7500-sta</div>
+      </a>
+      <a href="https://www.geekwire.com/2026/spacex-is-churning-out-70-starlink-satellites-a-week-in-redmond-and-other-tidbits-from-its-ipo-filing/" target="_blank" rel="noopener">
+        <div class="src-title">~70 Starlink satellites/week in Redmond, Dec 2025–Apr 2026, per S-1 (GeekWire, May 21 2026); V3 share not disclosed</div>
+        <div class="src-url">www.geekwire.com/2026/spacex-is-churning-out-70-starlink-satellites-a-week-in-redmond-and-</div>
+      </a>
+      <a href="https://www.space.com/spacex-starlink-satellites.html" target="_blank" rel="noopener">
+        <div class="src-title">Starlink satellite counts and ~5-year design life (Space.com, citing Jonathan McDowell)</div>
+        <div class="src-url">www.space.com/spacex-starlink-satellites.html</div>
+      </a>
+      <a href="https://keeptrack.space/launches/vehicles/falcon-9" target="_blank" rel="noopener">
+        <div class="src-title">Falcon 9 launch counts by year: 165 in 2025 (KeepTrack)</div>
+        <div class="src-url">keeptrack.space/launches/vehicles/falcon-9</div>
+      </a>
+      <a href="https://spaceodysseyhub.com/launches/provider/spacex" target="_blank" rel="noopener">
+        <div class="src-title">SpaceX 2026 launch log: Falcon count YTD and Starlink share (Space Odyssey Hub)</div>
+        <div class="src-url">spaceodysseyhub.com/launches/provider/spacex</div>
+      </a>
+      <a href="https://www.basenor.com/blogs/news/musk-starship-targets-weekly-launch-cadence-in-2027-after-v3-starlink-deployment" target="_blank" rel="noopener">
+        <div class="src-title">Musk: weekly or twice-weekly Starship cadence in 2027 (secondary, unverified)</div>
+        <div class="src-url">www.basenor.com/blogs/news/musk-starship-targets-weekly-launch-cadence-in-2027-after-v3-st</div>
+      </a>
+      <a href="https://starbench.substack.com/p/projecting-starship-launch-cadence" target="_blank" rel="noopener">
+        <div class="src-title">Projecting Starship launch cadence; Musk "every hour in 3 years" (Starbench, secondary)</div>
+        <div class="src-url">starbench.substack.com/p/projecting-starship-launch-cadence</div>
+      </a>
+      <a href="https://thexlab.org/wp-content/uploads/2025/07/Starlink_Analysis_Working_Paper_v0.2.pdf" target="_blank" rel="noopener">
+        <div class="src-title">Starlink capacity and 20:1 oversubscription analysis (X-Lab working paper v0.2, 2025)</div>
+        <div class="src-url">thexlab.org/wp-content/uploads/2025/07/Starlink_Analysis_Working_Paper_v0.2.pdf</div>
+      </a>
+      <a href="https://conferences.sigcomm.org/hotnets/2025/papers/hotnets25-final35.pdf" target="_blank" rel="noopener">
+        <div class="src-title">LEO broadband capacity vs demand (HotNets 2025)</div>
+        <div class="src-url">conferences.sigcomm.org/hotnets/2025/papers/hotnets25-final35.pdf</div>
+      </a>
+      <a href="https://www.satcomintel.com/fleet/starlink/" target="_blank" rel="noopener">
+        <div class="src-title">Starlink saleable vs nominal capacity estimates (SATCOM Intel, soft estimate)</div>
+        <div class="src-url">www.satcomintel.com/fleet/starlink/</div>
+      </a>
+    </div>
+
+    <h3>Added Oct 2026 update</h3>
+    <div class="src-list">
+      <a href="https://ir.spacex.com/files/doc_financials/2026/q2/SpaceX-Reports-Second-Quarter-2026-Results.pdf" target="_blank" rel="noopener">
+        <div class="src-title">SpaceX — Q2 2026 results (Aug 2026)</div>
+        <div class="src-url">ir.spacex.com/files/doc_financials/2026/q2/SpaceX-Reports-Second-Quarter-2026-Results.pdf</div>
+      </a>
+      <a href="https://www.sec.gov/Archives/edgar/data/1181412/000162828026052515/earningsreleaseq22608042.htm" target="_blank" rel="noopener">
+        <div class="src-title">SEC — Q2 2026 earnings release exhibit</div>
+        <div class="src-url">www.sec.gov/Archives/edgar/data/1181412/000162828026052515/earningsreleaseq22608042.htm</div>
+      </a>
+      <a href="https://last10k.com/sec-filings/spcx/0001628280-26-052535.htm" target="_blank" rel="noopener">
+        <div class="src-title">SPCX 10-Q (Aug 2026) — shares, cash, debt</div>
+        <div class="src-url">last10k.com/sec-filings/spcx/0001628280-26-052535.htm</div>
+      </a>
+      <a href="https://app.edgar.tools/filing/1181412/0001628280-26-056945" target="_blank" rel="noopener">
+        <div class="src-title">8-K — Cursor merger closed Aug 14, 2026</div>
+        <div class="src-url">app.edgar.tools/filing/1181412/0001628280-26-056945</div>
+      </a>
+      <a href="https://www.fool.com/earnings/call-transcripts/2026/08/11/spacex-spcx-q2-2026-earnings-call-transcript/" target="_blank" rel="noopener">
+        <div class="src-title">Q2 2026 earnings call transcript (Motley Fool)</div>
+        <div class="src-url">www.fool.com/earnings/call-transcripts/2026/08/11/spacex-spcx-q2-2026-earnings-call-transc</div>
+      </a>
+      <a href="https://seekingalpha.com/symbol/SPCX/historical-price-quotes" target="_blank" rel="noopener">
+        <div class="src-title">SPCX close $162.57, Oct 9 2026 (Seeking Alpha)</div>
+        <div class="src-url">seekingalpha.com/symbol/SPCX/historical-price-quotes</div>
+      </a>
+      <a href="https://stockanalysis.com/stocks/spcx/history/" target="_blank" rel="noopener">
+        <div class="src-title">SPCX price history (stockanalysis.com)</div>
+        <div class="src-url">stockanalysis.com/stocks/spcx/history/</div>
+      </a>
+      <a href="https://www.benzinga.com/analyst-stock-ratings/analyst-color/26/07/60303994/spacex-spcx-goldman-buy-rating-205-price-target" target="_blank" rel="noopener">
+        <div class="src-title">Goldman initiation $205, other bank targets (Benzinga, Jul 7 2026)</div>
+        <div class="src-url">www.benzinga.com/analyst-stock-ratings/analyst-color/26/07/60303994/spacex-spcx-goldman-bu</div>
+      </a>
+      <a href="https://www.xxquant.com/en/institution/institutional-research/385bd65359d721be0ae33dd0f2256c69" target="_blank" rel="noopener">
+        <div class="src-title">Goldman raises to $220 (secondary summary, Aug 6 2026)</div>
+        <div class="src-url">www.xxquant.com/en/institution/institutional-research/385bd65359d721be0ae33dd0f2256c69</div>
+      </a>
+      <a href="https://www.xxquant.com/en/institution/institutional-research/ed4224d49cf4c9a53ec8667df3c96b81" target="_blank" rel="noopener">
+        <div class="src-title">JPMorgan initiation $225 (secondary summary, Jul 8 2026)</div>
+        <div class="src-url">www.xxquant.com/en/institution/institutional-research/ed4224d49cf4c9a53ec8667df3c96b81</div>
+      </a>
+      <a href="https://www.ii.co.uk/analysis-commentary/spacex-what-wall-street-thinks-shares-are-really-worth-ii539593" target="_blank" rel="noopener">
+        <div class="src-title">Morgan Stanley $75/$300/$600 & bank range (ii.co.uk)</div>
+        <div class="src-url">www.ii.co.uk/analysis-commentary/spacex-what-wall-street-thinks-shares-are-really-worth-ii</div>
+      </a>
+      <a href="https://au.finance.yahoo.com/news/morgan-stanley-sends-strong-signal-163300323.html" target="_blank" rel="noopener">
+        <div class="src-title">Bank initiations recap (Yahoo Finance AU)</div>
+        <div class="src-url">au.finance.yahoo.com/news/morgan-stanley-sends-strong-signal-163300323.html</div>
+      </a>
+      <a href="https://247wallst.com/investing/2026/08/18/top-analyst-raises-spacex-price-target-to-248-on-massive-orbital-ai-opportunity/" target="_blank" rel="noopener">
+        <div class="src-title">Bernstein raises to $248 (24/7 Wall St, Aug 18 2026)</div>
+        <div class="src-url">247wallst.com/investing/2026/08/18/top-analyst-raises-spacex-price-target-to-248-on-massiv</div>
+      </a>
+      <a href="https://aswathdamodaran.blogspot.com/2026/06/a-weeks-ago-i-assessed-value-of-spacex.html" target="_blank" rel="noopener">
+        <div class="src-title">Aswath Damodaran — post-prospectus valuation (Jun 4 2026)</div>
+        <div class="src-url">aswathdamodaran.blogspot.com/2026/06/a-weeks-ago-i-assessed-value-of-spacex.html</div>
+      </a>
+      <a href="https://www.datacenterdynamics.com/en/news/spacex-ipo-filing-reveals-anthropic-set-to-pay-musks-firm-125bn-a-month-to-rent-xai-data-center-space/" target="_blank" rel="noopener">
+        <div class="src-title">Anthropic compute deal $1.25B/mo (DCD)</div>
+        <div class="src-url">www.datacenterdynamics.com/en/news/spacex-ipo-filing-reveals-anthropic-set-to-pay-musks-fi</div>
+      </a>
+      <a href="https://www.cnbc.com/2026/06/22/spacex-ai-colossus-data-center-reflection.html" target="_blank" rel="noopener">
+        <div class="src-title">Reflection AI compute deal (CNBC, Jun 22 2026)</div>
+        <div class="src-url">www.cnbc.com/2026/06/22/spacex-ai-colossus-data-center-reflection.html</div>
+      </a>
+      <a href="https://cryptobriefing.com/spacex-microsoft-computing-capacity-lease-talks/" target="_blank" rel="noopener">
+        <div class="src-title">Google / unnamed / Microsoft compute (Crypto Briefing) — unverified</div>
+        <div class="src-url">cryptobriefing.com/spacex-microsoft-computing-capacity-lease-talks/</div>
+      </a>
+      <a href="https://graingp.com/grain-management-announces-definitive-agreement-to-sell-nationwide-800-mhz-spectrum-portfolio-to-spacex/" target="_blank" rel="noopener">
+        <div class="src-title">Grain 800 MHz spectrum sale to SpaceX (Oct 8 2026)</div>
+        <div class="src-url">graingp.com/grain-management-announces-definitive-agreement-to-sell-nationwide-800-mhz-spe</div>
+      </a>
+      <a href="https://www.spacex.com/launches/starship-flight-14" target="_blank" rel="noopener">
+        <div class="src-title">Starship Flight 14 (SpaceX)</div>
+        <div class="src-url">www.spacex.com/launches/starship-flight-14</div>
+      </a>
+      <a href="https://www.reuters.com/business/media-telecom/spacexs-starship-launches-14th-flight-first-headed-orbit-2026-09-28/" target="_blank" rel="noopener">
+        <div class="src-title">Starship Flight 14 (Reuters, Sep 28 2026)</div>
+        <div class="src-url">www.reuters.com/business/media-telecom/spacexs-starship-launches-14th-flight-first-headed-</div>
+      </a>
+    </div>
+    <p class="src-ref" style="margin:10px 0 24px;">Figures tagged <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span> rest on a single secondary source or could not be matched to a primary filing; figures tagged <span class="unv" style="background:#9aa3c7" title="Author assumption — not a reported figure">assumption</span> are the author's modeling inputs. Market data as of the Oct 9, 2026 close.</p>
+    <h3>Original sources</h3>
     <div class="src-list">
       <a href="https://finance.yahoo.com/quote/SPCX/" target="_blank" rel="noopener">
         <div class="src-title">Yahoo Finance — SPCX quote &amp; S-1 segment data</div>
@@ -3373,7 +3912,7 @@
 
 <footer>
   <button class="reset-btn" onclick="resetDefaults()">↺ Reset all inputs to defaults</button>
-  <div>Built as a first-principles visualization. Not investment advice. Play with the numbers, argue with the assumptions.</div>
+  <div>Built as a first-principles visualization. <strong>Not investment advice.</strong> Bank presets approximate published targets with this model; they are not the banks' models. Market data as of the Oct 9, 2026 close. Play with the numbers, argue with the assumptions.</div>
 </footer>
 
 <script>
@@ -3397,6 +3936,11 @@ const COLORS = {
 
 /* --- DEFAULTS --- */
 const DEFAULTS = {
+  // V3 constellation scale-up
+  sc_ss26: 1, sc_ss27: 30, sc_ss28: 80, sc_ss29: 150, sc_v3pf: 26, sc_v3gbps: 1000,
+  sc_f9: 115, sc_f9end: 2029, sc_f9pf: 26, sc_v2gbps: 96,
+  sc_cap0: 800, sc_sats0: 9600, sc_life: 5, sc_cap: 19400, sc_capx: 7500, sc_capyr: 2028, sc_prod: 3640, sc_prodg: 17, sc_inv: 3,
+  sc_usable: 21, sc_eg: 30, sc_mbps: 100, sc_oversub: 20, sc_dgrow: 15, sc_arpu: 66,
   f9_payload: 17000,
   f9_costkg: 1000,
   f9_satmass: 575,
@@ -3407,8 +3951,11 @@ const DEFAULTS = {
   ss_satgbps: 1000,
   v_subs: 12,
   v_growth: 80,
-  v_arpu: 90,
-  v_margin: 63,
+  v_arpu: 66,          // Q2'26 reported Starlink ARPU (SpaceX Q2 release)
+  v_arpu_drift: -5,    // %/yr mix shift (ARPU fell $85 -> $66 y/y) — author assumption
+  v_eg_rev: 7.2,       // $B/yr: Q2'26 Enterprise & Government $1,806M x 4
+  v_eg_growth: 50,     // % Y1 (Q2'26 actual +108% y/y) — author assumption
+  v_margin: 61,        // Connectivity adj. EBITDA: Q2'26 60.5%, H1'26 62.1%
   v_years: 5,
   v_multiple: 18,
   v_ps_mult: 8,
@@ -3437,7 +3984,45 @@ const DEFAULTS = {
   c_life: 5,
   c_margin: 70,
   c_launches: 500,
+  // Sum-of-parts "other" rows (Year-5, $B / % / x) — see source notes in the table
+  sop_launch_rev: 30, sop_launch_margin: 45, sop_launch_mult: 15,
+  sop_aiinfra_rev: 28, sop_aiinfra_margin: 45, sop_aiinfra_mult: 15,
+  sop_defense_rev: 10, sop_defense_margin: 50, sop_defense_mult: 15,
+  sop_grok_rev: 25, sop_grok_margin: 10, sop_grok_mult: 15,
+  sop_options_ev: 100,
 };
+
+/* ============================================================
+   MARKET DATA — single source of truth for price/market cap
+   Close $162.57 on Oct 9, 2026 (Seeking Alpha / StockInvest.us).
+   Shares: 13,176M at 6/30/26 (10-Q: 7,607M Class A + 5,569M Class B)
+           + 389.29M Cursor merger shares + 1.75M vested Cursor RSUs (8-K, Aug 14 2026)
+   Cash+securities ~$100.0B, debt incl. leases ~$39.4B at 6/30/26 (10-Q).
+   ============================================================ */
+const MARKET = {
+  price: 162.57,
+  asOf: 'Oct 9, 2026',
+  sharesM: 13176 + 389.29 + 1.75,   // ≈13,567M
+  cashB: 100.0,
+  debtB: 39.4,
+  ttmRevB: 23.07,                   // FY25 $18.7B + H1'26 $12.51B − H1'25 $8.14B (derived)
+};
+MARKET.mcap = MARKET.price * MARKET.sharesM * 1e6;
+MARKET.ev = MARKET.mcap - (MARKET.cashB - MARKET.debtB) * 1e9;
+
+// Author scenario values for the Year-5 bear / bull case cards (not sourced; illustrative)
+const BEAR_CASE_EV = 650e9;
+const BULL_CASE_EV = 4.5e12;
+
+function applyMarket() {
+  const fmtT = v => '$' + (v / 1e12).toFixed(2) + 'T';
+  document.querySelectorAll('.mkt-cap').forEach(el => el.textContent = fmtT(MARKET.mcap));
+  document.querySelectorAll('.mkt-price').forEach(el => el.textContent = '$' + MARKET.price.toFixed(2));
+  document.querySelectorAll('.mkt-date').forEach(el => el.textContent = MARKET.asOf);
+  document.querySelectorAll('.mkt-shares').forEach(el => el.textContent = (MARKET.sharesM / 1000).toFixed(2) + 'B');
+  const ev = document.getElementById('mkt_ev'); if (ev) ev.textContent = fmtT(MARKET.ev);
+  const ps = document.getElementById('mkt_ps'); if (ps) ps.textContent = '≈' + (MARKET.mcap / (MARKET.ttmRevB * 1e9)).toFixed(0) + '×';
+}
 
 /* --- FORMATTERS --- */
 const fmt$M = v => '$' + (v / 1e6).toFixed(1) + 'M';
@@ -3749,7 +4334,7 @@ function buildGbpsChart() {
         },
         y: {
           grid: { display: false },
-          ticks: { color: '#eef2ff', font: { size: 12 } },
+          ticks: { color: '#eef2ff', font: ctx => ({ size: ctx.chart.width < 400 ? 10 : 12, lineHeight: 1.1 }), autoSkip: false, callback: function (v) { return wrapTickLabel(this.getLabelForValue(v), this.chart.width); } },
         },
       },
     },
@@ -3797,18 +4382,23 @@ function updateScenarioTable(f9, ss) {
    TAM / UNLOCKS — how many launches to double Starlink capacity
    ============================================================ */
 function updateTamUnlocks(ss) {
-  // Assumed current Starlink capacity: ~700 Tbps (2026 estimate).
-  const currentCapacity = 700; // Tbps
+  // Current Starlink nominal capacity: ~800 Tbps at Jun 30 2026 (Shotwell, Q2'26 call). Editable via sc_cap0.
+  const capEl = document.getElementById('sc_cap0');
+  const currentCapacity = capEl ? +capEl.value : 800; // Tbps
   const doubleGbps = currentCapacity * 1000; // to Gbps
   const launchesNeeded = Math.ceil(doubleGbps / ss.totalGbps);
   const spend = launchesNeeded * ss.launchCost;
 
-  // Bandwidth per $1B at Starship rates vs today's Starlink deployment cost
-  const ratio = (1e9 / ss.costPerGbps) / currentCapacity;
+  // Bandwidth deployed per $1B of Starship launch spend, in Tbps, vs today's whole constellation
+  const tbpsPerB = ss.costPerGbps > 0 ? (1e9 / ss.costPerGbps) / 1000 : 0;
+  const ratio = tbpsPerB / currentCapacity;
 
-  document.getElementById('tam_launches').textContent = fmtNum(launchesNeeded);
-  document.getElementById('tam_spend').textContent = fmtBig(spend);
-  document.getElementById('tam_ratio').textContent = ratio.toFixed(0) + '×';
+  document.getElementById('tam_launches').textContent = isFinite(launchesNeeded) ? fmtNum(launchesNeeded) : '—';
+  document.getElementById('tam_spend').textContent = isFinite(spend) ? fmtBig(spend) : '—';
+  document.getElementById('tam_ratio').textContent = ratio.toFixed(1) + '×';
+  const lt = document.getElementById('tam_lead_tbps'); if (lt) lt.textContent = '~' + fmtNum(Math.round(tbpsPerB / 100) * 100) + ' Tbps';
+  const lx = document.getElementById('tam_lead_x'); if (lx) lx.textContent = ratio.toFixed(1) + '×';
+  document.querySelectorAll('.sc_cap0_lbl').forEach(e => { e.textContent = fmtNum(currentCapacity); });
 }
 
 /* ============================================================
@@ -3931,6 +4521,9 @@ function updateValuation() {
   const startSubs = +document.getElementById('v_subs').value * 1e6;
   const growth = +document.getElementById('v_growth').value / 100;
   const arpu = +document.getElementById('v_arpu').value;
+  const arpuDrift = +document.getElementById('v_arpu_drift').value / 100;
+  const egRev0 = +document.getElementById('v_eg_rev').value * 1e9;
+  const egGrowth = +document.getElementById('v_eg_growth').value / 100;
   const margin = +document.getElementById('v_margin').value / 100;
   const years = +document.getElementById('v_years').value;
   const multiple = +document.getElementById('v_multiple').value;
@@ -3941,31 +4534,34 @@ function updateValuation() {
   document.getElementById('v_subs_v').textContent = (startSubs / 1e6).toFixed(1) + ' M';
   document.getElementById('v_growth_v').textContent = (growth * 100).toFixed(0) + '%';
   document.getElementById('v_arpu_v').textContent = '$' + arpu;
+  document.getElementById('v_arpu_drift_v').textContent = (arpuDrift * 100).toFixed(0) + '%';
+  document.getElementById('v_eg_rev_v').textContent = '$' + (egRev0 / 1e9).toFixed(1) + 'B';
+  document.getElementById('v_eg_growth_v').textContent = (egGrowth * 100).toFixed(0) + '%';
   document.getElementById('v_margin_v').textContent = (margin * 100).toFixed(0) + '%';
   document.getElementById('v_years_v').textContent = years + ' yr';
   document.getElementById('v_multiple_v').textContent = multiple + '×';
   document.getElementById('v_ps_mult_v').textContent = psMultiple.toFixed(1) + '×';
   document.getElementById('v_pe_mult_v').textContent = peMultiple + '×';
   document.getElementById('v_ni_ratio_v').textContent = (niRatio * 100).toFixed(0) + '%';
+  const hdrEv = document.getElementById('yt_ev_hdr'); if (hdrEv) hdrEv.textContent = `EV @ ${multiple}× EBITDA`;
+  const hdrPs = document.getElementById('yt_ps_hdr'); if (hdrPs) hdrPs.textContent = `EV @ ${psMultiple}× revenue`;
 
-  // Build year-by-year projection using scenario decay + floor
-  const labels = [];
-  const rev = [];
-  const ebi = [];
-  const subsSeries = [];
-  const growthSeries = [];
-  let subs = startSubs;
-  let g = growth;
+  // Year-by-year: consumer (subs × drifting ARPU) + Enterprise & Government, both on the scenario S-curve
+  const labels = [], rev = [], ebi = [], subsSeries = [], growthSeries = [];
+  let subs = startSubs, g = growth, egRev = egRev0, eg = egGrowth, arpuI = arpu;
   for (let i = 0; i <= years; i++) {
     labels.push('Y' + i);
-    const revenueDollars = subs * arpu * 12;
+    const revenueDollars = subs * arpuI * 12 + egRev;
     const ebitdaDollars = revenueDollars * margin;
     subsSeries.push(subs);
     rev.push(revenueDollars / 1e9);
     ebi.push(ebitdaDollars / 1e9);
     growthSeries.push(i === 0 ? 0 : g);
     subs = subs * (1 + g);
+    egRev = egRev * (1 + eg);
+    arpuI = arpuI * (1 + arpuDrift);
     g = Math.max(g * scenarioDecay, scenarioFloor);
+    eg = Math.max(eg * scenarioDecay, scenarioFloor);
   }
 
   revenueChart.data.labels = labels;
@@ -3992,9 +4588,8 @@ function updateValuation() {
   document.getElementById('v_ev_pe').textContent = fmtBig(evPE);
   document.getElementById('v_ev_note').textContent = `at ${multiple}× EBITDA`;
   document.getElementById('v_ps_note').textContent = `at ${psMultiple.toFixed(1)}× revenue`;
-  document.getElementById('v_pe_note').textContent = `${peMultiple}× on ${fmtBig(endNetIncome)} Y5 net income`;
+  document.getElementById('v_pe_note').textContent = `${peMultiple}× on ${fmtBig(endNetIncome)} Y${endYear} net income`;
 
-  // Populate year-by-year table
   const tbody = document.getElementById('yearTable');
   if (tbody) {
     tbody.innerHTML = labels.map((lbl, i) => {
@@ -4017,38 +4612,46 @@ function updateValuation() {
     }).join('');
   }
 
-  // Drive the hero: Starlink Y5 EV + sum-of-parts + discount
-  // Compute segment values flow in from updateComputePerLaunch(); others held constant
-  const NON_COMPUTE_OTHER_EV = (180 + 75 + 38 + 100) * 1e9;    // $393B  (Launch + Defense + Grok + Options)
-  const NON_COMPUTE_OTHER_REV = (30 + 10 + 25) * 1e9;          // $65B   (Launch + Defense + Grok, no Mars)
-  const NON_COMPUTE_OTHER_EBITDA = (12 + 5 + 2.5) * 1e9;       // $19.5B
-  const SPCX_MARKET_CAP = 2.075e12;
-  const sop = ev + computeSegmentEV + NON_COMPUTE_OTHER_EV;
-  const sopRev = endRevenue + computeSegmentRevenue + NON_COMPUTE_OTHER_REV;
-  const sopEbitda = endEbitda + computeSegmentEbitda + NON_COMPUTE_OTHER_EBITDA;
-  const discountPct = (SPCX_MARKET_CAP / sop) * 100;
+  // ---- Sum-of-parts: Starlink + orbital compute (live) + editable "other" rows ----
+  const setText = (id, text) => { const el = document.getElementById(id); if (el) el.textContent = text; };
+  const num = id => { const el = document.getElementById(id); return el ? (+el.value || 0) : 0; };
+  let otherEV = 0, otherRev = 0, otherEbitda = 0;
+  const otherVals = {};
+  ['launch', 'aiinfra', 'defense', 'grok'].forEach(k => {
+    const r = num(`sop_${k}_rev`) * 1e9, m = num(`sop_${k}_margin`) / 100, x = num(`sop_${k}_mult`);
+    const e = r * m, v = e * x;
+    otherVals[k] = v; otherEV += v; otherRev += r; otherEbitda += e;
+    setText(`sop_${k}_ebitda`, fmtBig(e));
+    setText(`sop_${k}_ev`, fmtBig(v));
+  });
+  otherEV += num('sop_options_ev') * 1e9;
+  const MCAP = MARKET.mcap;
+  const sop = ev + computeSegmentEV + otherEV;
+  const sopRev = endRevenue + computeSegmentRevenue + otherRev;
+  const sopEbitda = endEbitda + computeSegmentEbitda + otherEbitda;
+  const discountPct = (MCAP / sop) * 100;
 
-  const heroStarlinkEv = document.getElementById('hero_starlink_ev');
-  const heroStarlinkNote = document.getElementById('hero_starlink_note');
-  const heroSop = document.getElementById('hero_sop');
+  setText('hero_launch_ev', fmtBig(otherVals.launch));
+  setText('hero_defense_ev', fmtBig(otherVals.defense));
+  setText('hero_starlink_ev', fmtBig(ev));
+  setText('hero_starlink_note', `${fmtBigNum(endSubs)} subs · ${(margin * 100).toFixed(0)}% margin · ${fmtBig(endRevenue)} revenue`);
+  setText('hero_sop', fmtBig(sop));
+  setText('hero_sub_pct', discountPct.toFixed(0) + '%');
   const heroDiscount = document.getElementById('hero_discount');
-  const heroDiscountNote = document.getElementById('hero_discount_note');
-  if (heroStarlinkEv) heroStarlinkEv.textContent = fmtBig(ev);
-  if (heroStarlinkNote) heroStarlinkNote.textContent = `${fmtBigNum(endSubs)} subs · ${(margin * 100).toFixed(0)}% margin · ${fmtBig(endRevenue)} revenue`;
-  if (heroSop) heroSop.textContent = fmtBig(sop);
   if (heroDiscount) {
     heroDiscount.textContent = discountPct.toFixed(0) + '%';
     heroDiscount.style.color = discountPct <= 100 ? 'var(--gain)' : 'var(--warn)';
   }
-  if (heroDiscountNote) {
-    const gap = 100 - discountPct;
-    heroDiscountNote.textContent = gap >= 0
-      ? `of base-case value · ${gap.toFixed(0)}% discount`
-      : `of base-case value · paying ${(-gap).toFixed(0)}% premium`;
-  }
+  const gap = 100 - discountPct;
+  setText('hero_discount_note', gap >= 0
+    ? `of base-case value · ${gap.toFixed(0)}% discount`
+    : `of base-case value · paying ${(-gap).toFixed(0)}% premium`);
+  // Hero bull/bear/anchor — all relative to the live market cap
+  setText('hero_bull_x', `~${(BULL_CASE_EV / MCAP).toFixed(1)}×`);
+  setText('hero_bear_pct', `${((BEAR_CASE_EV / MCAP - 1) * 100).toFixed(0)}%`.replace('-', '−'));
+  setText('hero_floor_ev', fmtBig(ev));
+  setText('hero_floor_pct', (ev / MCAP * 100).toFixed(0) + '%');
 
-  // Drive the bull-thesis sum-of-parts table Starlink row + total row
-  const setText = (id, text) => { const el = document.getElementById(id); if (el) el.textContent = text; };
   setText('sop_star_rev', fmtBig(endRevenue));
   setText('sop_star_margin', (margin * 100).toFixed(0) + '%');
   setText('sop_star_ebitda', fmtBig(endEbitda));
@@ -4058,18 +4661,25 @@ function updateValuation() {
   setText('sop_total_ebitda', fmtBig(sopEbitda) + ' EBITDA');
   setText('sop_total_ev', fmtBig(sop));
 
-  // Drive the "Base case" scenario card
-  const baseVsTodayPct = ((sop / SPCX_MARKET_CAP) - 1) * 100;
+  const baseVsTodayPct = ((sop / MCAP) - 1) * 100;
   setText('case_base_val', fmtBig(sop));
   setText('case_base_lbl', baseVsTodayPct >= 0
     ? `Year 5 EV · ${baseVsTodayPct.toFixed(0)}% above today`
     : `Year 5 EV · ${(-baseVsTodayPct).toFixed(0)}% below today`);
+  setText('case_bear_lbl', `Year 5 EV · ${((1 - BEAR_CASE_EV / MCAP) * 100).toFixed(0)}% below today`);
+  setText('case_bull_lbl', `Year 5 EV · ${(BULL_CASE_EV / MCAP).toFixed(1)}× today`);
 
-  // Drive the punchline callout + KPI grid
   setText('punchline_pct', discountPct.toFixed(0) + '%');
   setText('punchline_base', (sop / 1e12).toFixed(1));
+  setText('punchline_mcap', (MCAP / 1e12).toFixed(2));
   setText('kpi_base_sop', fmtBig(sop));
   setText('kpi_implied_pct', discountPct.toFixed(0) + '%');
+  setText('kpi_bull_x', (BULL_CASE_EV / MCAP).toFixed(1) + '×');
+
+  // TAM uses the margin + multiple sliders; DCF can be linked to these sliders
+  if (typeof updateTam === 'function' && document.getElementById('tamTable')) updateTam();
+  if (typeof updateScale === 'function' && document.getElementById('sc_v3pf')) updateScale();
+  else if (typeof updateDcf === 'function') updateDcf();
 }
 
 /* ============================================================
@@ -4129,7 +4739,7 @@ function buildDeployChart() {
             },
           },
         },
-        y: { grid: { display: false }, ticks: { color: '#eef2ff', font: { size: 12 } } },
+        y: { grid: { display: false }, ticks: { color: '#eef2ff', font: ctx => ({ size: ctx.chart.width < 400 ? 10 : 12, lineHeight: 1.1 }), autoSkip: false, callback: function (v) { return wrapTickLabel(this.getLabelForValue(v), this.chart.width); } } },
       },
     },
   });
@@ -4195,8 +4805,14 @@ function updateTam() {
   const subsUncon = TAM.unconnected * capUncon;
   const totalSubs = subsUnder + subsUncon;
   const revenue = totalSubs * arpu * 12;
-  const ebitda = revenue * 0.63;
-  const ev = ebitda * 18;
+  // Use the valuation section's margin + EV/EBITDA sliders (previously hard-coded 63% / 18×)
+  const tamMargin = +document.getElementById('v_margin').value / 100;
+  const tamMult = +document.getElementById('v_multiple').value;
+  const ebitda = revenue * tamMargin;
+  const ev = ebitda * tamMult;
+  document.querySelectorAll('.tam_margin_lbl').forEach(el => el.textContent = (tamMargin * 100).toFixed(0) + '%');
+  document.querySelectorAll('.tam_mult_lbl').forEach(el => el.textContent = tamMult + '×');
+  const ah = document.getElementById('tam_arpu_hdr'); if (ah) ah.textContent = '$' + arpu;
   const worldPop = TAM.connectedAdequate + TAM.connectedUnderserved + TAM.unconnected;
   const penetration = totalSubs / worldPop;
 
@@ -4208,7 +4824,7 @@ function updateTam() {
 
   // Update TAM scenarios table
   const scenarios = [
-    { name: 'Today (12M subs)',  under: 0.008, uncon: 0.000 },
+    { name: 'Today (12.0M subs)',  under: 0.008, uncon: 0.000 },
     { name: 'Conservative capture', under: 0.03, uncon: 0.005 },
     { name: 'Base case',            under: 0.10, uncon: 0.02 },
     { name: 'Your inputs',          under: capUnder, uncon: capUncon, highlight: true },
@@ -4222,7 +4838,7 @@ function updateTam() {
       const n = TAM.unconnected * s.uncon;
       const t = u + n;
       const r = t * arpu * 12;
-      const e = r * 0.63;
+      const e = r * tamMargin;
       return `
         <tr${s.highlight ? ' class="highlight"' : ''}>
           <td>${s.name}</td>
@@ -4398,6 +5014,600 @@ function updateComputePerLaunch() {
   if (typeof updateValuation === 'function') updateValuation();
 }
 
+
+/* ============================================================
+   DCF FAIR VALUE (Oct 2026 update)
+   Mechanics mirror /workspace/spacex-research/dcf_prototype.py:
+   - base year 2026E, explicit 2027–2036 (N = 10)
+   - segment growth g_t = gT + (g1 − gT) · decay^i  (i = 0 for 2027)
+   - margin ramps m0 → mT over ~2/3 of the horizon: m0 + (mT − m0)·min(1, 1.5·i/9)
+   - capex % rev ramps capex0 → capexT the same way; tax ramps linearly tax0 → taxT
+   - FCFF = EBIT·(1 − tax if EBIT > 0) + D&A − capex − NWC%·revenue
+   - PV with mid-year convention (i + 0.75 yrs; valuation date Oct 2026)
+   - TV: Gordon FCFF_2036·(1+g)/(WACC−g) or exit EBITDA_2036 × multiple, discounted 9.75 yrs
+   - per share = (EV + net cash) / (shares · (1 + dilution)^3)
+   ============================================================ */
+/* ============================================================
+   V3 CONSTELLATION SCALE-UP
+   Baseline: ~800 Tbps / ~9,600 broadband sats at Jun 30 2026 (Q2'26 call).
+   Annual steps 2026–2036 (2026 = Jul–Dec from the baseline). Mirrored in spacex-research/scaleup_model.py.
+   ============================================================ */
+const SC_IDS = ['sc_ss26', 'sc_ss27', 'sc_ss28', 'sc_ss29', 'sc_v3pf', 'sc_v3gbps', 'sc_f9', 'sc_f9end', 'sc_f9pf', 'sc_v2gbps',
+  'sc_prod', 'sc_prodg', 'sc_inv', 'sc_cap0', 'sc_sats0', 'sc_life', 'sc_cap', 'sc_capx', 'sc_capyr', 'sc_usable', 'sc_eg', 'sc_mbps', 'sc_oversub', 'sc_dgrow', 'sc_arpu'];
+const SC_YEARS = 11; // 2026..2036 (DCF needs 2036; charts show 2026–2035)
+function scParams(over) {
+  const v = id => +document.getElementById(id).value;
+  const p = {
+    ss: [v('sc_ss26'), v('sc_ss27'), v('sc_ss28'), v('sc_ss29')], v3pf: v('sc_v3pf'), v3gbps: v('sc_v3gbps'),
+    f9: v('sc_f9'), f9end: v('sc_f9end'), f9pf: v('sc_f9pf'), v2gbps: v('sc_v2gbps'),
+    cap0: v('sc_cap0'), sats0: v('sc_sats0'), life: v('sc_life'), cap: v('sc_cap'), capExtra: v('sc_capx'), capYear: v('sc_capyr'),
+    prod0: v('sc_prod'), prodg: v('sc_prodg') / 100, invMonths: v('sc_inv'),
+    usable: v('sc_usable') / 100, eg: v('sc_eg') / 100, mbps: v('sc_mbps'), oversub: v('sc_oversub'), dgrow: v('sc_dgrow') / 100,
+    arpu: v('sc_arpu'), drift: v('v_arpu_drift') / 100,
+    subs0: v('v_subs') * 1e6, g0: v('v_growth') / 100, egRev0: v('v_eg_rev') * 1e9, eg0: v('v_eg_growth') / 100,
+    decay: scenarioDecay, floor: scenarioFloor,
+  };
+  return Object.assign(p, over || {});
+}
+function scaleRun(p) {
+  let v2 = p.sats0, v2c = p.cap0 * 1000, v3 = 0, v3c = 0; // counts, Gbps
+  let subs = p.subs0, g = p.g0, egRev = p.egRev0, eg = p.eg0;
+  let inv = 0; // carried-over satellite inventory
+  const rows = [];
+  let capYear = null, prodYear = null;
+  const EPS = 1e-6;
+  for (let i = 0; i < SC_YEARS; i++) {
+    const year = 2026 + i;
+    const frac = i === 0 ? 0.5 : 1;
+    const ssFlights = p.ss[Math.min(i, 3)];
+    const f9 = i === 0 ? p.f9 * 0.5 : p.f9 * Math.max(0, 1 - i / Math.max(1, p.f9end - 2026));
+    const a = frac / p.life;
+    v2c -= v2c * a; v2 -= v2 * a; v3c -= v3c * a; v3 -= v3 * a;
+    const capY = p.cap + (year >= (p.capYear || 9999) ? (p.capExtra || 0) : 0); // authorized cap this year
+    // Three constraints on satellites deployed this year
+    const launchV3 = ssFlights * p.v3pf, launchV2 = f9 * p.f9pf;          // launch capacity
+    const prodRate = p.prod0 * Math.pow(1 + p.prodg, i);                  // full-year output rate
+    const produced = prodRate * frac;
+    const avail = produced + inv;                                         // production + inventory
+    const head = Math.max(0, capY - (v2 + v3));                          // FCC headroom
+    const fccV3 = head + v2;                                              // V3s may also replace V2s
+    const add3 = Math.min(launchV3, avail, fccV3);
+    const add2 = Math.min(launchV2, Math.max(0, avail - add3), Math.max(0, head - add3));
+    const deployed = add2 + add3, launchable = launchV3 + launchV2;
+    let bind;
+    if (deployed >= launchable - EPS) bind = 'Launch';
+    else if (deployed >= avail - EPS) bind = 'Production';
+    else bind = 'FCC';
+    if (bind === 'Production' && prodYear === null) prodYear = year;
+    inv = Math.min(avail - deployed, prodRate * p.invMonths / 12);
+    v2 += add2; v2c += add2 * p.v2gbps; v3 += add3; v3c += add3 * p.v3gbps;
+    if (v2 + v3 > capY + EPS) {                                          // V3s displace V2s at the cap
+      let ex = v2 + v3 - capY;
+      const rm = Math.min(ex, v2);
+      if (v2 > 0) v2c -= rm * (v2c / v2);
+      v2 -= rm; ex -= rm;
+      if (ex > 0 && v3 > 0) { v3c -= ex * (v3c / v3); v3 -= ex; }
+    }
+    const capped = v2 + v3 >= capY - 0.5;
+    if (capped && capYear === null) capYear = year;
+    const nominal = v2c + v3c;                       // Gbps
+    const usable = nominal * p.usable;
+    const consumerGbps = usable * (1 - p.eg);
+    const effMbps = p.mbps / p.oversub * Math.pow(1 + p.dgrow, i); // busy-hour Mbps per sub
+    const supportable = consumerGbps * 1000 / effMbps;
+    const arpu = p.arpu * Math.pow(1 + p.drift, i);
+    rows.push({ year, ssFlights, f9, v2, v3, sats: v2 + v3, nominalTbps: nominal / 1000, v3capTbps: v3c / 1000, usableTbps: usable / 1000,
+      supportable, demand: subs, served: Math.min(subs, supportable), arpu, ceiling: supportable * arpu * 12,
+      egDemand: egRev, capped, capY, launchable, produced, avail, deployed, add3, add2, inv, bind });
+    subs *= 1 + g; egRev *= 1 + eg;
+    g = Math.max(g * p.decay, p.floor); eg = Math.max(eg * p.decay, p.floor);
+  }
+  const bindRow = rows.find(r => r.demand > r.supportable);
+  return { rows, capYear, prodYear, bindYear: bindRow ? bindRow.year : null };
+}
+const SC_BIND_CLS = { Launch: 'b-launch', Production: 'b-prod', FCC: 'b-fcc' };
+function scBindSummary(rows) {
+  // e.g. "Launch 2026–2028 → Production 2029–2031 → FCC 2032–2035"
+  const out = []; let cur = null, start = null, prev = null;
+  rows.slice(0, 10).forEach(r => {
+    if (r.bind !== cur) { if (cur) out.push(`${cur} ${start === prev ? start : start + '–' + prev}`); cur = r.bind; start = r.year; }
+    prev = r.year;
+  });
+  out.push(`${cur} ${start === prev ? start : start + '–' + prev}`);
+  return out.join(' → ');
+}
+// Category labels on horizontal bar charts: split onto lines when the chart is narrow so Chart.js doesn't clip them.
+function wrapTickLabel(label, chartWidth) {
+  if (chartWidth >= 560 || typeof label !== 'string') return label;
+  const max = chartWidth < 400 ? 14 : 20, out = [];
+  let line = '';
+  label.split(' ').forEach(w => { if ((line + ' ' + w).trim().length > max && line) { out.push(line); line = w; } else line = (line + ' ' + w).trim(); });
+  if (line) out.push(line);
+  return out;
+}
+let scCapChart = null, scSubsChart = null;
+const fmtAxisK = v => (v >= 1000 ? (v / 1000).toLocaleString('en-US', { maximumFractionDigits: 1 }) + 'k' : String(v));
+const SC_BIND_SHORT = { Launch: ['Launch', 'Launch', 'L'], Production: ['Production', 'Prod.', 'P'], FCC: ['FCC', 'FCC', 'F'] };
+// Put each binding-constraint chip directly under its bar: x = the chart's own pixel for that category.
+function positionBindChips(chart) {
+  const row = document.getElementById('scBindRow');
+  if (!row || !chart || !chart.scales || !chart.scales.x) return;
+  const chips = row.querySelectorAll('.sc-bind');
+  const x = chart.scales.x;
+  const off = chart.canvas.getBoundingClientRect().left - row.getBoundingClientRect().left;
+  const step = chips.length > 1 ? x.getPixelForValue(1) - x.getPixelForValue(0) : x.width;
+  const mode = step >= 90 ? 0 : step >= 46 ? 1 : 2;
+  chips.forEach((c, i) => {
+    const t = (SC_BIND_SHORT[c.dataset.bind] || [c.dataset.bind, c.dataset.bind, c.dataset.bind])[mode];
+    if (c.textContent !== t) c.textContent = t;
+    c.style.left = (off + x.getPixelForValue(i)).toFixed(1) + 'px';
+    c.style.padding = mode === 2 ? '2px 5px' : '';
+  });
+  const lbl = row.querySelector('.sc-bind-lbl');
+  if (lbl) { const w = off + x.left - 8; lbl.style.width = Math.max(0, w) + 'px'; lbl.style.display = w >= 44 ? '' : 'none'; }
+}
+function buildScaleCharts() {
+  const c1 = document.getElementById('scCapChart'), c2 = document.getElementById('scSubsChart');
+  if (!c1 || !c2) return;
+  const tick = { color: '#9aa3c7' }, grid = { color: 'rgba(255,255,255,0.05)' };
+  scCapChart = new Chart(c1.getContext('2d'), {
+    data: { labels: [], datasets: [
+      { type: 'bar', label: 'V2-gen capacity (Tbps)', data: [], backgroundColor: 'rgba(154,163,199,0.55)', stack: 'cap', yAxisID: 'y' },
+      { type: 'bar', label: 'V3 capacity (Tbps)', data: [], backgroundColor: 'rgba(96,165,250,0.8)', stack: 'cap', yAxisID: 'y' },
+      { type: 'line', label: 'Satellites in orbit', data: [], borderColor: '#fbbf24', backgroundColor: '#fbbf24', yAxisID: 'y1', tension: 0.25 },
+    ] },
+    options: { responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: { legend: { labels: { color: '#cfd5ee', boxWidth: 14 } } },
+      scales: { x: { stacked: true, ticks: tick, grid },
+        y: { stacked: true, min: 0, title: { display: true, text: 'Nominal downlink (Tbps)', color: '#9aa3c7' }, ticks: { color: '#9aa3c7', callback: v => fmtAxisK(v) }, grid },
+        y1: { position: 'right', min: 0, title: { display: true, text: 'Satellites in orbit', color: '#fbbf24' }, ticks: { color: '#fbbf24', callback: v => fmtAxisK(v) }, grid: { display: false } } } },
+    plugins: [{ id: 'scBindAlign', afterDraw: positionBindChips }],
+  });
+  scSubsChart = new Chart(c2.getContext('2d'), {
+    type: 'line',
+    data: { labels: [], datasets: [
+      { label: 'Supportable consumer subs (M)', data: [], borderColor: '#60a5fa', backgroundColor: '#60a5fa', tension: 0.25 },
+      { label: 'Demand (valuation path, M)', data: [], borderColor: '#f87171', backgroundColor: '#f87171', borderDash: [6, 4], tension: 0.25 },
+      { label: 'Served = min(demand, supportable) (M)', data: [], borderColor: '#34d399', backgroundColor: 'rgba(52,211,153,0.15)', fill: true, tension: 0.25 },
+    ] },
+    options: { responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: { legend: { labels: { color: '#cfd5ee' } } },
+      scales: { x: { ticks: tick, grid }, y: { ticks: { color: '#9aa3c7', callback: v => v + 'M' }, grid } } },
+  });
+}
+const fmtTbps = t => t >= 1000 ? (t / 1000).toFixed(t >= 10000 ? 1 : 2) + ' Pbps' : fmtNum(t) + ' Tbps';
+const fmtSubsM = n => (n / 1e6).toFixed(n >= 1e8 ? 0 : 1) + 'M';
+function updateScale() {
+  if (!document.getElementById('sc_v3pf')) return;
+  const p = scParams();
+  const setV = (id, t) => { const el = document.getElementById(id + '_v'); if (el) el.textContent = t; };
+  ['sc_ss26', 'sc_ss27', 'sc_ss28', 'sc_ss29', 'sc_v3pf', 'sc_f9', 'sc_f9pf', 'sc_v2gbps', 'sc_cap0'].forEach(id => setV(id, fmtNum(+document.getElementById(id).value)));
+  setV('sc_f9end', String(p.f9end));
+  setV('sc_v3gbps', fmtNum(p.v3gbps)); setV('sc_sats0', fmtNum(p.sats0)); setV('sc_life', p.life.toFixed(1)); setV('sc_cap', fmtNum(p.cap)); setV('sc_capx', fmtNum(p.capExtra)); setV('sc_capyr', String(p.capYear));
+  setV('sc_usable', Math.round(p.usable * 100) + '%'); setV('sc_eg', Math.round(p.eg * 100) + '%'); setV('sc_mbps', fmtNum(p.mbps));
+  setV('sc_prod', fmtNum(p.prod0)); setV('sc_prodg', Math.round(p.prodg * 100) + '%'); setV('sc_inv', String(p.invMonths));
+  setV('sc_oversub', p.oversub + ':1'); setV('sc_dgrow', Math.round(p.dgrow * 100) + '%'); setV('sc_arpu', '$' + p.arpu);
+  document.querySelectorAll('#scPresets button').forEach(b => b.classList.toggle('active', +b.dataset.v3 === p.v3pf));
+
+  const r = scaleRun(p);
+  const r26 = scaleRun(Object.assign({}, p, { v3pf: 26 })), r60 = scaleRun(Object.assign({}, p, { v3pf: 60 }));
+  const y30 = r.rows[4], y35 = r.rows[9];
+  const setText = (id, t) => { const el = document.getElementById(id); if (el) el.textContent = t; };
+  setText('sc_cap2030', fmtTbps(y30.nominalTbps));
+  setText('sc_cap2030_sub', `${(y30.nominalTbps / p.cap0).toFixed(1)}× today's ${fmtNum(p.cap0)} Tbps · usable ≈ ${fmtTbps(y30.usableTbps)}`);
+  setText('sc_sats2030', fmtNum(Math.round(y30.sats)));
+  setText('sc_sats2030_l', `Satellites in 2030 (${Math.round(y30.v3 / y30.sats * 100)}% V3)`);
+  setText('sc_subs2030', fmtSubsM(y30.supportable));
+  setText('sc_ceil2030', fmtBig(y30.ceiling));
+  setText('sc_bind', r.bindYear ? String(r.bindYear) : 'not before 2037');
+  setText('sc_cap2035', fmtTbps(y35.nominalTbps));
+  setText('sc_capbind_yr', r.capYear ? String(r.capYear) : 'not before 2037');
+  setText('sc_bind2030', y30.bind);
+  setText('sc_prodyr', r.prodYear ? String(r.prodYear) : 'none to 2036');
+  const br = document.getElementById('scBindRow');
+  if (br) br.innerHTML = '<span class="sc-bind-lbl">Binding</span>' + r.rows.slice(0, 10).map(x => `<span class="sc-bind ${SC_BIND_CLS[x.bind]}" data-year="${x.year}" data-bind="${x.bind}" title="${x.year}: ${x.bind}-limited">${x.bind}</span>`).join('');
+
+  const show = r.rows.slice(0, 10);
+  if (scCapChart) {
+    scCapChart.data.labels = show.map(x => x.year);
+    scCapChart.data.datasets[0].data = show.map(x => Math.round(x.nominalTbps - x.v3capTbps));
+    scCapChart.data.datasets[1].data = show.map(x => Math.round(x.v3capTbps));
+    scCapChart.data.datasets[2].data = show.map(x => Math.round(x.sats));
+    scCapChart.update('none');
+  }
+  if (scSubsChart) {
+    scSubsChart.data.labels = show.map(x => x.year);
+    scSubsChart.data.datasets[0].data = show.map(x => +(x.supportable / 1e6).toFixed(1));
+    scSubsChart.data.datasets[1].data = show.map(x => +(x.demand / 1e6).toFixed(1));
+    scSubsChart.data.datasets[2].data = show.map(x => +(x.served / 1e6).toFixed(1));
+    scSubsChart.update('none');
+  }
+  const tb = document.getElementById('scTable');
+  if (tb) tb.innerHTML = show.map(x => `<tr${x.demand > x.supportable ? ' style="color:var(--danger)"' : ''}><td>${x.year}</td><td>${fmtNum(x.ssFlights)} / ${fmtNum(Math.round(x.f9))}</td><td>${fmtNum(Math.round(x.launchable))}</td><td>${fmtNum(Math.round(x.produced))}${x.avail > x.produced + 0.5 ? '<span class="inv">+' + fmtNum(Math.round(x.avail - x.produced)) + ' inventory</span>' : ''}</td><td>${fmtNum(Math.round(x.deployed))}</td><td><span class="sc-bind ${SC_BIND_CLS[x.bind]}">${x.bind}</span></td><td>${fmtNum(Math.round(x.sats))} (${fmtNum(Math.round(x.v3))})${x.capped ? ' ⛔' : ''}</td><td>${fmtNum(Math.round(x.nominalTbps))}</td><td>${fmtNum(Math.round(x.usableTbps))}</td><td>${fmtSubsM(x.supportable)}</td><td>${fmtSubsM(x.demand)}</td><td>${fmtBig(x.ceiling)}</td></tr>`).join('');
+
+  // Callout: 26 vs 60
+  const perF = p.f9pf * p.v2gbps; // Gbps per Falcon launch
+  const t26 = 26 * p.v3gbps, t60 = 60 * p.v3gbps;
+  setText('sc_c_t26', fmtNum(t26 / 1000) + ' Tbps'); setText('sc_c_t60', fmtNum(t60 / 1000) + ' Tbps');
+  setText('sc_c_f26', (t26 / perF).toFixed(0)); setText('sc_c_f60', (t60 / perF).toFixed(0));
+  setText('sc_c_n26', fmtNum(Math.ceil(p.cap0 * 1000 / t26))); setText('sc_c_n60', fmtNum(Math.ceil(p.cap0 * 1000 / t60)));
+  setText('sc_c_cap26', fmtTbps(r26.rows[4].nominalTbps)); setText('sc_c_cap60', fmtTbps(r60.rows[4].nominalTbps));
+  setText('sc_c_sub26', fmtSubsM(r26.rows[4].supportable)); setText('sc_c_sub60', fmtSubsM(r60.rows[4].supportable));
+  setText('sc_c_ceil26', fmtBig(r26.rows[4].ceiling)); setText('sc_c_ceil60', fmtBig(r60.rows[4].ceiling));
+  const rep = (p.cap + p.capExtra) / p.life;
+  setText('sc_c_rep', fmtNum(Math.round(rep))); setText('sc_c_rep26', fmtNum(Math.ceil(rep / 26))); setText('sc_c_rep60', fmtNum(Math.ceil(rep / 60)));
+  setText('sc_c_prod', fmtNum(p.prod0));
+  setText('sc_c_prodf26', fmtNum(Math.floor(p.prod0 / 26))); setText('sc_c_prodf60', fmtNum(Math.floor(p.prod0 / 60)));
+  setText('sc_c_bind26', scBindSummary(r26.rows)); setText('sc_c_bind60', scBindSummary(r60.rows));
+  setText('sc_c_fcc', `${fmtNum(p.cap)} satellites authorized today` + (p.capExtra > 0 ? `, +${fmtNum(p.capExtra)} from ${p.capYear} (${fmtNum(p.cap + p.capExtra)} total)` : ', no further approval'));
+  setText('sc_c_capyr60', r60.capYear ? String(r60.capYear) : 'no year before 2037');
+  window.__scale = { params: p, result: r, r26, r60 };
+  if (typeof updateDcf === 'function') updateDcf(); // DCF (if fed) + 26 vs 60 delta
+}
+function updateScaleDcf() {
+  if (!document.getElementById('sc_v3pf') || !window.__scale) return;
+  const pick = rr => (dcfMethod === 'exit' ? rr.exit : rr.gordon).ps;
+  const p26 = dcfParams({ feed: true, scRun: window.__scale.r26 });
+  const p60 = dcfParams({ feed: true, scRun: window.__scale.r60 });
+  const pU = dcfParams({ feed: true, scRun: window.__scale.r60, unconstrained: true });
+  const d26 = pick(dcfRun(p26)), d60 = pick(dcfRun(p60)), dU = pick(dcfRun(pU));
+  const delta = d60 - d26;
+  const sgn = v => (v >= 0 ? '+' : '−') + '$' + Math.abs(v).toFixed(Math.abs(v) < 100 ? 1 : 0);
+  const setText = (id, t) => { const el = document.getElementById(id); if (el) el.textContent = t; };
+  setText('sc_dcf26', fmtPS(d26)); setText('sc_dcf60', fmtPS(d60));
+  setText('sc_c_dcf26', fmtPS(d26)); setText('sc_c_dcf60', fmtPS(d60));
+  setText('sc_c_dcfd', `${sgn(delta)}/share, ${(delta / d26 * 100 >= 0 ? '+' : '−') + Math.abs(delta / d26 * 100).toFixed(0)}%`);
+  const el = document.getElementById('sc_dcf_delta');
+  if (el) {
+    el.textContent = `60 vs 26 per flight: ${sgn(delta)}/share (${dcfMethod === 'exit' ? 'exit multiple' : 'perpetual growth'}). If capacity never binds (demand only): ${fmtPS(dU)}.`;
+    el.style.color = delta >= 0 ? 'var(--gain)' : 'var(--danger)';
+  }
+  window.__scaleDcf = { d26, d60, dU, delta, method: dcfMethod };
+}
+const SC_STARLINK_SHARE = 0.8; // assumption: share of Starship flights carrying Starlink V3
+const SC_CADENCE = {
+  conservative: { v: [1, 30, 80, 150],
+    info: 'Conservative (default) <span class="unv" style="background:#9aa3c7" title="Author assumption — not a reported figure">assumption</span>: 1 / 30 / 80 / 150 Starlink flights for 2026 / 2027 / 2028 / 2029+. Well below Musk\'s targets. The steady state of 150/yr at 26 V3s each (~3,900 V3s/yr) is about Redmond\'s current ~70 satellites/week. Above ~116/yr it assumes approvals beyond today\'s 145-flight envelope.' },
+  musk: { v: [1, Math.round(78 * SC_STARLINK_SHARE), Math.round(365 * SC_STARLINK_SHARE), Math.round(1000 * SC_STARLINK_SHARE)],
+    info: 'Musk targets × 80% Starlink share. 2026: Flight 14 only. 2027: "weekly or twice weekly" (Sep 29 2026) = 52–104 flights, midpoint 78 → 62. 2028: "at least one flight a day" a year after the Q2 call (Aug 2026) = 365 → 292. 2029+: "faster thereafter". SpaceX targets "thousands of flights per year", and Musk has said "every hour in 3 years" <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span>. Modeled as 1,000/yr → 800, the slider maximum. Hourly (8,760/yr) is not modeled. This exceeds today\'s approved envelope (145/yr). With the production constraint at default settings, this cadence is <strong>production-limited from 2028</strong>: there are more flights than satellites to fill them, so it is an upper bound.' },
+  faa: { v: [1, Math.round(69 * SC_STARLINK_SHARE), Math.round(145 * SC_STARLINK_SHARE), Math.round(145 * SC_STARLINK_SHARE)],
+    info: 'FAA-limited × 80% Starlink share. Total Starship flights are capped at approved launch envelopes. 2027: Starbase 25 + LC-39A 44 = 69 → 55. 2028+: adds SLC-37\'s 76 = 145 → 116 (the Air Force approved SLC-37; the FAA\'s supplemental review is still open). The often-quoted "~145/yr" is this three-site total, not a Starbase-only limit <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span>. Pad readiness dates (first LC-39A and SLC-37 Starship launches) are assumptions <span class="unv" style="background:#9aa3c7" title="Author assumption — not a reported figure">assumption</span>.' },
+};
+let scCadenceKey = 'conservative';
+function applyCadencePreset(key) {
+  const c = SC_CADENCE[key]; if (!c) return;
+  ['sc_ss26', 'sc_ss27', 'sc_ss28', 'sc_ss29'].forEach((id, i) => { document.getElementById(id).value = c.v[i]; });
+  scCadenceKey = key;
+  document.querySelectorAll('#scCadence button').forEach(b => b.classList.toggle('active', b.dataset.cad === key));
+  document.getElementById('scCadenceInfo').innerHTML = c.info;
+  updateScale();
+}
+function clearCadencePreset() {
+  scCadenceKey = null;
+  document.querySelectorAll('#scCadence button').forEach(b => b.classList.remove('active'));
+  document.getElementById('scCadenceInfo').textContent = 'Custom cadence: you have moved a flight slider. Pick a preset to restore its sourced values.';
+}
+const SC_FCC = {
+  current: { cap: 19400, x: 0, yr: 2028,
+    info: 'Current approval: 4,408 Gen1 + 15,000 Gen2 = 19,400 (FCC DA-26-36, Jan 9 2026). Assumes the FCC never acts on the deferred 14,988 Gen2 satellites before 2036. This is the floor case.' },
+  best: { cap: 19400, x: 7500, yr: 2028,
+    info: 'Best estimate (default) <span class="unv" style="background:#9aa3c7" title="Author assumption — not a reported figure">assumption</span>: one more 7,500-satellite tranche lands in 2028, for a cap of 26,900. Why: the FCC has approved Gen2 in 7,500 steps (FCC 22-91 in Dec 2022, then DA-26-36 in Jan 2026, ~37 months apart). DA-26-36 says it is proceeding "incrementally" and deferred the rest until the upgrade satellites prove themselves on orbit. Flight 14\'s V3s were due to begin serving customers within weeks of Sep 28 2026 (Space.com via Basenor), and Chairman Carr\'s FCC has been fast and pro-LEO (the Gen2 grant, the EPFD rule rewrite). My odds for the deferred 14,988 by end-2028: none 20%, one tranche 55%, all of it 25%. Expected value ≈ 7,900, rounded to one 7,500 tranche.' },
+  full: { cap: 19400, x: 14988, yr: 2028,
+    info: 'Full Gen2 request: the remaining 14,988 approved in 2028, for 4,408 + 29,988 = 34,396 (~34,400). This is the upside within the current Gen2 application.' },
+  gen3: { cap: 19400, x: 114988, yr: 2029,
+    info: 'Gen3 filing <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span>: full Gen2 plus the 100,000-satellite Gen3 application SpaceX filed Jul 6 2026 (very-low-orbit shells at ~325 km and ~475 km, 5-year life; Broadband Breakfast), assumed approved in 2029 for ~134,400 total. Pending, with no FCC action yet. The separate Jan 30 2026 filing for up to 1 million orbital-data-center satellites (FCC DA-26-113, accepted for filing; Amazon petitioned to deny) is compute, not broadband capacity, so it is not counted. With this much room, launch and production bind instead.' },
+};
+let scFccKey = 'best';
+function applyFccPreset(key) {
+  const f = SC_FCC[key]; if (!f) return;
+  document.getElementById('sc_cap').value = f.cap; document.getElementById('sc_capx').value = f.x; document.getElementById('sc_capyr').value = f.yr;
+  scFccKey = key;
+  document.querySelectorAll('#scFcc button').forEach(b => b.classList.toggle('active', b.dataset.fcc === key));
+  document.getElementById('scFccInfo').innerHTML = f.info;
+  updateScale();
+}
+function clearFccPreset() {
+  scFccKey = null;
+  document.querySelectorAll('#scFcc button').forEach(b => b.classList.remove('active'));
+  document.getElementById('scFccInfo').textContent = 'Custom FCC setting: you have moved a cap slider. Pick a preset to restore its sourced values.';
+}
+function bindScale() {
+  SC_IDS.forEach(id => document.getElementById(id).addEventListener('input', () => {
+    if (id === 'sc_cap0') updateCalculator(); // refreshes the "Unlocks" capacity KPIs
+    if (/^sc_ss2[6-9]$/.test(id)) clearCadencePreset();
+    if (id === 'sc_cap' || id === 'sc_capx' || id === 'sc_capyr') clearFccPreset();
+    updateScale();
+  }));
+  document.getElementById('sc_feed_dcf').addEventListener('change', () => { clearDcfPreset(); updateDcf(); });
+  document.getElementById('scFcc').addEventListener('click', e => {
+    const b = e.target.closest('button[data-fcc]'); if (b) applyFccPreset(b.dataset.fcc);
+  });
+  document.getElementById('scCadence').addEventListener('click', e => {
+    const b = e.target.closest('button[data-cad]'); if (b) applyCadencePreset(b.dataset.cad);
+  });
+  document.getElementById('scPresets').addEventListener('click', e => {
+    const b = e.target.closest('button[data-v3]'); if (!b) return;
+    document.getElementById('sc_v3pf').value = b.dataset.v3; updateScale();
+  });
+}
+
+const DCF_SEGS = [
+  { id: 'consumer', gT: 0.06, m0: 0.60 },
+  { id: 'eg',       gT: 0.06, m0: 0.60 },
+  { id: 'launch',   gT: 0.05, m0: 0.10 },
+  { id: 'ai_infra', gT: 0.06, m0: 0.55 },
+  { id: 'ai_sw',    gT: 0.08, m0: -0.20 },
+  { id: 'mobile',   gT: 0.06, m0: -0.50 },
+];
+const DCF_GLOBALS = ['wacc', 'tg', 'exit', 'decay', 'capex0', 'capexT', 'da', 'nwc', 'tax0', 'taxT', 'netcash', 'dil', 'orbital_start'];
+const DCF_BASE = {
+  consumer_rev: 10.5, consumer_g1: 40,  consumer_mT: 62,
+  eg_rev: 8.0,        eg_g1: 50,        eg_mT: 60,
+  launch_rev: 4.0,    launch_g1: 25,    launch_mT: 45,
+  ai_infra_rev: 20,   ai_infra_g1: 150, ai_infra_mT: 45,
+  ai_sw_rev: 4.0,     ai_sw_g1: 80,     ai_sw_mT: 30,
+  mobile_rev: 0.3,    mobile_g1: 200,   mobile_mT: 45,
+  wacc: 9.5, tg: 3, exit: 18, decay: 0.70, capex0: 75, capexT: 18, da: 8, nwc: 1,
+  tax0: 5, taxT: 21, netcash: 50, dil: 1.5, orbital_start: 2029, method: 'gordon',
+};
+function dcfDerive(over, growthMult) {
+  const p = Object.assign({}, DCF_BASE);
+  if (growthMult) Object.entries(growthMult).forEach(([k, m]) => { p[k + '_g1'] = Math.round(DCF_BASE[k + '_g1'] * m * 100) / 100; });
+  return Object.assign(p, over || {});
+}
+const ALL_115 = { consumer: 1.15, eg: 1.15, launch: 1.15, ai_infra: 1.15, ai_sw: 1.15, mobile: 1.15 };
+const BEAR_MULT = { consumer: 0.6, eg: 0.6, launch: 0.6, ai_infra: 0.45, ai_sw: 0.4, mobile: 0.3 };
+const BULL_MULT = { consumer: 1.25, eg: 1.25, launch: 1.4, ai_infra: 1.35, ai_sw: 1.3, mobile: 1.3 };
+const DCF_PRESETS = {
+  bear: { v: dcfDerive({ ai_infra_mT: 40, ai_sw_mT: 20, wacc: 11, tg: 2.5, capex0: 60, capexT: 15, taxT: 23 }, BEAR_MULT),
+          info: 'Bear: growth cut 40–70% by segment, AI infra margin 40%, WACC 11%, 2.5% terminal growth. Starship/AI build-out slips; Starlink still compounds.' },
+  base: { v: dcfDerive({}),
+          info: 'Base: 2026E revenue ≈$47B (Goldman 2026E $47.6B), 2030 ≈$373B, FCF positive 2031 (Goldman: Q4 2030). WACC 9.5% (between Damodaran 8.37% and Goldman 12%).' },
+  bull: { v: dcfDerive({ ai_infra_mT: 50, wacc: 9, tg: 3.5, capexT: 16 }, BULL_MULT),
+          info: 'Bull: growth +25–40%, AI infra margin 50%, WACC 9%, 3.5% terminal growth — Starship + V3 + compute rentals all scale.' },
+  ms_bear: { v: dcfDerive({ wacc: 12, tg: 2 }),
+          info: 'Approximates Morgan Stanley bear $75 (Jul 7 2026, "intentionally wide"): base operating path but funding/execution risk priced as a 12% WACC and 2% terminal growth.' },
+  ms_base: { v: dcfDerive({ exit: 18, method: 'exit' }),
+          info: 'Approximates Morgan Stanley base $300 (≈25× 2028E sales; half Space+Connectivity, half AI): base path with an 18× EBITDA exit on 2036.' },
+  ms_bull: { v: dcfDerive({ ai_infra_mT: 50, wacc: 9, tg: 3.5, capexT: 16, exit: 13, method: 'exit' }, BULL_MULT),
+          info: 'Approximates Morgan Stanley bull $600 (>$3T revenue by 2040, ~$8T market cap): bull path with a 13× EBITDA exit.' },
+  gs: { v: dcfDerive({ wacc: 12, exit: 11, method: 'exit' }, ALL_115),
+          info: 'Approximates Goldman $220 (Aug 6 2026; SOTP on 2029E, discounted 1.5 yrs at 12%): growth ×1.15 so 2030 revenue ≈$476B (GS $474B), 12% WACC, 11× exit.' },
+  jpm: { v: dcfDerive({ wacc: 11, exit: 10, method: 'exit' }, ALL_115),
+          info: 'Approximates JPMorgan $225 (Dec 2027 PT; 41× 2028E EPS $5.50; 2030E revenue ≈$470B): growth ×1.15, WACC 11%, 10× exit.' },
+  damodaran: { v: dcfDerive({ wacc: 8.37, tg: 3, ai_infra_g1: 120, ai_sw_mT: 25 }),
+          info: 'Approximates Damodaran ≈$100 (Jun 4 2026): cost of capital 8.37%, AI software margin 25% (his AI target), slower AI infrastructure growth, perpetual-growth terminal value.' },
+};
+let dcfMethod = 'gordon';
+let dcfChart = null;
+
+function dcfRun(p) {
+  const N = 10, rows = [], fcff = [];
+  const revs = {};
+  p.seg.forEach(v => { revs[v.id] = v.rev; });
+  let lastEbitda = 0;
+  for (let i = 0; i < N; i++) {
+    const t = i / (N - 1);
+    let tot = 0, ebitda = 0;
+    p.seg.forEach(v => {
+      let r, m;
+      if (v.path) { r = v.path[i]; m = v.m0 !== undefined ? v.m0 + (v.mT - v.m0) * Math.min(1, t * 1.5) : v.mT; }
+      else {
+        const g = v.gT + (v.g1 - v.gT) * Math.pow(p.decay, i);
+        revs[v.id] *= 1 + g;
+        r = revs[v.id];
+        m = v.m0 + (v.mT - v.m0) * Math.min(1, t * 1.5);
+      }
+      tot += r; ebitda += r * m;
+    });
+    const capex = tot * (p.capex0 + (p.capexT - p.capex0) * Math.min(1, t * 1.5));
+    const da = tot * p.da;
+    const tax = p.tax0 + (p.taxT - p.tax0) * t;
+    const ebit = ebitda - da;
+    const f = ebit * (ebit > 0 ? (1 - tax) : 1) + da - capex - p.nwc * tot;
+    lastEbitda = ebitda;
+    fcff.push(f);
+    rows.push({ year: 2027 + i, rev: tot, ebitda, capex, fcff: f, pv: f / Math.pow(1 + p.wacc, i + 0.75) });
+  }
+  const pv = rows.reduce((a, r) => a + r.pv, 0);
+  const disc = Math.pow(1 + p.wacc, N - 0.25);
+  const sh = p.shares * Math.pow(1 + p.dil, 3);
+  const mk = tv => { const pvtv = tv / disc; const ev = pv + pvtv; const eq = ev + p.netcash; return { tv, pvtv, ev, eq, ps: eq / sh, tvShare: pvtv / ev }; };
+  const gordon = p.wacc > p.tg ? mk(fcff[N - 1] * (1 + p.tg) / (p.wacc - p.tg)) : { ps: NaN, ev: NaN, eq: NaN, pvtv: NaN, tvShare: NaN };
+  return { rows, pv, gordon, exit: mk(lastEbitda * p.exit) };
+}
+
+function dcfVal(id) { return +document.getElementById('dcf_' + id).value; }
+function dcfSet(id, v) { const el = document.getElementById('dcf_' + id); if (el) el.value = v; }
+
+function dcfParams(opts) {
+  opts = opts || {};
+  const linkConn = document.getElementById('dcf_link_conn').checked;
+  const feedEl = document.getElementById('sc_feed_dcf');
+  const feed = opts.feed !== undefined ? opts.feed : !!(feedEl && feedEl.checked);
+  const linkOrb = document.getElementById('dcf_link_orbital').checked;
+  const seg = DCF_SEGS.map(sg => ({ id: sg.id, gT: sg.gT, m0: sg.m0,
+    rev: dcfVal(sg.id + '_rev'), g1: dcfVal(sg.id + '_g1') / 100, mT: dcfVal(sg.id + '_mT') / 100 }));
+  if (linkConn) {
+    const subsM = +document.getElementById('v_subs').value;
+    const arpu = +document.getElementById('v_arpu').value;
+    const drift = +document.getElementById('v_arpu_drift').value / 100;
+    const g = +document.getElementById('v_growth').value / 100;
+    const m = +document.getElementById('v_margin').value / 100;
+    const c = seg[0], e = seg[1];
+    c.rev = subsM * 1e6 * arpu * 12 / 1e9; c.g1 = (1 + g) * (1 + drift) - 1; c.m0 = m;
+    e.rev = +document.getElementById('v_eg_rev').value; e.g1 = +document.getElementById('v_eg_growth').value / 100; e.m0 = m;
+  }
+  if (feed && typeof scaleRun === 'function' && document.getElementById('sc_v3pf')) {
+    // Capacity-constrained Starlink: consumer = min(demand, supportable) subs × drifting ARPU × 12;
+    // E&G follows the valuation E&G path (served first from its reserved capacity share).
+    const sr = opts.scRun || scaleRun(scParams(opts.sc));
+    const m = +document.getElementById('v_margin').value / 100;
+    const c = seg[0], e = seg[1];
+    const key = opts.unconstrained ? 'demand' : 'served';
+    c.path = []; e.path = [];
+    for (let i = 0; i < 10; i++) {
+      const y = sr.rows[i + 1];
+      c.path.push(y[key] * y.arpu * 12 / 1e9);
+      e.path.push(y.egDemand / 1e9);
+    }
+    const y0 = sr.rows[0];
+    c.rev = y0[key] * y0.arpu * 12 / 1e9; c.g1 = c.path[0] / c.rev - 1; c.m0 = m;
+    e.rev = y0.egDemand / 1e9; e.g1 = e.path[0] / e.rev - 1; e.m0 = m;
+  }
+  if (linkOrb && typeof computeSegmentRevenue !== 'undefined') {
+    const start = dcfVal('orbital_start');
+    const full = computeSegmentRevenue / 1e9;
+    const path = [];
+    for (let i = 0; i < 10; i++) path.push(full * Math.min(1, Math.max(0, (2027 + i - start + 1) / 5)));
+    seg.push({ id: 'orbital', path, mT: +document.getElementById('c_margin').value / 100 });
+  }
+  return {
+    seg, linkConn, linkOrb, feed,
+    wacc: dcfVal('wacc') / 100, tg: dcfVal('tg') / 100, exit: dcfVal('exit'), decay: dcfVal('decay'),
+    capex0: dcfVal('capex0') / 100, capexT: dcfVal('capexT') / 100, da: dcfVal('da') / 100, nwc: dcfVal('nwc') / 100,
+    tax0: dcfVal('tax0') / 100, taxT: dcfVal('taxT') / 100, netcash: dcfVal('netcash'), dil: dcfVal('dil') / 100,
+    shares: MARKET.sharesM / 1000,
+  };
+}
+
+function fmtB(vB) {
+  const sgn = vB < 0 ? '−' : '';
+  const a = Math.abs(vB);
+  if (!isFinite(a)) return '—';
+  return a >= 1000 ? `${sgn}$${(a / 1000).toFixed(2)}T` : `${sgn}$${a.toFixed(0)}B`;
+}
+function fmtPS(v) { return isFinite(v) ? '$' + v.toFixed(v < 100 ? 1 : 0) : '—'; }
+
+function updateDcf() {
+  if (!document.getElementById('dcf_wacc')) return;
+  const p = dcfParams();
+  // Slider readouts (linked segments show the derived value)
+  DCF_SEGS.forEach((sg, idx) => {
+    const s0 = p.seg[idx];
+    document.getElementById(`dcf_${sg.id}_rev_v`).textContent = '$' + s0.rev.toFixed(1) + 'B';
+    document.getElementById(`dcf_${sg.id}_g1_v`).textContent = (s0.g1 * 100).toFixed(1) + '%';
+    document.getElementById(`dcf_${sg.id}_mT_v`).textContent = dcfVal(sg.id + '_mT') + '%';
+    const linked = (p.linkConn || p.feed) && idx < 2;
+    document.getElementById('dcfseg_' + sg.id).classList.toggle('linked', linked);
+    document.getElementById(`dcf_${sg.id}_rev`).disabled = linked;
+    document.getElementById(`dcf_${sg.id}_g1`).disabled = linked;
+  });
+  const pct = (id, d) => { document.getElementById(`dcf_${id}_v`).textContent = dcfVal(id).toFixed(d) + '%'; };
+  pct('wacc', 2); pct('tg', 2); pct('capex0', 0); pct('capexT', 0); pct('da', 1); pct('nwc', 1); pct('tax0', 0); pct('taxT', 0); pct('dil', 2);
+  document.getElementById('dcf_exit_v').textContent = dcfVal('exit') + '×';
+  document.getElementById('dcf_decay_v').textContent = dcfVal('decay').toFixed(2);
+  document.getElementById('dcf_netcash_v').textContent = fmtB(dcfVal('netcash'));
+  document.getElementById('dcf_orbital_start_v').textContent = dcfVal('orbital_start');
+
+  const r = dcfRun(p);
+  const sel = dcfMethod === 'exit' ? r.exit : r.gordon;
+  const alt = dcfMethod === 'exit' ? r.gordon : r.exit;
+  const setText = (id, t) => { const el = document.getElementById(id); if (el) el.textContent = t; };
+  setText('dcf_method_lbl', dcfMethod === 'exit' ? `exit multiple ${p.exit}×` : `perpetual growth ${(p.tg * 100).toFixed(2)}%`);
+  setText('dcf_ps', fmtPS(sel.ps));
+  const up = (sel.ps / MARKET.price - 1) * 100;
+  const vs = document.getElementById('dcf_vs_price');
+  vs.textContent = `vs $${MARKET.price.toFixed(2)} close (${MARKET.asOf}) · ${isFinite(up) ? (up >= 0 ? '+' : '−') + Math.abs(up).toFixed(0) + '%' : '—'}`;
+  vs.style.color = up >= 0 ? 'var(--gain)' : 'var(--danger)';
+  setText('dcf_alt_ps', fmtPS(alt.ps));
+  setText('dcf_alt_lbl', dcfMethod === 'exit' ? `Perpetual-growth method (${(p.tg * 100).toFixed(2)}%)` : `Exit-multiple method (${p.exit}×)`);
+  setText('dcf_tv_share', isFinite(sel.tvShare) ? (sel.tvShare * 100).toFixed(0) + '%' : '—');
+  setText('dcf_ev', fmtB(sel.ev));
+  setText('dcf_equity', fmtB(sel.eq));
+  setText('dcf_pv_fcff', fmtB(r.pv));
+  const firstPos = r.rows.find(x => x.fcff > 0);
+  setText('dcf_fcf_pos', firstPos ? String(firstPos.year) : 'after 2036');
+  let cum = 0, minCum = 0;
+  r.rows.forEach(x => { cum += x.fcff; minCum = Math.min(minCum, cum); });
+  setText('dcf_funding', fmtB(-minCum));
+  setText('dcf_rev2030', fmtB(r.rows[3].rev));
+  setText('hero_dcf_inline', fmtPS(sel.ps) + '/share');
+
+  const tb = document.getElementById('dcfTable');
+  if (tb) tb.innerHTML = r.rows.map(x => `<tr><td>${x.year}</td><td>${fmtB(x.rev)}</td><td>${fmtB(x.ebitda)}</td><td>${fmtB(x.capex)}</td><td style="color:${x.fcff >= 0 ? 'var(--gain)' : 'var(--danger)'}">${fmtB(x.fcff)}</td><td>${fmtB(x.pv)}</td></tr>`).join('')
+    + `<tr class="year-target"><td>Terminal</td><td colspan="3">${dcfMethod === 'exit' ? `2036 EBITDA × ${p.exit}` : `FCFF₂₀₃₆ × (1+g)/(WACC−g)`}</td><td>${fmtB(sel.tv)}</td><td>${fmtB(sel.pvtv)}</td></tr>`;
+
+  // Sensitivity grid (perpetual growth)
+  const sens = document.getElementById('dcfSens');
+  if (sens) {
+    const ws = [-2, -1, 0, 1, 2].map(d => p.wacc + d / 100);
+    const gs = [-1, 0, 1].map(d => Math.max(0, p.tg + d / 100));
+    let html = '<tr><th>WACC \\ g</th>' + gs.map(g => `<th>${(g * 100).toFixed(2)}%</th>`).join('') + '</tr>';
+    ws.forEach((w, wi) => {
+      html += `<tr><td>${(w * 100).toFixed(2)}%</td>` + gs.map((g, gi) => {
+        const rr = dcfRun(Object.assign({}, p, { wacc: w, tg: g }));
+        return `<td class="${wi === 2 && gi === 1 && dcfMethod === 'gordon' ? 'cur' : ''}">${fmtPS(rr.gordon.ps)}</td>`;
+      }).join('') + '</tr>';
+    });
+    const exits = [10, 15, 18, 25];
+    html += `<tr><td>Exit × @ ${(p.wacc * 100).toFixed(2)}%</td><td colspan="3">` + exits.map(x => `${x}×: ${fmtPS(dcfRun(Object.assign({}, p, { exit: x })).exit.ps)}`).join(' · ') + '</td></tr>';
+    sens.innerHTML = html;
+  }
+
+  if (dcfChart) {
+    dcfChart.data.labels = r.rows.map(x => x.year);
+    dcfChart.data.datasets[0].data = r.rows.map(x => x.fcff);
+    dcfChart.data.datasets[0].backgroundColor = r.rows.map(x => x.fcff >= 0 ? 'rgba(52,211,153,0.7)' : 'rgba(248,113,113,0.7)');
+    dcfChart.update('none');
+  }
+  const st = document.getElementById('dcf_cap_status');
+  if (st) st.textContent = p.feed ? 'V3 capacity constraint: ON (consumer + E&G fed from the V3 scale-up section)' : 'V3 capacity constraint: off (toggle in the V3 scale-up section)';
+  window.__dcf = { params: p, result: r, method: dcfMethod, selected: sel };
+  if (typeof updateScaleDcf === 'function') updateScaleDcf();
+}
+
+function buildDcfChart() {
+  const el = document.getElementById('dcfChart');
+  if (!el) return;
+  dcfChart = new Chart(el.getContext('2d'), {
+    type: 'bar',
+    data: { labels: [], datasets: [{ label: 'FCFF ($B)', data: [], backgroundColor: [] }] },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { color: '#9aa3c7' }, grid: { color: 'rgba(255,255,255,0.04)' } },
+        y: { ticks: { color: '#9aa3c7', callback: v => '$' + v + 'B' }, grid: { color: 'rgba(255,255,255,0.06)' } },
+      },
+    },
+  });
+}
+
+function applyDcfPreset(key) {
+  const pr = DCF_PRESETS[key];
+  if (!pr) return;
+  const v = pr.v;
+  DCF_SEGS.forEach(sg => ['rev', 'g1', 'mT'].forEach(f => dcfSet(`${sg.id}_${f}`, v[`${sg.id}_${f}`])));
+  DCF_GLOBALS.forEach(g => dcfSet(g, v[g]));
+  // Presets are calibrated with their own Connectivity inputs and no orbital line
+  document.getElementById('dcf_link_conn').checked = false;
+  document.getElementById('dcf_link_orbital').checked = false;
+  const feedEl = document.getElementById('sc_feed_dcf'); if (feedEl) feedEl.checked = false;
+  setDcfMethod(v.method, true);
+  document.querySelectorAll('#dcfPresets button').forEach(b => b.classList.toggle('active', b.dataset.dcf === key));
+  document.getElementById('dcfPresetInfo').textContent = pr.info;
+  updateDcf();
+}
+function setDcfMethod(m, silent) {
+  dcfMethod = m === 'exit' ? 'exit' : 'gordon';
+  document.querySelectorAll('#dcfMethod button').forEach(b => b.classList.toggle('active', b.dataset.method === dcfMethod));
+  if (!silent) updateDcf();
+}
+function clearDcfPreset() {
+  document.querySelectorAll('#dcfPresets button').forEach(b => b.classList.remove('active'));
+  document.getElementById('dcfPresetInfo').textContent = 'Custom inputs — no preset selected.';
+}
+function bindDcf() {
+  const ids = [];
+  DCF_SEGS.forEach(sg => ['rev', 'g1', 'mT'].forEach(f => ids.push(`dcf_${sg.id}_${f}`)));
+  DCF_GLOBALS.forEach(g => ids.push('dcf_' + g));
+  ids.forEach(id => document.getElementById(id).addEventListener('input', () => { clearDcfPreset(); updateDcf(); }));
+  ['dcf_link_conn', 'dcf_link_orbital'].forEach(id => document.getElementById(id).addEventListener('change', () => { clearDcfPreset(); updateDcf(); }));
+  document.getElementById('dcfPresets').addEventListener('click', e => { const b = e.target.closest('button'); if (b) applyDcfPreset(b.dataset.dcf); });
+  document.getElementById('dcfMethod').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { clearDcfPreset(); setDcfMethod(b.dataset.method); } });
+}
+
 /* ============================================================
    BIND EVENTS
    ============================================================ */
@@ -4411,9 +5621,17 @@ function bindInputs() {
     });
   });
 
-  ['v_subs', 'v_growth', 'v_arpu', 'v_margin', 'v_years', 'v_multiple', 'v_ps_mult', 'v_pe_mult', 'v_ni_ratio'].forEach(id => {
+  ['v_subs', 'v_growth', 'v_arpu', 'v_arpu_drift', 'v_eg_rev', 'v_eg_growth', 'v_margin', 'v_years', 'v_multiple', 'v_ps_mult', 'v_pe_mult', 'v_ni_ratio'].forEach(id => {
     document.getElementById(id).addEventListener('input', updateValuation);
   });
+
+  // Editable sum-of-parts rows
+  Object.keys(DEFAULTS).filter(k => k.startsWith('sop_')).forEach(id => {
+    document.getElementById(id).addEventListener('input', updateValuation);
+  });
+
+  bindDcf();
+  bindScale();
 
   ['tam_cap_under', 'tam_cap_uncon', 'tam_arpu'].forEach(id => {
     document.getElementById(id).addEventListener('input', updateTam);
@@ -4497,14 +5715,14 @@ function resetDefaults() {
   applyStarshipPreset('rob');
   // Reset to base growth scenario
   applyGrowthScenario('base');
-  // Reset TAM sliders
-  document.getElementById('tam_cap_under').value = 10;
-  document.getElementById('tam_cap_uncon').value = 2;
-  document.getElementById('tam_arpu').value = 55;
+  // (TAM sliders are reset from DEFAULTS above)
   updateTam();
   updateUnitEcon();
   updateOnePlan();
   updateComputePerLaunch();
+  applyFccPreset('best');
+  applyCadencePreset('conservative');
+  applyDcfPreset('base');
 }
 
 /* ============================================================
@@ -4525,12 +5743,18 @@ document.addEventListener('DOMContentLoaded', () => {
   buildRevenueChart();
   buildDeployChart();
   buildTamDonut();
+  buildDcfChart();
+  buildScaleCharts();
+  applyMarket();
   bindInputs();
   updateCalculator();
   updateUnitEcon();
   updateOnePlan();
-  updateComputePerLaunch(); // Sets computeSegmentEV/Rev/Ebitda + calls updateValuation()
+  updateComputePerLaunch(); // Sets computeSegmentEV/Rev/Ebitda + calls updateValuation() (+ updateTam, updateDcf)
   updateTam();
+  applyFccPreset('best');
+  applyCadencePreset('conservative');
+  applyDcfPreset('base');
 });
 
 </script>

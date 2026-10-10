@@ -2,6 +2,14 @@
 
 This is the technical map of `index.html`. Useful if you (or Copilot / another AI) want to modify a section, add a new one, or debug something.
 
+> **Oct 2026 update:** line numbers below predate the update and are now approximate. Search by name instead. New pieces:
+> - `#dcf` section (between `#bull` and `#unlocks`)
+> - `MARKET` constant and `applyMarket()` (right after `DEFAULTS`)
+> - DCF engine: `DCF_SEGS`, `DCF_BASE`, `DCF_PRESETS`, `dcfRun()`, `dcfParams()`, `updateDcf()`, `applyDcfPreset()`, `bindDcf()`, `buildDcfChart()`
+> - `updateValuation()` now ends by calling `updateTam()` and `updateDcf()`, so Starlink sliders flow into TAM and (when linked) the DCF
+> - Sum-of-parts "other" rows are inputs (`sop_*` ids in `DEFAULTS`)
+> - `#scaleup` section (between `#bull` and `#dcf`). Engine: `SC_IDS`, `scParams()`, `scaleRun()`, `updateScale()`, `updateScaleDcf()`, `bindScale()`, `buildScaleCharts()`. `updateValuation()` calls `updateScale()`, which calls `updateDcf()`. `dcfParams({feed, scRun, unconstrained})` swaps in the capacity-constrained Starlink paths, and `updateDcf()` ends with `updateScaleDcf()` (26 vs 60 per flight). `sc_cap0` (starting Tbps) also drives `updateTamUnlocks()`. Cadence presets: `SC_CADENCE` / `applyCadencePreset()`. Production constraint: `sc_prod`, `sc_prodg`, `sc_inv`; `scaleRun()` returns a per-year `bind` ('Launch' | 'Production' | 'FCC') and `scBindSummary()` formats it.
+
 ## File layout
 
 ```
@@ -191,3 +199,9 @@ There isn't a test suite — this is a one-file HTML app. To verify changes:
 3. Interact with each section's inputs, verify live-updates work
 4. Click the reset button in the footer — verify all sliders and inputs snap back to `DEFAULTS`
 5. Resize the window — layout should be responsive (breakpoints at 900px and 700px)
+
+## Layout conventions (Oct 2026 QA pass)
+- Wrap every `<table>` in `<div class="table-scroll">` so it scrolls inside its card on narrow screens.
+- A `.chart-header` with a single child div lets its `.chart-note` span the card width (max 880px).
+- Scale-up binding chips (`#scBindRow`) are positioned by the `scBindAlign` Chart.js plugin (`positionBindChips`) using `scCapChart.scales.x.getPixelForValue(i)`; do not lay them out with flexbox.
+- Element ids must be unique (tested); `build/sync_static.py` skips void tags and duplicate ids.
