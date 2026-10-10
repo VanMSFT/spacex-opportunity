@@ -2,6 +2,13 @@
 
 This is the technical map of `index.html`. Useful if you (or Copilot / another AI) want to modify a section, add a new one, or debug something.
 
+> **Oct 2026 update:** line numbers below predate the update and are now approximate. Search by name instead. New pieces:
+> - `#dcf` section (between `#bull` and `#unlocks`)
+> - `MARKET` constant and `applyMarket()` (right after `DEFAULTS`)
+> - DCF engine: `DCF_SEGS`, `DCF_BASE`, `DCF_PRESETS`, `dcfRun()`, `dcfParams()`, `updateDcf()`, `applyDcfPreset()`, `bindDcf()`, `buildDcfChart()`
+> - `updateValuation()` now ends by calling `updateTam()` and `updateDcf()`, so Starlink sliders flow into TAM and (when linked) the DCF
+> - Sum-of-parts "other" rows are inputs (`sop_*` ids in `DEFAULTS`)
+
 ## File layout
 
 ```
