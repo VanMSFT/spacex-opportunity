@@ -3307,11 +3307,18 @@
     <div class="dcf-grid">
       <div>
         <h3>Launch cadence</h3>
+          <div class="presets" id="scCadence">
+            <span class="preset-label">Cadence</span>
+            <button data-cad="conservative" class="active">Conservative</button>
+            <button data-cad="musk">Musk targets</button>
+            <button data-cad="faa">FAA-limited</button>
+            <div class="preset-info" id="scCadenceInfo"></div>
+          </div>
           <div class="slider-row"><label>Starship Starlink flights, 2026 (Flight 14 = 1)</label><input type="range" id="sc_ss26" min="0" max="10" step="1" /><div class="val" id="sc_ss26_v">1</div></div>
           <div class="slider-row"><label>Starship Starlink flights, 2027</label><input type="range" id="sc_ss27" min="0" max="200" step="1" /><div class="val" id="sc_ss27_v">30</div></div>
-          <div class="slider-row"><label>Starship Starlink flights, 2028</label><input type="range" id="sc_ss28" min="0" max="500" step="5" /><div class="val" id="sc_ss28_v">80</div></div>
-          <div class="slider-row"><label>Starship Starlink flights/yr, 2029+</label><input type="range" id="sc_ss29" min="0" max="1000" step="5" /><div class="val" id="sc_ss29_v">150</div></div>
-          <div class="seg-src">Cadence defaults are an author assumption <span class="unv" style="background:#9aa3c7" title="Author assumption — not a reported figure">assumption</span>, set well below Musk's targets: "weekly or twice weekly" in 2027 (all Starship missions) <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span>, "at least one flight a day" a year from the Q2 call, and "every hour in 3 years". A reported FAA limit of ~145 Starship flights/yr at Starbase <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span> would cap a single site.</div>
+          <div class="slider-row"><label>Starship Starlink flights, 2028</label><input type="range" id="sc_ss28" min="0" max="500" step="1" /><div class="val" id="sc_ss28_v">80</div></div>
+          <div class="slider-row"><label>Starship Starlink flights/yr, 2029+</label><input type="range" id="sc_ss29" min="0" max="1000" step="1" /><div class="val" id="sc_ss29_v">150</div></div>
+          <div class="seg-src">The sliders count <em>Starlink</em> Starship flights. The presets convert total Starship flights using an <strong>80% Starlink share</strong> <span class="unv" style="background:#9aa3c7" title="Author assumption — not a reported figure">assumption</span>. Starlink is the main payload, but HLS demo and tanker flights, direct-to-cell satellites and outside customers also need Starship flights. R40's weekly-Starship model assumes 90%, and that figure is a third-party assumption, not SpaceX guidance. Approved Starship launch envelopes: Starbase 25/yr (FAA, May 2025), LC-39A 44/yr (FAA ROD, early 2026) and SLC-37 76/yr (Air Force ROD 2025; the FAA's supplemental review opened Sep 29 2026). Together that is <strong>145/yr</strong>, which is the source of the "~145 flights" figure. It is not a Starbase-only limit. Satellite supply is also a constraint the model doesn't include: Redmond's ~70 satellites a week (S-1) is about 3,640 a year, or ~140 flights at 26 per flight and ~61 at 60.</div>
           <div class="slider-row"><label>V3s per Starship flight</label><input type="range" id="sc_v3pf" min="10" max="60" step="1" /><div class="val" id="sc_v3pf_v">26</div></div>
           <div class="slider-row"><label>Downlink per V3 (Gbps, design 1,000)</label><input type="range" id="sc_v3gbps" min="200" max="1500" step="50" /><div class="val" id="sc_v3gbps_v">1,000</div></div>
           <div class="slider-row"><label>Falcon 9 Starlink (V2 Mini) launches, 2026</label><input type="range" id="sc_f9" min="0" max="200" step="1" /><div class="val" id="sc_f9_v">115</div></div>
@@ -3604,6 +3611,30 @@
 
     <h3>Added: V3 constellation scale-up</h3>
     <div class="src-list">
+      <a href="https://www.space.com/space-exploration/private-spaceflight/spacex-gets-faa-approval-for-25-starship-launches-per-year" target="_blank" rel="noopener">
+        <div class="src-title">FAA approves up to 25 Starship launches/yr from Starbase (Space.com, May 6 2025; Federal Register 2025-08269)</div>
+        <div class="src-url">www.space.com/space-exploration/private-spaceflight/spacex-gets-faa-approval-for-25-starsh</div>
+      </a>
+      <a href="https://www.faa.gov/space/stakeholder_engagement/spacex_starship_ksc/SpaceX-SSH-LC-39A-Final-EIS-ROD.pdf" target="_blank" rel="noopener">
+        <div class="src-title">FAA Record of Decision: up to 44 Starship launches/yr at LC-39A (Final EIS; Federal Register notice Feb 3 2026)</div>
+        <div class="src-url">www.faa.gov/space/stakeholder_engagement/spacex_starship_ksc/SpaceX-SSH-LC-39A-Final-EIS-R</div>
+      </a>
+      <a href="https://www.faa.gov/space/stakeholder_engagement/spacex_starship_ccsfs" target="_blank" rel="noopener">
+        <div class="src-title">SLC-37: Air Force ROD for up to 76 launches/yr; FAA supplemental EIS opened Sep 29 2026 (FAA)</div>
+        <div class="src-url">www.faa.gov/space/stakeholder_engagement/spacex_starship_ccsfs</div>
+      </a>
+      <a href="https://www.teslaoracle.com/2026/09/30/spacex-deployed-26-terabits-per-second-of-starlink-v3-bandwidth-in-a-single-starship-launch-flight-14/" target="_blank" rel="noopener">
+        <div class="src-title">Musk after Flight 14: "weekly or twice weekly launch cadence" next year (Tesla Oracle, Sep 30 2026, citing Sawyer Merritt clip)</div>
+        <div class="src-url">www.teslaoracle.com/2026/09/30/spacex-deployed-26-terabits-per-second-of-starlink-v3-bandw</div>
+      </a>
+      <a href="https://r40.io/news/spcx-weekly-starship-starlink-revenue-model/" target="_blank" rel="noopener">
+        <div class="src-title">Weekly-Starship Starlink model assuming 90% of flights carry V3 (R40, third-party assumption)</div>
+        <div class="src-url">r40.io/news/spcx-weekly-starship-starlink-revenue-model/</div>
+      </a>
+      <a href="https://www.nextbigfuture.com/2026/07/what-are-the-keys-to-1500-starship-launches-in-2028.html" target="_blank" rel="noopener">
+        <div class="src-title">"Today's approved ceiling is about 145 flights" (NextBigFuture, Jul 26 2026), which matches 25 + 44 + 76 across three sites</div>
+        <div class="src-url">www.nextbigfuture.com/2026/07/what-are-the-keys-to-1500-starship-launches-in-2028.html</div>
+      </a>
       <a href="https://www.fool.com/earnings/call-transcripts/2026/08/11/spacex-spcx-q2-2026-earnings-call-transcript/" target="_blank" rel="noopener">
         <div class="src-title">SpaceX Q2 2026 earnings call transcript: ~800 Tbps, ~9,600 broadband sats, ~1,000 V3s for critical mass (Motley Fool, Aug 11 2026)</div>
         <div class="src-url">www.fool.com/earnings/call-transcripts/2026/08/11/spacex-spcx-q2-2026-earnings-call-transc</div>
@@ -5084,12 +5115,39 @@ function updateScaleDcf() {
   }
   window.__scaleDcf = { d26, d60, dU, delta, method: dcfMethod };
 }
+const SC_STARLINK_SHARE = 0.8; // assumption: share of Starship flights carrying Starlink V3
+const SC_CADENCE = {
+  conservative: { v: [1, 30, 80, 150],
+    info: 'Conservative (default) <span class="unv" style="background:#9aa3c7" title="Author assumption — not a reported figure">assumption</span>: 1 / 30 / 80 / 150 Starlink flights for 2026 / 2027 / 2028 / 2029+. Well below Musk\'s targets. The steady state of 150/yr at 26 V3s each (~3,900 V3s/yr) is about Redmond\'s current ~70 satellites/week. Above ~116/yr it assumes approvals beyond today\'s 145-flight envelope.' },
+  musk: { v: [1, Math.round(78 * SC_STARLINK_SHARE), Math.round(365 * SC_STARLINK_SHARE), Math.round(1000 * SC_STARLINK_SHARE)],
+    info: 'Musk targets × 80% Starlink share. 2026: Flight 14 only. 2027: "weekly or twice weekly" (Sep 29 2026) = 52–104 flights, midpoint 78 → 62. 2028: "at least one flight a day" a year after the Q2 call (Aug 2026) = 365 → 292. 2029+: "faster thereafter". SpaceX targets "thousands of flights per year", and Musk has said "every hour in 3 years" <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span>. Modeled as 1,000/yr → 800, the slider maximum. Hourly (8,760/yr) is not modeled. This exceeds today\'s approved envelope (145/yr) and Redmond\'s satellite output, so it is an upper bound.' },
+  faa: { v: [1, Math.round(69 * SC_STARLINK_SHARE), Math.round(145 * SC_STARLINK_SHARE), Math.round(145 * SC_STARLINK_SHARE)],
+    info: 'FAA-limited × 80% Starlink share. Total Starship flights are capped at approved launch envelopes. 2027: Starbase 25 + LC-39A 44 = 69 → 55. 2028+: adds SLC-37\'s 76 = 145 → 116 (the Air Force approved SLC-37; the FAA\'s supplemental review is still open). The often-quoted "~145/yr" is this three-site total, not a Starbase-only limit <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span>. Pad readiness dates (first LC-39A and SLC-37 Starship launches) are assumptions <span class="unv" style="background:#9aa3c7" title="Author assumption — not a reported figure">assumption</span>.' },
+};
+let scCadenceKey = 'conservative';
+function applyCadencePreset(key) {
+  const c = SC_CADENCE[key]; if (!c) return;
+  ['sc_ss26', 'sc_ss27', 'sc_ss28', 'sc_ss29'].forEach((id, i) => { document.getElementById(id).value = c.v[i]; });
+  scCadenceKey = key;
+  document.querySelectorAll('#scCadence button').forEach(b => b.classList.toggle('active', b.dataset.cad === key));
+  document.getElementById('scCadenceInfo').innerHTML = c.info;
+  updateScale();
+}
+function clearCadencePreset() {
+  scCadenceKey = null;
+  document.querySelectorAll('#scCadence button').forEach(b => b.classList.remove('active'));
+  document.getElementById('scCadenceInfo').textContent = 'Custom cadence: you have moved a flight slider. Pick a preset to restore its sourced values.';
+}
 function bindScale() {
   SC_IDS.forEach(id => document.getElementById(id).addEventListener('input', () => {
     if (id === 'sc_cap0') updateCalculator(); // refreshes the "Unlocks" capacity KPIs
+    if (/^sc_ss2[6-9]$/.test(id)) clearCadencePreset();
     updateScale();
   }));
   document.getElementById('sc_feed_dcf').addEventListener('change', () => { clearDcfPreset(); updateDcf(); });
+  document.getElementById('scCadence').addEventListener('click', e => {
+    const b = e.target.closest('button[data-cad]'); if (b) applyCadencePreset(b.dataset.cad);
+  });
   document.getElementById('scPresets').addEventListener('click', e => {
     const b = e.target.closest('button[data-v3]'); if (!b) return;
     document.getElementById('sc_v3pf').value = b.dataset.v3; updateScale();
@@ -5485,6 +5543,7 @@ function resetDefaults() {
   updateUnitEcon();
   updateOnePlan();
   updateComputePerLaunch();
+  applyCadencePreset('conservative');
   applyDcfPreset('base');
 }
 
@@ -5515,6 +5574,7 @@ document.addEventListener('DOMContentLoaded', () => {
   updateOnePlan();
   updateComputePerLaunch(); // Sets computeSegmentEV/Rev/Ebitda + calls updateValuation() (+ updateTam, updateDcf)
   updateTam();
+  applyCadencePreset('conservative');
   applyDcfPreset('base');
 });
 
