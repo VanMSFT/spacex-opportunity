@@ -199,3 +199,9 @@ There isn't a test suite — this is a one-file HTML app. To verify changes:
 3. Interact with each section's inputs, verify live-updates work
 4. Click the reset button in the footer — verify all sliders and inputs snap back to `DEFAULTS`
 5. Resize the window — layout should be responsive (breakpoints at 900px and 700px)
+
+## Layout conventions (Oct 2026 QA pass)
+- Wrap every `<table>` in `<div class="table-scroll">` so it scrolls inside its card on narrow screens.
+- A `.chart-header` with a single child div lets its `.chart-note` span the card width (max 880px).
+- Scale-up binding chips (`#scBindRow`) are positioned by the `scBindAlign` Chart.js plugin (`positionBindChips`) using `scCapChart.scales.x.getPixelForValue(i)`; do not lay them out with flexbox.
+- Element ids must be unique (tested); `build/sync_static.py` skips void tags and duplicate ids.
