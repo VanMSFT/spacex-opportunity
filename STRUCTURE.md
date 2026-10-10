@@ -8,7 +8,7 @@ This is the technical map of `index.html`. Useful if you (or Copilot / another A
 > - DCF engine: `DCF_SEGS`, `DCF_BASE`, `DCF_PRESETS`, `dcfRun()`, `dcfParams()`, `updateDcf()`, `applyDcfPreset()`, `bindDcf()`, `buildDcfChart()`
 > - `updateValuation()` now ends by calling `updateTam()` and `updateDcf()`, so Starlink sliders flow into TAM and (when linked) the DCF
 > - Sum-of-parts "other" rows are inputs (`sop_*` ids in `DEFAULTS`)
-> - `#scaleup` section (between `#bull` and `#dcf`). Engine: `SC_IDS`, `scParams()`, `scaleRun()`, `updateScale()`, `updateScaleDcf()`, `bindScale()`, `buildScaleCharts()`. `updateValuation()` calls `updateScale()`, which calls `updateDcf()`. `dcfParams({feed, scRun, unconstrained})` swaps in the capacity-constrained Starlink paths, and `updateDcf()` ends with `updateScaleDcf()` (26 vs 60 per flight). `sc_cap0` (starting Tbps) also drives `updateTamUnlocks()`.
+> - `#scaleup` section (between `#bull` and `#dcf`). Engine: `SC_IDS`, `scParams()`, `scaleRun()`, `updateScale()`, `updateScaleDcf()`, `bindScale()`, `buildScaleCharts()`. `updateValuation()` calls `updateScale()`, which calls `updateDcf()`. `dcfParams({feed, scRun, unconstrained})` swaps in the capacity-constrained Starlink paths, and `updateDcf()` ends with `updateScaleDcf()` (26 vs 60 per flight). `sc_cap0` (starting Tbps) also drives `updateTamUnlocks()`. Cadence presets: `SC_CADENCE` / `applyCadencePreset()`. Production constraint: `sc_prod`, `sc_prodg`, `sc_inv`; `scaleRun()` returns a per-year `bind` ('Launch' | 'Production' | 'FCC') and `scBindSummary()` formats it.
 
 ## File layout
 

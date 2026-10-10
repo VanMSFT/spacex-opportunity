@@ -1893,6 +1893,9 @@
   .dcf-kpi .v { font-size:20px; font-weight:700; }
   .dcf-kpi .l { font-size:12px; color:var(--muted); }
   #scaleup .seg-src { font-size:12px; color:var(--muted); line-height:1.5; margin:4px 0 14px; }
+  .sc-bind-row { display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; }
+  .sc-bind { display:inline-block; font-size:11px; font-weight:700; padding:2px 7px; border-radius:6px; color:#0b0f1a; }
+  .sc-bind.b-launch { background:#60a5fa; } .sc-bind.b-prod { background:#fbbf24; } .sc-bind.b-fcc { background:#f87171; }
   .dcf-toggles { display:flex; flex-wrap:wrap; gap:14px; margin:10px 0 4px; font-size:13px; color:var(--muted); }
   .dcf-toggles label { display:flex; align-items:center; gap:6px; cursor:pointer; }
   .sens-table td.cur { outline:2px solid var(--gain); }
@@ -3325,6 +3328,11 @@
           <div class="slider-row"><label>Falcon Starlink phase-out year (linear fade)</label><input type="range" id="sc_f9end" min="2027" max="2036" step="1" /><div class="val" id="sc_f9end_v">2,029</div></div>
           <div class="slider-row"><label>V2 Minis per Falcon launch</label><input type="range" id="sc_f9pf" min="15" max="30" step="1" /><div class="val" id="sc_f9pf_v">26</div></div>
           <div class="slider-row"><label>Downlink per new V2 Mini (Gbps)</label><input type="range" id="sc_v2gbps" min="50" max="150" step="1" /><div class="val" id="sc_v2gbps_v">96</div></div>
+        <h3 style="margin-top:18px;">Satellite production</h3>
+          <div class="slider-row"><label>Satellites produced, 2026 run-rate (per yr)</label><input type="range" id="sc_prod" min="1000" max="20000" step="10" /><div class="val" id="sc_prod_v">3,640</div></div>
+          <div class="slider-row"><label>Annual production growth</label><input type="range" id="sc_prodg" min="0" max="60" step="1" /><div class="val" id="sc_prodg_v">17%</div></div>
+          <div class="slider-row"><label>Max inventory carried over (months of output)</label><input type="range" id="sc_inv" min="0" max="12" step="1" /><div class="val" id="sc_inv_v">3</div></div>
+          <div class="seg-src">The 2026 default of ~3,640/yr is Redmond's average of ~70 satellites a week from Dec 2025 to Apr 2026, per SpaceX's S-1 (GeekWire). A SpaceX Starlink production director has also cited the "70-satellite-a-week rate" (PCMag). The <strong>V3 vs V2 Mini split is not disclosed</strong>. That window predates Flight 14, so the output was mostly V2 Minis; the model treats one V3 as one factory slot <span class="unv" style="background:#9aa3c7" title="Author assumption — not a reported figure">assumption</span>. Growth default: 120/month in 2020 (SpaceX via PCMag) to 3,640/yr in 2026 is about <strong>17%/yr</strong> compound, extrapolated here <span class="unv" style="background:#9aa3c7" title="Author assumption — not a reported figure">assumption</span>. There is no announced V3 factory or ramp plan. Bastrop, TX builds user terminals (target 10M kits/yr by end-2026; PCMag, Elgin Courier), not satellites; one blog's claim that Bastrop builds V3s conflicts with this. V3 unit cost: ~$1.2M (Quilty 2024 forecast) or ~$1M (33FG estimate) <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span>. Each year V3s are filled first, Falcon V2 Minis get the remainder, and unused output carries over up to the inventory limit.</div>
         <h3 style="margin-top:18px;">Fleet</h3>
           <div class="slider-row"><label>Starting nominal capacity (Tbps, Jun 30 2026)</label><input type="range" id="sc_cap0" min="200" max="2000" step="10" /><div class="val" id="sc_cap0_v">800</div></div>
           <div class="slider-row"><label>Starting broadband satellites (Jun 30 2026)</label><input type="range" id="sc_sats0" min="5000" max="15000" step="100" /><div class="val" id="sc_sats0_v">9,600</div></div>
@@ -3356,6 +3364,8 @@
             <div class="dcf-kpi"><div class="v" id="sc_bind">2033</div><div class="l">First year demand exceeds capacity</div></div>
             <div class="dcf-kpi"><div class="v" id="sc_cap2035">16.1 Pbps</div><div class="l">2035 nominal capacity</div></div>
             <div class="dcf-kpi"><div class="v" id="sc_capyr">not before 2037</div><div class="l">Year the authorized cap binds</div></div>
+            <div class="dcf-kpi"><div class="v" id="sc_bind2030">Launch</div><div class="l">Binding constraint, 2030</div></div>
+            <div class="dcf-kpi"><div class="v" id="sc_prodyr">none to 2036</div><div class="l">First production-limited year</div></div>
             <div class="dcf-kpi"><div class="v" id="sc_dcf26">$135</div><div class="l">DCF $/share, capacity-fed, 26 V3/flight</div></div>
             <div class="dcf-kpi"><div class="v" id="sc_dcf60">$137</div><div class="l">DCF $/share, capacity-fed, 60 V3/flight</div></div>
           </div>
@@ -3368,6 +3378,8 @@
     <div class="chart-box">
       <div class="chart-header"><div><h3>Constellation capacity and satellite count, 2026–2035</h3><div class="chart-note">Stacked bars show nominal (nameplate) downlink in Tbps, split into V2-generation and V3 satellites. The line shows satellites in orbit (right axis). Values are end of year.</div></div></div>
       <div class="chart-canvas-wrap"><canvas id="scCapChart"></canvas></div>
+      <div class="sc-bind-row" id="scBindRow"></div>
+      <div class="chart-note" style="margin-top:6px;">The binding constraint on satellites deployed each year: <span class="sc-bind b-launch">Launch</span> = flights × per-flight load; <span class="sc-bind b-prod">Production</span> = output plus carried-over inventory; <span class="sc-bind b-fcc">FCC</span> = room under the authorized cap plus V2s that V3s can replace.</div>
     </div>
 
     <div class="chart-box">
@@ -3376,9 +3388,9 @@
     </div>
 
     <div class="chart-box">
-      <div class="chart-header"><div><h3>Year-by-year</h3><div class="chart-note">2026 runs from the Jun 30 baseline: half a year of Falcon launches and attrition, plus all 2026 Starship flights.</div></div></div>
+      <div class="chart-header"><div><h3>Year-by-year</h3><div class="chart-note">2026 runs from the Jun 30 baseline: half a year of Falcon launches, production and attrition, plus all 2026 Starship flights. Deployed = min(launch capacity, production + inventory, FCC room).</div></div></div>
       <table class="scenario-table year-table">
-        <thead><tr><th>Year</th><th>Starship / Falcon</th><th>Satellites (V3)</th><th>Nominal Tbps</th><th>Usable Tbps</th><th>Supportable subs</th><th>Demand subs</th><th>Revenue ceiling</th></tr></thead>
+        <thead><tr><th>Year</th><th>Starship / Falcon</th><th>Launchable / produced / deployed</th><th>Binding</th><th>Satellites (V3)</th><th>Nominal Tbps</th><th>Usable Tbps</th><th>Supportable subs</th><th>Demand subs</th><th>Revenue ceiling</th></tr></thead>
         <tbody id="scTable"></tbody>
       </table>
     </div>
@@ -3386,8 +3398,8 @@
     <div class="callout" style="margin-top: 24px;" id="sc_callout">
       <strong>What 60-V3 flights mean.</strong>
       A 26-V3 flight adds <span id="sc_c_t26">26 Tbps</span> of design capacity, about <span id="sc_c_f26">10</span> Falcon launches' worth. A full 60-V3 flight adds <span id="sc_c_t60">60 Tbps</span>, or <span id="sc_c_f60">24</span> Falcon launches. Adding the equivalent of today's whole ~<span class="sc_cap0_lbl">800</span> Tbps constellation takes <span id="sc_c_n26">31</span> flights at 26 per flight but only <span id="sc_c_n60">14</span> at 60.
-      On this cadence, 2030 nominal capacity is <span id="sc_c_cap26">9.27 Pbps</span> with 26 per flight versus <span id="sc_c_cap60">19.4 Pbps</span> with 60. Supportable consumer subs are <span id="sc_c_sub26">156M</span> versus <span id="sc_c_sub60">326M</span>, and the 2030 consumer revenue ceiling is <span id="sc_c_ceil26">$101B</span> versus <span id="sc_c_ceil60">$210B</span>.
-      With 60 per flight, the authorized cap binds in <span id="sc_c_capyr60">2029</span>. After that, launch stops being the limit: FCC authorization, satellite lifetime and spectrum take over. At the cap, replacing satellites as they reach end of life takes ~<span id="sc_c_rep">3,880</span> V3s a year: <span id="sc_c_rep26">150</span> flights at 26 per flight versus <span id="sc_c_rep60">65</span> at 60. Full loads are mostly a launch-cost lever once the constellation is full. With the capacity-fed DCF, fair value moves from <span id="sc_c_dcf26">$135</span> to <span id="sc_c_dcf60">$137</span> per share (<span id="sc_c_dcfd">+$2.2/share, +2%</span>).
+      On this cadence, 2030 nominal capacity is <span id="sc_c_cap26">9.27 Pbps</span> with 26 per flight versus <span id="sc_c_cap60">15.8 Pbps</span> with 60. Supportable consumer subs are <span id="sc_c_sub26">156M</span> versus <span id="sc_c_sub60">266M</span>, and the 2030 consumer revenue ceiling is <span id="sc_c_ceil26">$101B</span> versus <span id="sc_c_ceil60">$172B</span>.
+      Satellite supply matters too. At ~<span id="sc_c_prod">3,640</span> satellites a year today, the factory fills <span id="sc_c_prodf26">140</span> flights a year at 26 per flight but only <span id="sc_c_prodf60">60</span> at 60. Binding constraints by year: at 26, <span id="sc_c_bind26">Launch 2026–2035</span>; at 60, <span id="sc_c_bind60">Launch 2026–2027 → Production 2028–2030 → FCC 2031–2035</span>. With 60 per flight, the authorized cap binds in <span id="sc_c_capyr60">2030</span>. After that, FCC authorization, satellite lifetime and spectrum are the limits, not launch. At the cap, replacing satellites as they reach end of life takes ~<span id="sc_c_rep">3,880</span> V3s a year: <span id="sc_c_rep26">150</span> flights at 26 per flight versus <span id="sc_c_rep60">65</span> at 60. Full loads are mostly a launch-cost lever once the constellation is full. With the capacity-fed DCF, fair value moves from <span id="sc_c_dcf26">$135</span> to <span id="sc_c_dcf60">$137</span> per share (<span id="sc_c_dcfd">+$2.2/share, +2%</span>).
       <span class="src-ref">Sources: Q2'26 call (800 Tbps, ~9,600 broadband sats, ~1,000 V3s for "critical mass" ~Q2 2027); SpaceX/PCMag (V3 1 Tbps down, 60 per Starship); ABI Research (Flight 14 ≈ 10 Falcon launches; ~21% usable); FCC DA-26-36. V3 in-orbit throughput is a design figure, not yet a measured one <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span>.</span>
     </div>
   </div>
@@ -3859,7 +3871,7 @@ const DEFAULTS = {
   // V3 constellation scale-up
   sc_ss26: 1, sc_ss27: 30, sc_ss28: 80, sc_ss29: 150, sc_v3pf: 26, sc_v3gbps: 1000,
   sc_f9: 115, sc_f9end: 2029, sc_f9pf: 26, sc_v2gbps: 96,
-  sc_cap0: 800, sc_sats0: 9600, sc_life: 5, sc_cap: 19400,
+  sc_cap0: 800, sc_sats0: 9600, sc_life: 5, sc_cap: 19400, sc_prod: 3640, sc_prodg: 17, sc_inv: 3,
   sc_usable: 21, sc_eg: 30, sc_mbps: 100, sc_oversub: 20, sc_dgrow: 15, sc_arpu: 66,
   f9_payload: 17000,
   f9_costkg: 1000,
@@ -4953,7 +4965,7 @@ function updateComputePerLaunch() {
    Annual steps 2026–2036 (2026 = Jul–Dec from the baseline). Mirrored in spacex-research/scaleup_model.py.
    ============================================================ */
 const SC_IDS = ['sc_ss26', 'sc_ss27', 'sc_ss28', 'sc_ss29', 'sc_v3pf', 'sc_v3gbps', 'sc_f9', 'sc_f9end', 'sc_f9pf', 'sc_v2gbps',
-  'sc_cap0', 'sc_sats0', 'sc_life', 'sc_cap', 'sc_usable', 'sc_eg', 'sc_mbps', 'sc_oversub', 'sc_dgrow', 'sc_arpu'];
+  'sc_prod', 'sc_prodg', 'sc_inv', 'sc_cap0', 'sc_sats0', 'sc_life', 'sc_cap', 'sc_usable', 'sc_eg', 'sc_mbps', 'sc_oversub', 'sc_dgrow', 'sc_arpu'];
 const SC_YEARS = 11; // 2026..2036 (DCF needs 2036; charts show 2026–2035)
 function scParams(over) {
   const v = id => +document.getElementById(id).value;
@@ -4961,6 +4973,7 @@ function scParams(over) {
     ss: [v('sc_ss26'), v('sc_ss27'), v('sc_ss28'), v('sc_ss29')], v3pf: v('sc_v3pf'), v3gbps: v('sc_v3gbps'),
     f9: v('sc_f9'), f9end: v('sc_f9end'), f9pf: v('sc_f9pf'), v2gbps: v('sc_v2gbps'),
     cap0: v('sc_cap0'), sats0: v('sc_sats0'), life: v('sc_life'), cap: v('sc_cap'),
+    prod0: v('sc_prod'), prodg: v('sc_prodg') / 100, invMonths: v('sc_inv'),
     usable: v('sc_usable') / 100, eg: v('sc_eg') / 100, mbps: v('sc_mbps'), oversub: v('sc_oversub'), dgrow: v('sc_dgrow') / 100,
     arpu: v('sc_arpu'), drift: v('v_arpu_drift') / 100,
     subs0: v('v_subs') * 1e6, g0: v('v_growth') / 100, egRev0: v('v_eg_rev') * 1e9, eg0: v('v_eg_growth') / 100,
@@ -4971,8 +4984,10 @@ function scParams(over) {
 function scaleRun(p) {
   let v2 = p.sats0, v2c = p.cap0 * 1000, v3 = 0, v3c = 0; // counts, Gbps
   let subs = p.subs0, g = p.g0, egRev = p.egRev0, eg = p.eg0;
+  let inv = 0; // carried-over satellite inventory
   const rows = [];
-  let capYear = null;
+  let capYear = null, prodYear = null;
+  const EPS = 1e-6;
   for (let i = 0; i < SC_YEARS; i++) {
     const year = 2026 + i;
     const frac = i === 0 ? 0.5 : 1;
@@ -4980,18 +4995,32 @@ function scaleRun(p) {
     const f9 = i === 0 ? p.f9 * 0.5 : p.f9 * Math.max(0, 1 - i / Math.max(1, p.f9end - 2026));
     const a = frac / p.life;
     v2c -= v2c * a; v2 -= v2 * a; v3c -= v3c * a; v3 -= v3 * a;
-    const add2 = f9 * p.f9pf, add3 = ssFlights * p.v3pf;
+    // Three constraints on satellites deployed this year
+    const launchV3 = ssFlights * p.v3pf, launchV2 = f9 * p.f9pf;          // launch capacity
+    const prodRate = p.prod0 * Math.pow(1 + p.prodg, i);                  // full-year output rate
+    const produced = prodRate * frac;
+    const avail = produced + inv;                                         // production + inventory
+    const head = Math.max(0, p.cap - (v2 + v3));                          // FCC headroom
+    const fccV3 = head + v2;                                              // V3s may also replace V2s
+    const add3 = Math.min(launchV3, avail, fccV3);
+    const add2 = Math.min(launchV2, Math.max(0, avail - add3), Math.max(0, head - add3));
+    const deployed = add2 + add3, launchable = launchV3 + launchV2;
+    let bind;
+    if (deployed >= launchable - EPS) bind = 'Launch';
+    else if (deployed >= avail - EPS) bind = 'Production';
+    else bind = 'FCC';
+    if (bind === 'Production' && prodYear === null) prodYear = year;
+    inv = Math.min(avail - deployed, prodRate * p.invMonths / 12);
     v2 += add2; v2c += add2 * p.v2gbps; v3 += add3; v3c += add3 * p.v3gbps;
-    let capped = false;
-    if (v2 + v3 > p.cap) {
-      capped = true;
+    if (v2 + v3 > p.cap + EPS) {                                          // V3s displace V2s at the cap
       let ex = v2 + v3 - p.cap;
       const rm = Math.min(ex, v2);
       if (v2 > 0) v2c -= rm * (v2c / v2);
       v2 -= rm; ex -= rm;
       if (ex > 0 && v3 > 0) { v3c -= ex * (v3c / v3); v3 -= ex; }
-      if (capYear === null) capYear = year;
     }
+    const capped = v2 + v3 >= p.cap - 0.5;
+    if (capped && capYear === null) capYear = year;
     const nominal = v2c + v3c;                       // Gbps
     const usable = nominal * p.usable;
     const consumerGbps = usable * (1 - p.eg);
@@ -5000,12 +5029,23 @@ function scaleRun(p) {
     const arpu = p.arpu * Math.pow(1 + p.drift, i);
     rows.push({ year, ssFlights, f9, v2, v3, sats: v2 + v3, nominalTbps: nominal / 1000, v3capTbps: v3c / 1000, usableTbps: usable / 1000,
       supportable, demand: subs, served: Math.min(subs, supportable), arpu, ceiling: supportable * arpu * 12,
-      egDemand: egRev, capped });
+      egDemand: egRev, capped, launchable, produced, avail, deployed, add3, add2, inv, bind });
     subs *= 1 + g; egRev *= 1 + eg;
     g = Math.max(g * p.decay, p.floor); eg = Math.max(eg * p.decay, p.floor);
   }
-  const bind = rows.find(r => r.demand > r.supportable);
-  return { rows, capYear, bindYear: bind ? bind.year : null };
+  const bindRow = rows.find(r => r.demand > r.supportable);
+  return { rows, capYear, prodYear, bindYear: bindRow ? bindRow.year : null };
+}
+const SC_BIND_CLS = { Launch: 'b-launch', Production: 'b-prod', FCC: 'b-fcc' };
+function scBindSummary(rows) {
+  // e.g. "Launch 2026–2028 → Production 2029–2031 → FCC 2032–2035"
+  const out = []; let cur = null, start = null, prev = null;
+  rows.slice(0, 10).forEach(r => {
+    if (r.bind !== cur) { if (cur) out.push(`${cur} ${start === prev ? start : start + '–' + prev}`); cur = r.bind; start = r.year; }
+    prev = r.year;
+  });
+  out.push(`${cur} ${start === prev ? start : start + '–' + prev}`);
+  return out.join(' → ');
 }
 let scCapChart = null, scSubsChart = null;
 function buildScaleCharts() {
@@ -5045,6 +5085,7 @@ function updateScale() {
   ['sc_ss26', 'sc_ss27', 'sc_ss28', 'sc_ss29', 'sc_v3pf', 'sc_f9', 'sc_f9end', 'sc_f9pf', 'sc_v2gbps', 'sc_cap0'].forEach(id => setV(id, fmtNum(+document.getElementById(id).value)));
   setV('sc_v3gbps', fmtNum(p.v3gbps)); setV('sc_sats0', fmtNum(p.sats0)); setV('sc_life', p.life.toFixed(1)); setV('sc_cap', fmtNum(p.cap));
   setV('sc_usable', Math.round(p.usable * 100) + '%'); setV('sc_eg', Math.round(p.eg * 100) + '%'); setV('sc_mbps', fmtNum(p.mbps));
+  setV('sc_prod', fmtNum(p.prod0)); setV('sc_prodg', Math.round(p.prodg * 100) + '%'); setV('sc_inv', String(p.invMonths));
   setV('sc_oversub', p.oversub + ':1'); setV('sc_dgrow', Math.round(p.dgrow * 100) + '%'); setV('sc_arpu', '$' + p.arpu);
   document.querySelectorAll('#scPresets button').forEach(b => b.classList.toggle('active', +b.dataset.v3 === p.v3pf));
 
@@ -5061,6 +5102,10 @@ function updateScale() {
   setText('sc_bind', r.bindYear ? String(r.bindYear) : 'not before 2037');
   setText('sc_cap2035', fmtTbps(y35.nominalTbps));
   setText('sc_capyr', r.capYear ? String(r.capYear) : 'not before 2037');
+  setText('sc_bind2030', y30.bind);
+  setText('sc_prodyr', r.prodYear ? String(r.prodYear) : 'none to 2036');
+  const br = document.getElementById('scBindRow');
+  if (br) br.innerHTML = r.rows.slice(0, 10).map(x => `<span class="sc-bind ${SC_BIND_CLS[x.bind]}" title="${x.year}: ${x.bind}-limited">${x.year} ${x.bind}</span>`).join('');
 
   const show = r.rows.slice(0, 10);
   if (scCapChart) {
@@ -5078,7 +5123,7 @@ function updateScale() {
     scSubsChart.update('none');
   }
   const tb = document.getElementById('scTable');
-  if (tb) tb.innerHTML = show.map(x => `<tr${x.demand > x.supportable ? ' style="color:var(--danger)"' : ''}><td>${x.year}</td><td>${fmtNum(x.ssFlights)} / ${fmtNum(Math.round(x.f9))}</td><td>${fmtNum(Math.round(x.sats))} (${fmtNum(Math.round(x.v3))})${x.capped ? ' ⛔' : ''}</td><td>${fmtNum(Math.round(x.nominalTbps))}</td><td>${fmtNum(Math.round(x.usableTbps))}</td><td>${fmtSubsM(x.supportable)}</td><td>${fmtSubsM(x.demand)}</td><td>${fmtBig(x.ceiling)}</td></tr>`).join('');
+  if (tb) tb.innerHTML = show.map(x => `<tr${x.demand > x.supportable ? ' style="color:var(--danger)"' : ''}><td>${x.year}</td><td>${fmtNum(x.ssFlights)} / ${fmtNum(Math.round(x.f9))}</td><td>${fmtNum(Math.round(x.launchable))} / ${fmtNum(Math.round(x.produced))}${x.avail > x.produced + 0.5 ? ' +' + fmtNum(Math.round(x.avail - x.produced)) + ' inv' : ''} / ${fmtNum(Math.round(x.deployed))}</td><td><span class="sc-bind ${SC_BIND_CLS[x.bind]}">${x.bind}</span></td><td>${fmtNum(Math.round(x.sats))} (${fmtNum(Math.round(x.v3))})${x.capped ? ' ⛔' : ''}</td><td>${fmtNum(Math.round(x.nominalTbps))}</td><td>${fmtNum(Math.round(x.usableTbps))}</td><td>${fmtSubsM(x.supportable)}</td><td>${fmtSubsM(x.demand)}</td><td>${fmtBig(x.ceiling)}</td></tr>`).join('');
 
   // Callout: 26 vs 60
   const perF = p.f9pf * p.v2gbps; // Gbps per Falcon launch
@@ -5091,6 +5136,9 @@ function updateScale() {
   setText('sc_c_ceil26', fmtBig(r26.rows[4].ceiling)); setText('sc_c_ceil60', fmtBig(r60.rows[4].ceiling));
   const rep = p.cap / p.life;
   setText('sc_c_rep', fmtNum(Math.round(rep))); setText('sc_c_rep26', fmtNum(Math.ceil(rep / 26))); setText('sc_c_rep60', fmtNum(Math.ceil(rep / 60)));
+  setText('sc_c_prod', fmtNum(p.prod0));
+  setText('sc_c_prodf26', fmtNum(Math.floor(p.prod0 / 26))); setText('sc_c_prodf60', fmtNum(Math.floor(p.prod0 / 60)));
+  setText('sc_c_bind26', scBindSummary(r26.rows)); setText('sc_c_bind60', scBindSummary(r60.rows));
   setText('sc_c_capyr60', r60.capYear ? String(r60.capYear) : 'no year before 2037');
   window.__scale = { params: p, result: r, r26, r60 };
   if (typeof updateDcf === 'function') updateDcf(); // DCF (if fed) + 26 vs 60 delta
@@ -5120,7 +5168,7 @@ const SC_CADENCE = {
   conservative: { v: [1, 30, 80, 150],
     info: 'Conservative (default) <span class="unv" style="background:#9aa3c7" title="Author assumption — not a reported figure">assumption</span>: 1 / 30 / 80 / 150 Starlink flights for 2026 / 2027 / 2028 / 2029+. Well below Musk\'s targets. The steady state of 150/yr at 26 V3s each (~3,900 V3s/yr) is about Redmond\'s current ~70 satellites/week. Above ~116/yr it assumes approvals beyond today\'s 145-flight envelope.' },
   musk: { v: [1, Math.round(78 * SC_STARLINK_SHARE), Math.round(365 * SC_STARLINK_SHARE), Math.round(1000 * SC_STARLINK_SHARE)],
-    info: 'Musk targets × 80% Starlink share. 2026: Flight 14 only. 2027: "weekly or twice weekly" (Sep 29 2026) = 52–104 flights, midpoint 78 → 62. 2028: "at least one flight a day" a year after the Q2 call (Aug 2026) = 365 → 292. 2029+: "faster thereafter". SpaceX targets "thousands of flights per year", and Musk has said "every hour in 3 years" <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span>. Modeled as 1,000/yr → 800, the slider maximum. Hourly (8,760/yr) is not modeled. This exceeds today\'s approved envelope (145/yr) and Redmond\'s satellite output, so it is an upper bound.' },
+    info: 'Musk targets × 80% Starlink share. 2026: Flight 14 only. 2027: "weekly or twice weekly" (Sep 29 2026) = 52–104 flights, midpoint 78 → 62. 2028: "at least one flight a day" a year after the Q2 call (Aug 2026) = 365 → 292. 2029+: "faster thereafter". SpaceX targets "thousands of flights per year", and Musk has said "every hour in 3 years" <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span>. Modeled as 1,000/yr → 800, the slider maximum. Hourly (8,760/yr) is not modeled. This exceeds today\'s approved envelope (145/yr). With the production constraint at default settings, this cadence is <strong>production-limited from 2028</strong>: there are more flights than satellites to fill them, so it is an upper bound.' },
   faa: { v: [1, Math.round(69 * SC_STARLINK_SHARE), Math.round(145 * SC_STARLINK_SHARE), Math.round(145 * SC_STARLINK_SHARE)],
     info: 'FAA-limited × 80% Starlink share. Total Starship flights are capped at approved launch envelopes. 2027: Starbase 25 + LC-39A 44 = 69 → 55. 2028+: adds SLC-37\'s 76 = 145 → 116 (the Air Force approved SLC-37; the FAA\'s supplemental review is still open). The often-quoted "~145/yr" is this three-site total, not a Starbase-only limit <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span>. Pad readiness dates (first LC-39A and SLC-37 Starship launches) are assumptions <span class="unv" style="background:#9aa3c7" title="Author assumption — not a reported figure">assumption</span>.' },
 };
