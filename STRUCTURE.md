@@ -3,6 +3,7 @@
 This is the technical map of `index.html`. Useful if you (or Copilot / another AI) want to modify a section, add a new one, or debug something.
 
 > **Oct 2026 update:** line numbers below predate the update and are now approximate. Search by name instead. New pieces:
+> - Oct 22 update: `DCF_PRESETS` adds `bofa` ($275), `wells` ($274), `clearstreet` ($248), `susq` ($176) (base path, exit multiple solved); `LOCKUP_STEPS` third step now Oct 24; merger card notes Reuters' possible slip past Dec 3; risk card adds the FCC AWS-3 uplink approval.
 > - `#dcf` section (between `#bull` and `#unlocks`)
 > - `MARKET` constant and `applyMarket()` (right after `DEFAULTS`)
 > - DCF engine: `DCF_SEGS`, `DCF_BASE`, `DCF_PRESETS`, `dcfRun()`, `dcfParams()`, `updateDcf()`, `applyDcfPreset()`, `bindDcf()`, `buildDcfChart()`
