@@ -1911,6 +1911,9 @@
   .dcf-kpi .v { font-size:20px; font-weight:700; }
   .dcf-kpi .l { font-size:12px; color:var(--muted); }
   #scaleup .seg-src { font-size:12px; color:var(--muted); line-height:1.5; margin:4px 0 14px; }
+  #spcx .chart-box .seg-src, #dcf .dcf-grid > div > .seg-src { font-size:12px; color:var(--muted); line-height:1.5; margin:8px 0 6px; }
+  #spcx .chart-box a, #dcf .seg-src a, #riskCard a { color: var(--falcon); text-decoration: none; border-bottom: 1px dotted rgba(79,195,247,0.5); }
+  #riskCard li { font-size:14px; color:var(--muted); }
   .sc-bind-row { position:relative; height:22px; margin-top:4px; }
   .sc-bind-row .sc-bind { position:absolute; top:0; transform:translateX(-50%); white-space:nowrap; text-align:center; }
   .sc-bind-row .sc-bind-lbl { position:absolute; top:3px; left:0; font-size:10px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); text-align:right; white-space:nowrap; overflow:hidden; }
@@ -1967,8 +1970,8 @@
 <!-- HERO -->
 <section id="hero">
   <div class="wrap">
-    <div class="kicker">SPCX · <span class="mkt-cap">$2.21T</span> · <span class="mkt-price">$162.57</span> close <span class="mkt-date">Oct 9, 2026</span> · IPO'd June 12, 2026</div>
-    <h1>At ~$2.2 trillion today. Execute the plan and this is a <span class="grad">$3 trillion company</span>.</h1>
+    <div class="kicker">SPCX · <span class="mkt-cap">$2.01T</span> · <span class="mkt-price">$159.31</span> close <span class="mkt-date">Oct 21, 2026</span> · <span class="mkt-ah">$156.80 (−1.6%)</span> after hours, the day after Q3 results · IPO'd June 12, 2026</div>
+    <h1>At ~$2.0 trillion today. Execute the plan and this is a <span class="grad">$3 trillion company</span>.</h1>
     <p class="subhead">
       SpaceX isn't one bet — it's <strong>four separate businesses</strong> stacked on top of a launch cost curve dropping ~95%. Starlink is already profitable (39% op margin, subs doubling). Starship at Falcon-9 cadence is factory throughput, not physics — Falcon 9 flew 138 times in 2024 <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span>. Even if only half the bets land, the math works. Today's price is <strong><span id="hero_sub_pct">87%</span> of the Year-5 sum-of-parts</strong> below — and a strict DCF (bottom of the page) says <strong id="hero_dcf_inline">$127/share</strong>. Both views are live.
     </p>
@@ -2009,8 +2012,8 @@
       <div class="sum-arrow">→</div>
       <div>
         <div class="sum-lbl">Market cap today · SPCX</div>
-        <div class="sum-val mkt-cap">$2.21T</div>
-        <div class="sum-note"><span class="mkt-price">$162.57</span> × <span class="mkt-shares">13.57B</span> shares · close <span class="mkt-date">Oct 9, 2026</span></div>
+        <div class="sum-val mkt-cap">$2.01T</div>
+        <div class="sum-note"><span class="mkt-price">$159.31</span> × <span class="mkt-shares">13.57B</span> shares · close <span class="mkt-date">Oct 21, 2026</span></div>
       </div>
       <div class="sum-arrow">=</div>
       <div>
@@ -2032,10 +2035,10 @@
 <!-- SPCX LIVE MARKET DATA -->
 <section id="spcx">
   <div class="wrap">
-    <div class="eyebrow">Where the market sits — <span class="mkt-date">Oct 9, 2026</span> close</div>
+    <div class="eyebrow">Where the market sits — <span class="mkt-date">Oct 21, 2026</span> close</div>
     <h2>SPCX today.</h2>
     <p class="lead">
-      SpaceX IPO'd on <strong>June 12, 2026</strong> (priced $135, opened $150, closed day one near $161) and joined the Nasdaq-100 on July 7. After a post-IPO slide to ~$108 (Jul 31 close) it reported its first quarter as a public company in August, closed the $60B Cursor acquisition on Aug 14, and put Starship into orbit on Sep 28. At <strong class="mkt-price">$162.57</strong> it is valued at <strong class="mkt-cap">$2.21T</strong>. Everything else in this app is trying to answer one question: <strong>is that valuation justified?</strong> Two sides make that debate — and both are on this page.
+      SpaceX IPO'd on <strong>June 12, 2026</strong> (priced $135, opened $150, closed day one near $161) and joined the Nasdaq-100 on July 7. After a post-IPO slide to ~$108 (Jul 31 close) it reported its first quarter as a public company in August, closed the $60B Cursor acquisition on Aug 14, and put Starship into orbit on Sep 28. On Oct 20 it reported Q3: revenue of $14.6B (+161% y/y) and a GAAP net income of $4.4B, plus a Q1'27 revenue guide of $33–37B. At <strong class="mkt-price">$159.31</strong> it is valued at <strong class="mkt-cap">$2.01T</strong>. Everything else in this app is trying to answer one question: <strong>is that valuation justified?</strong> Two sides make that debate — and both are on this page.
     </p>
 
     <div class="ticker-header">
@@ -2048,32 +2051,32 @@
         <div class="tick-ch up">+$2.00 &nbsp;(+1.25%) on the day</div>
       </div>
       <div class="tick-meta">
-        <div>Market cap · <strong style="color: var(--text);" class="mkt-cap">$2.21T</strong></div>
+        <div>Market cap · <strong style="color: var(--text);" class="mkt-cap">$2.01T</strong></div>
         <div>EV · <span id="mkt_ev">$2.14T</span> <span class="src-ref">(net cash ≈$60.6B at 6/30)</span></div>
-        <div class="as-of">Close 4:00 PM ET <span class="mkt-date">Oct 9, 2026</span> · <a href="https://seekingalpha.com/symbol/SPCX/historical-price-quotes" target="_blank" rel="noopener">Seeking Alpha</a> · shares: <a href="https://last10k.com/sec-filings/spcx/0001628280-26-052535.htm" target="_blank" rel="noopener">10-Q</a> + <a href="https://app.edgar.tools/filing/1181412/0001628280-26-056945" target="_blank" rel="noopener">Cursor 8-K</a></div>
+        <div class="as-of">Close 4:00 PM ET <span class="mkt-date">Oct 21, 2026</span> · <a href="https://seekingalpha.com/symbol/SPCX/historical-price-quotes" target="_blank" rel="noopener">Seeking Alpha</a> · shares: <a href="https://last10k.com/sec-filings/spcx/0001628280-26-052535.htm" target="_blank" rel="noopener">10-Q</a> + <a href="https://app.edgar.tools/filing/1181412/0001628280-26-056945" target="_blank" rel="noopener">Cursor 8-K</a></div>
       </div>
     </div>
 
     <div class="ticker-stats">
       <div class="ticker-stat">
-        <div class="ts-v">≈$23.1B</div>
-        <div class="ts-l">Revenue TTM (to Q2'26)</div>
-        <div class="ts-note">FY25 $18.7B + H1'26 − H1'25 · Q2'26 alone $7.8B (+92%)</div>
+        <div class="ts-v">≈$32.1B</div>
+        <div class="ts-l">Revenue TTM (to Q3'26) <span class="unv" style="background:#6b739a" title="Derived by the author from reported figures">derived</span></div>
+        <div class="ts-note">FY25 $18.7B + 9M'26 $27.1B − 9M'25 $13.7B · Q3'26 alone $14.6B (+161%)</div>
       </div>
       <div class="ticker-stat">
-        <div class="ts-v" id="mkt_ps">≈96×</div>
+        <div class="ts-v" id="mkt_ps">≈63×</div>
         <div class="ts-l">P/S trailing</div>
-        <div class="ts-note">≈46× GS 2026E rev ($47.6B) · Nasdaq median ~5×</div>
+        <div class="ts-note">≈14× Q1'27 guide annualized ($132–148B) · Nasdaq median ~5×</div>
       </div>
       <div class="ticker-stat">
-        <div class="ts-v">≈−$8.2B</div>
-        <div class="ts-l">Net income TTM</div>
-        <div class="ts-note">Q2'26 net loss −$541M; adj. EBITDA +$3.5B</div>
+        <div class="ts-v">+$4.4B</div>
+        <div class="ts-l">Net income Q3'26 (GAAP)</div>
+        <div class="ts-note">GAAP diluted EPS $0.35 (adj. $0.45 per IBES <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span>) · adj. EBITDA $8.8B · Q2'26 net loss −$541M</div>
       </div>
       <div class="ticker-stat">
-        <div class="ts-v">≈$100B</div>
-        <div class="ts-l">Cash + securities (6/30)</div>
-        <div class="ts-note">Debt incl. leases ≈$39.4B · post-IPO</div>
+        <div class="ts-v">≈$89.9B</div>
+        <div class="ts-l">Cash + securities (9/30)</div>
+        <div class="ts-note">Debt ≈$38.8B · net cash ≈$51.0B · Q3 capex $19.6B</div>
       </div>
       <div class="ticker-stat">
         <div class="ts-v">~$108 – ~$226</div>
@@ -2083,24 +2086,24 @@
       <div class="ticker-stat">
         <div class="ts-v">≈$232–238</div>
         <div class="ts-l">Analyst avg target</div>
-        <div class="ts-note">Low $115 (CFRA) – high $800 (Raymond James); Morningstar FV $62–63 <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span></div>
+        <div class="ts-note">Pre-Q3 average. TipRanks post-Q3 average $217.50 <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span>. Low $115 (CFRA) – high $800 (Raymond James, held Oct 21); Morningstar FV $62–63 <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span></div>
       </div>
       <div class="ticker-stat">
         <div class="ts-v">$75 / $300 / $600</div>
         <div class="ts-l">Morgan Stanley bear / base / bull</div>
-        <div class="ts-note">GS $220 · JPM $225 · BofA $235 · DB $255 · Citi $200</div>
+        <div class="ts-note">Post-Q3 (Oct 21): JPM $500 · Cantor $345 · Barclays $300 · Evercore $275 · Pivotal $260 · GS $245 · Citi $240 · DB $235 · Mizuho $205</div>
       </div>
       <div class="ticker-stat">
         <div class="ts-v">≈$100</div>
         <div class="ts-l">Damodaran intrinsic value</div>
-        <div class="ts-note">MoffettNathanson Neutral $131 · Wedbush $190 (Jul 1)</div>
+        <div class="ts-note">MoffettNathanson Neutral $131 · Piper Sandler Neutral $140 · Stifel $190 · TD Cowen $224 · Wedbush $225 · Needham $250 · Macquarie $250</div>
       </div>
     </div>
 
-    <p class="asof-banner">Analyst targets: <a href="https://www.benzinga.com/analyst-stock-ratings/analyst-color/26/07/60303994/spacex-spcx-goldman-buy-rating-205-price-target" target="_blank" rel="noopener">Benzinga (Jul 7)</a>, <a href="https://www.ii.co.uk/analysis-commentary/spacex-what-wall-street-thinks-shares-are-really-worth-ii539593" target="_blank" rel="noopener">ii.co.uk</a>, <a href="https://www.xxquant.com/en/institution/institutional-research/385bd65359d721be0ae33dd0f2256c69" target="_blank" rel="noopener">GS Aug 6 raise to $220 (secondary summary)</a>, <a href="https://aswathdamodaran.blogspot.com/2026/06/a-weeks-ago-i-assessed-value-of-spacex.html" target="_blank" rel="noopener">Damodaran (Jun 4)</a>. TTM figures derived from S-1 + <a href="https://ir.spacex.com/files/doc_financials/2026/q2/SpaceX-Reports-Second-Quarter-2026-Results.pdf" target="_blank" rel="noopener">Q2'26 release</a>.</p>
+    <p class="asof-banner">Analyst targets: <a href="https://www.benzinga.com/analyst-stock-ratings/analyst-color/26/07/60303994/spacex-spcx-goldman-buy-rating-205-price-target" target="_blank" rel="noopener">Benzinga (Jul 7)</a>, <a href="https://www.ii.co.uk/analysis-commentary/spacex-what-wall-street-thinks-shares-are-really-worth-ii539593" target="_blank" rel="noopener">ii.co.uk</a>, <a href="https://www.xxquant.com/en/institution/institutional-research/385bd65359d721be0ae33dd0f2256c69" target="_blank" rel="noopener">GS Aug 6 raise to $220 (secondary summary)</a>, <a href="https://aswathdamodaran.blogspot.com/2026/06/a-weeks-ago-i-assessed-value-of-spacex.html" target="_blank" rel="noopener">Damodaran (Jun 4)</a>. TTM figures derived from S-1 + <a href="https://www.sec.gov/Archives/edgar/data/1181412/000162828026066482/spaceexplorationtechnologi.htm" target="_blank" rel="noopener">Q3'26 release (SEC, Oct 20)</a>. Price: Oct 21 close $159.31, +7.79% (<a href="https://stockanalysis.com/stocks/spcx/history/" target="_blank" rel="noopener">stockanalysis</a>), from the Oct 20 close of $147.79 (CNBC and Reuters cited $147.50 <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span>); after hours <span class="mkt-ah">$156.80</span> (~$156.50–157.02 reported <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span>). Post-Q3 targets: <a href="https://www.cnbc.com/2026/10/21/jpmorgan-says-spacex-to-triple-after-huge-third-quarter-earnings-beat-.html" target="_blank" rel="noopener">CNBC (JPM)</a>, <a href="https://www.investing.com/news/analyst-ratings/goldman-sachs-raises-spacex-stock-price-target-to-245-on-growth-outlook-93CH-4962792" target="_blank" rel="noopener">Investing.com (GS)</a>, <a href="https://finance.yahoo.com/markets/stocks/articles/spacex-q3-beat-analysts-looking-123644183.html" target="_blank" rel="noopener">Yahoo Finance recap</a>.</p>
 
-    <h3 style="margin-top: 40px;">Three businesses inside one stock (FY2025 from S-1 · Q2'26 from the <a href="https://ir.spacex.com/files/doc_financials/2026/q2/SpaceX-Reports-Second-Quarter-2026-Results.pdf" target="_blank" rel="noopener">Q2'26 release</a>)</h3>
-    <p style="max-width: 1080px;">SpaceX filed the IPO as a single entity but the prospectus breaks it into three segments with wildly different economics. In FY2025 only one was profitable; by Q2'26 the AI segment turned adjusted-EBITDA positive on third-party compute rentals.</p>
+    <h3 style="margin-top: 40px;">Three businesses inside one stock (FY2025 from S-1 · Q3'26 from the <a href="https://www.sec.gov/Archives/edgar/data/1181412/000162828026066482/spaceexplorationtechnologi.htm" target="_blank" rel="noopener">Q3'26 release</a>)</h3>
+    <p style="max-width: 1080px;">SpaceX filed the IPO as a single entity, but the prospectus breaks it into three segments with wildly different economics. In FY2025 only one was profitable. By Q2'26 the AI segment was adjusted-EBITDA positive on third-party compute rentals, and in Q3'26 it posted an operating profit. Q3 also renamed the segment "Super Intelligence (SI)".</p>
 
     <div class="segments">
       <div class="seg-card connectivity">
@@ -2112,9 +2115,9 @@
         <div class="seg-row"><span class="k">Operating margin</span><span class="v pos">39%</span></div>
         <div class="seg-row"><span class="k">2024 growth</span><span class="v">+96%</span></div>
         <div class="seg-row"><span class="k">2025 growth</span><span class="v">+50%</span></div>
-        <div class="seg-row"><span class="k">Q2'26 revenue</span><span class="v pos">$4.29B (+66%)</span></div>
-        <div class="seg-row"><span class="k">Q2'26 subs / ARPU</span><span class="v">12.0M / $66</span></div>
-        <div class="seg-row"><span class="k">Q2'26 adj. EBITDA margin</span><span class="v pos">60.5%</span></div>
+        <div class="seg-row"><span class="k">Q3'26 revenue</span><span class="v pos">$5.25B (consumer $3.12B · E&amp;G $2.13B)</span></div>
+        <div class="seg-row"><span class="k">Q3'26 subs / ARPU</span><span class="v">13.6M / $69</span></div>
+        <div class="seg-row"><span class="k">Q3'26 op inc / adj. EBITDA</span><span class="v pos">$2.37B / $3.50B (66.7%)</span></div>
       </div>
       <div class="seg-card space">
         <div class="seg-tag">Space · Launch services</div>
@@ -2125,7 +2128,8 @@
         <div class="seg-row"><span class="k">Operating margin</span><span class="v neg">−16%</span></div>
         <div class="seg-row"><span class="k">Growth</span><span class="v">6–7%</span></div>
         <div class="seg-row"><span class="k">R&amp;D burn</span><span class="v neg">Starship program</span></div>
-        <div class="seg-row"><span class="k">Q2'26 rev / op inc</span><span class="v">$962M / <span class="neg">−$542M</span></span></div>
+        <div class="seg-row"><span class="k">Q3'26 rev / op inc</span><span class="v">$1.77B / <span class="neg">−$7M</span></span></div>
+        <div class="seg-row"><span class="k">Q3'26 adj. EBITDA</span><span class="v pos">$357M · Flight 14 = first revenue Starship mission</span></div>
       </div>
       <div class="seg-card ai">
         <div class="seg-tag">AI · Grok · xAI · X</div>
@@ -2137,12 +2141,80 @@
         <div class="seg-row"><span class="k">R&amp;D spend</span><span class="v neg">$5.06B</span></div>
         <div class="seg-row"><span class="k">SG&amp;A</span><span class="v neg">$1.82B</span></div>
         <div class="seg-row"><span class="k">TAM claim</span><span class="v">$26.5T (93%)</span></div>
-        <div class="seg-row"><span class="k">Q2'26 rev / adj. EBITDA</span><span class="v pos">$2.56B / +$1.15B</span></div>
+        <div class="seg-row"><span class="k">Q3'26 rev / op inc</span><span class="v pos">$7.56B / +$431M</span></div>
+        <div class="seg-row"><span class="k">Q3'26 adj. EBITDA / capex</span><span class="v">+$4.95B / <span class="neg">$16.4B</span></span></div>
       </div>
     </div>
 
     <div class="callout" style="margin-top: 32px;">
-      <strong>The consolidated math.</strong> Starlink's entire $4.4B operating profit is wiped out by the combined losses of Space (−$657M) and AI (−$6.35B), leaving the whole company at <strong>−$2.58B operating loss</strong> in FY2025. Q2'26 flipped the picture at the EBITDA line ($3.5B adjusted EBITDA, AI adj. EBITDA +$1.15B from $14.1B of contracted compute deals) but GAAP net income is still negative (−$541M) and capex ran $18.4B in the quarter. The market is paying ~$96 for every $1 of trailing revenue — a multiple usually reserved for pre-revenue biotech or peak-cycle hyper-growth SaaS.
+      <strong>The consolidated math.</strong> Starlink's entire $4.4B operating profit is wiped out by the combined losses of Space (−$657M) and AI (−$6.35B), leaving the whole company at <strong>−$2.58B operating loss</strong> in FY2025. Q2'26 flipped the picture at the EBITDA line. Q3'26 flipped it at the GAAP line: operating income was $2.79B and net income $4.4B on $14.6B of revenue, with AI (SI) operating income at +$431M. But capex ran $19.6B in the quarter, and the Q4 guide is $35–40B. The market is paying ~$63 for every $1 of trailing revenue — a multiple usually reserved for pre-revenue biotech or peak-cycle hyper-growth SaaS.
+    </div>
+
+    <div class="chart-box" id="q3card" style="margin-top: 24px;">
+      <div class="chart-header"><div><h3>Q3 2026 results (Oct 20)</h3><div class="chart-note">Source: <a href="https://www.sec.gov/Archives/edgar/data/1181412/000162828026066482/spaceexplorationtechnologi.htm" target="_blank" rel="noopener">SpaceX Q3'26 earnings release (SEC 8-K exhibit)</a> and the Q3 call (<a href="https://stockanalysis.com/stocks/spcx/" target="_blank" rel="noopener">stockanalysis transcript</a>, <a href="https://www.cnbc.com/2026/10/20/spacex-spcx-earnings-live-updates-q3-2026html.html" target="_blank" rel="noopener">CNBC</a>).</div></div></div>
+      <div class="table-scroll"><table class="scenario-table">
+        <thead><tr><th>Line</th><th>Q3'26</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr><td>Revenue</td><td>$14,575M</td><td>+161% y/y (Q2 $7,814M); LSEG consensus $12.72B</td></tr>
+          <tr><td>Space / Connectivity / SI</td><td>$1,767M / $5,248M / $7,560M</td><td>SI includes Cursor $608M and advertising $538M</td></tr>
+          <tr><td>Operating income</td><td>$2,791M</td><td>Space −$7M · Connectivity $2,367M · SI $431M</td></tr>
+          <tr><td>Adj. EBITDA</td><td>$8,809M</td><td>Space $357M · Connectivity $3,499M · SI $4,953M. Gross margin includes a ~3-pt one-time benefit (tariff refunds), per the CFO</td></tr>
+          <tr><td>Net income / EPS</td><td>$4,404M / $0.35 GAAP diluted</td><td>GAAP diluted EPS $0.35 is the release figure. The "adjusted EPS $0.45 vs $0.13 expected" in coverage is an IBES/LSEG-basis comparison, not a number in the release <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span></td></tr>
+          <tr><td>Starlink subs / ARPU</td><td>13.6M / $69</td><td>+1.6M q/q; ARPU up from $66 on mix. 3,800+ aircraft equipped</td></tr>
+          <tr><td>Compute</td><td>1.7 GW at 9/30</td><td>~2 GW by end-Oct; 2.5–3 GW by YE26; Musk: +10 GW in 2027 (~13 GW) <span class="unv" style="background:#b98a2e" title="Management aspiration, not guidance">aspirational</span>; new deals priced slightly above $50/W</td></tr>
+          <tr><td>Capex</td><td>$19,593M</td><td>SI $16,444M; Q4 guide $35–40B</td></tr>
+          <tr><td>Cash + securities / debt</td><td>$89.9B / $38.8B</td><td>Net cash ≈$51.0B <span class="unv" style="background:#6b739a" title="Derived by the author from reported figures">derived</span></td></tr>
+          <tr><td>Shares outstanding</td><td>13,579M</td><td>Class A 8,240M + Class B 5,339M</td></tr>
+          <tr><td>Guide</td><td>Q1'27 revenue $33–37B</td><td>$100B ARR in Dec 2026 confirmed on the call; backlog $63B (~$42B within 12 months)</td></tr>
+          <tr><td>Musk ARR target</td><td>$500B–$1T by YE27</td><td><span class="unv" style="background:#b98a2e" title="Management aspiration, not guidance">aspirational</span> Not guidance (LSEG FY27 consensus before the print ≈$110B)</td></tr>
+          <tr><td>Starship</td><td>Flight 14</td><td>First orbital flight and first revenue Starship mission: 26 V3 sats. Weekly Starship flights targeted in H1'27</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+
+    <div class="chart-box" id="lockupCard">
+      <div class="chart-header"><div><h3>Share supply: IPO lock-up calendar</h3><div class="chart-note">Shares that become eligible to sell, cumulatively, as each lock-up step passes. This changes the float but not the share count: the DCF is unaffected.</div></div></div>
+      <div class="slider-row"><label>Date</label><input type="range" id="lk_step" min="0" max="4" step="1" value="0" /><div class="val" id="lk_step_v">Oct 9, 2026</div></div>
+      <div class="dcf-kpis">
+        <div class="dcf-kpi"><div class="v" id="lk_new">328M</div><div class="l" id="lk_new_l">released at this step</div></div>
+        <div class="dcf-kpi"><div class="v" id="lk_cum">328M</div><div class="l">cumulative unlocked since Oct 9</div></div>
+        <div class="dcf-kpi"><div class="v" id="lk_pct">2.4%</div><div class="l">of 13,579M shares outstanding</div></div>
+      </div>
+      <div class="seg-src" id="lk_note"></div>
+      <div class="seg-src">Schedule: 7% tranche (~328.4M) on Oct 9 and Oct 24 (trades Mon Oct 26). The earnings-linked release (up to 28% of the lock-up group, ~1.3B) becomes eligible on the second full trading day after Q3 results. That works out to <strong>Thu Oct 22</strong>, a date the author calculated from the prospectus terms, not one SpaceX stated <span class="unv" style="background:#6b739a" title="Derived by the author from reported figures">derived</span>. The final 17% (~797.6M) unlocks Dec 8, and Musk's ~4.8B shares stay locked to Jun 12, 2027 (CNBC). Sources: <a href="https://www.marketscreener.com/news/certain-class-a-common-stock-of-space-exploration-technologies-corp-are-subject-to-a-lock-up-agreem-ce785ddfdf88f221" target="_blank" rel="noopener">MarketScreener lock-up terms</a>, <a href="https://dagomcapital.com/spacex-lockup-expiration-dates-explained/" target="_blank" rel="noopener">tranche table</a>, <a href="https://ir.spacex.com/updates/releases-details/2026/SpaceX-to-Post-Third-Quarter-2026-Results-and-Host-Webcast-on-October-20-2026-2026-QssQGye3im/default.aspx" target="_blank" rel="noopener">SpaceX IR (Q3 date)</a>.</div>
+      <div class="seg-src"><strong>Musk's share pledge.</strong> On Oct 19 Musk posted: "Next year, I will give one of my SpaceX shares to every kid in America." That would be ~72M shares (≈0.5% of the count; ~72M U.S. children per CNBC/Census) moved out of his <em>existing</em> holding. It is a transfer, not new issuance, so the share count and per-share values do not change. No mechanics have been disclosed. Sources: <a href="https://x.com/elonmusk/status/2112089556615123114" target="_blank" rel="noopener">Musk on X</a>, <a href="https://www.cnbc.com/2026/10/19/elon-musk-spacex-shares-giveaway-kids.html" target="_blank" rel="noopener">CNBC</a>.</div>
+    </div>
+
+    <div class="chart-box" id="mergerCard">
+      <div class="chart-header"><div><h3>Scenario: Tesla–SpaceX merger</h3><div class="chart-note">Off by default. This scenario never changes the DCF headline. It shows what an all-stock deal would do to the SPCX share count and to per-share value.</div></div></div>
+      <div class="dcf-toggles"><label><input type="checkbox" id="mg_on" /> Show the merger scenario (SpaceX issues new shares for all of Tesla)</label></div>
+      <div id="mg_body">
+        <div class="slider-row"><label>TSLA price ($) · Oct 20 close $373.71</label><input type="range" id="mg_tsla_px" min="150" max="800" step="0.01" value="373.71" /><div class="val" id="mg_tsla_px_v">$373.71</div></div>
+        <div class="slider-row"><label>TSLA shares (M) · 3,752M (10-K/A, Jan 23 2026)</label><input type="range" id="mg_tsla_sh" min="3000" max="4500" step="1" value="3752" /><div class="val" id="mg_tsla_sh_v">3,752M</div></div>
+        <div class="slider-row"><label>Premium paid to TSLA holders (%)</label><input type="range" id="mg_prem" min="-30" max="50" step="1" value="0" /><div class="val" id="mg_prem_v">0%</div></div>
+        <div class="dcf-kpis">
+          <div class="dcf-kpi"><div class="v" id="mg_ratio">2.53</div><div class="l">SPCX shares per TSLA share</div></div>
+          <div class="dcf-kpi"><div class="v" id="mg_new">9.5B</div><div class="l">new SPCX shares issued</div></div>
+          <div class="dcf-kpi"><div class="v" id="mg_own">59%</div><div class="l">existing SPCX holders' share of the combined company</div></div>
+          <div class="dcf-kpi"><div class="v" id="mg_mcr">0.70</div><div class="l">TSLA ÷ SPCX market cap</div></div>
+          <div class="dcf-kpi"><div class="v" id="mg_ps">$—</div><div class="l">pro-forma value per share (SPCX DCF equity + TSLA at market)</div></div>
+          <div class="dcf-kpi"><div class="v" id="mg_delta">—</div><div class="l">vs standalone DCF per share</div></div>
+        </div>
+      </div>
+      <div class="seg-src">Status: on the Q3 call, Musk said the Tesla and SpaceX boards have formed special committees of independent directors; per the Q3 release, the committees "have not reached agreement on the terms". Barclays (Oct 14) said a deal announcement is possible before Tesla's annual meeting. <a href="https://www.sec.gov/Archives/edgar/data/1318605/000110465926116700/0001104659-26-116700-index.htm" target="_blank" rel="noopener">Tesla's DEF 14A</a> sets that meeting for <strong>Dec 3, 2026</strong> with no merger item on the ballot. The "~0.7" figure in X/secondary chatter matched the TSLA/SPCX <em>market-cap</em> ratio at the Oct 20 close (the ratio shown above uses the latest close), not a per-share exchange ratio, and is not in the Barclays note: it is an illustration only <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span>. Kalshi odds (~56–60%) appear only in X posts <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span>. Sources: <a href="https://www.tipranks.com/news/the-fly/tesla-spacex-merger-possible-before-annual-meeting-says-barclays-thefly-news" target="_blank" rel="noopener">TheFly / Barclays</a>, <a href="https://electrek.co/2026/10/19/tesla-tsla-proxy-annual-meeting-spacex-merger/" target="_blank" rel="noopener">Electrek</a>, <a href="https://www.sec.gov/Archives/edgar/data/1181412/000162828026066482/spaceexplorationtechnologi.htm" target="_blank" rel="noopener">Q3 release</a>.</div>
+    </div>
+
+    <div class="chart-box" id="riskCard">
+      <div class="chart-header"><div><h3>Risks and catalysts to watch (Oct 9–21, 2026)</h3><div class="chart-note">Context only: none of these are model inputs.</div></div></div>
+      <ul style="margin:0 0 0 18px; line-height:1.6;">
+        <li><strong>Gen3 FCC opposition.</strong> In comments on the 100,000-satellite Gen3 application, Viasat asked the FCC to hold it in abeyance, DirecTV opposed the BSS-spectrum use and EPFD waiver, and DarkSky/PEER asked for a NEPA review. SES did not oppose but wants NGSO sharing showings. No FCC action yet, so the Gen3 FCC preset stays a speculative upside. <a href="https://communicationsdaily.com/article/2026/10/21/spacexs-gen3-constellation-plans-catch-flack-from-commenters-2610160057" target="_blank" rel="noopener">Communications Daily (Oct 21)</a></li>
+        <li><strong>Starship cadence (Q3 call).</strong> Musk said Starship should fly weekly in H1 2027 and twice weekly in H2 2027, roughly 75–80 flights in 2027 (my arithmetic), which supports the Musk-targets preset's 78. The FAA-limited preset still binds: Starbase is licensed for 25 flights a year until the Programmatic EIS (comments due Nov 30). Flight 15 in November will try to catch both stages. <a href="https://arstechnica.com/space/2026/10/spacex-will-attempt-to-reach-weekly-starship-launches-by-early-2027/" target="_blank" rel="noopener">Ars Technica (Oct 21)</a></li>
+        <li><strong>Starshield / Ukraine.</strong> A 100 mph in-motion speed limit hit Ukrainian military terminals on Oct 14. Musk says Starshield limits are set by the US government. Four senators asked SpaceX for records, due <strong>Nov 2</strong>, and a bipartisan group asked the DoD Inspector General to investigate. <a href="https://kyivindependent.com/this-cannot-be-a-coincidence-ukraines-starlink-access-restricted-without-warning-zelensky-adviser-says/" target="_blank" rel="noopener">Kyiv Independent</a> · <a href="https://x.com/elonmusk/status/2110445577184133456" target="_blank" rel="noopener">Musk</a> · <a href="https://www.blumenthal.senate.gov/imo/media/doc/10192026_letter_to_spacex_re_ukraine_and_starshield_finalpdf.pdf" target="_blank" rel="noopener">Senate letter</a></li>
+        <li><strong>EU direct-to-device competition.</strong> Deutsche Telekom, Orange, Telefónica and Vodafone signed an LoI (Oct 19) for a joint bid on EU 2 GHz MSS spectrum. Current rights expire May 2027. <a href="https://www.telekom.com/en/newsroom/latest-updates/news/2026/10/deutsche-telekom-orange-telefonica-and-vodafone-have-signed-a-letter-of-intent" target="_blank" rel="noopener">Deutsche Telekom</a></li>
+        <li><strong>Airlines.</strong> United has Starlink on 635+ aircraft, nearly half of its daily departures, with the full fleet due by end-2027. Southwest has 47 aircraft, targets 300+ by YE26 and its whole 737 fleet by fall 2027. <a href="https://united.mediaroom.com/2026-10-15-United-Now-Offers-Starlink-Wi-Fi-on-Nearly-Half-its-Daily-Flights,-Launches-New-Starlink-Tracker-Tool-Extends-Starlink-Status-Match-Offer" target="_blank" rel="noopener">United</a> · <a href="https://airlinegeeks.com/2026/10/17/southwest-gives-update-on-starlink-rollout/" target="_blank" rel="noopener">AirlineGeeks</a></li>
+        <li><strong>New markets.</strong> Venezuela authorized formal Starlink operations (Oct 9). Brazil's Anatel granted 15+15 MHz of S-band for direct-to-device (Oct 9). <a href="https://www.streetinsider.com/Reuters/Venezuela+president+authorizes+SpaceXs+Starlink+to+operate+in+the+country/27172550.html" target="_blank" rel="noopener">Reuters</a> · <a href="https://teletime.com.br/09/10/2026/anatel-starlink-banda-s/" target="_blank" rel="noopener">Teletime</a></li>
+        <li><strong>Spectrum.</strong> The FCC partially granted the 15,000-satellite direct-to-device constellation (DA-26-1078 per trade press; reported Oct 7, and the task brief dates it Oct 6), deferring some spectrum. Separately, the Grain 800 MHz deal (Oct 8) needs FCC approval; its ~$8B price is reported, not disclosed <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span>. <a href="https://www.satellitetoday.com/connectivity/2026/10/07/fcc-grants-spacex-approval-for-15000-direct-to-device-satellites-in-mss-spectrum/" target="_blank" rel="noopener">Via Satellite</a> · <a href="https://graingp.com/grain-management-announces-definitive-agreement-to-sell-nationwide-800-mhz-spectrum-portfolio-to-spacex/" target="_blank" rel="noopener">Grain</a></li>
+      </ul>
     </div>
   </div>
 </section>
@@ -2171,9 +2243,9 @@
       </div>
       <div class="bear-card">
         <div class="bear-num">Bear 03</div>
-        <div class="bear-stat">$18.4B</div>
+        <div class="bear-stat">$19.6B</div>
         <h3>Capex swamps operating profit</h3>
-        <p>FY2025: Space lost $657M on $4B revenue; AI (Grok) lost $6.35B on $3.2B (−199% op margin). Q2'26 improved — AI is adj.-EBITDA positive on compute rentals — but capex was <strong>$18.4B in one quarter</strong> ($15.8B for AI compute), ~$65B for 2026 (Goldman est.). Goldman sees ~$270B of debt needed through 2030 and free cash flow only from Q4 2030; Morgan Stanley not before 2035.</p>
+        <p>FY2025: Space lost $657M on $4B revenue; AI (Grok) lost $6.35B on $3.2B (−199% op margin). By Q3'26 AI (SI) posted an operating profit (+$431M), but capex was <strong>$19.6B in one quarter</strong> ($16.4B for AI compute), and the Q4 guide is $35–40B. Goldman sees ~$270B of debt needed through 2030 and free cash flow only from Q4 2030; Morgan Stanley not before 2035.</p>
       </div>
       <div class="bear-card">
         <div class="bear-num">Bear 04</div>
@@ -2191,13 +2263,13 @@
         <div class="bear-num">Bear 06</div>
         <div class="bear-stat">$85 → $66</div>
         <h3>Starlink is growing by getting cheaper</h3>
-        <p>Connectivity revenue grew 96% in 2024 and 50% in 2025, and re-accelerated to +66% y/y in Q2'26 as subscribers doubled to 12.0M — but ARPU fell from $85 to $66 as Starlink moves into lower-income markets, and management says blended ARPU may keep falling. Volume is doing the work; pricing power isn't proven.</p>
+        <p>Connectivity revenue grew 96% in 2024 and 50% in 2025, and re-accelerated to +66% y/y in Q2'26 as subscribers doubled to 12.0M. But ARPU fell from $85 to $66 as Starlink moved into lower-income markets. Q3'26 brought 13.6M subs and ARPU back up to $69, on mix (a 3-pt one-time item also flattered the Connectivity margin). Volume is doing the work; pricing power isn't proven.</p>
       </div>
       <div class="bear-card">
         <div class="bear-num">Bear 07</div>
         <div class="bear-stat">−52%</div>
         <h3>Brutal post-IPO round trip</h3>
-        <p>Peaked at $225.64 in the IPO week, then fell to a $108.37 close on Jul 31 — down ~52% in seven weeks — before recovering to <span class="mkt-price">$162.57</span> after Q2 results and Starship's orbital flight. Lock-up expirations add share supply. Volatility cuts both ways.</p>
+        <p>Peaked at $225.64 in the IPO week, then fell to a $108.37 close on Jul 31 — down ~52% in seven weeks — before recovering to <span class="mkt-price">$159.31</span> after Q2 results and Starship's orbital flight. Lock-up expirations add share supply. Volatility cuts both ways.</p>
       </div>
       <div class="bear-card">
         <div class="bear-num">Bear 08</div>
@@ -2258,7 +2330,7 @@
           <li><strong>V3 satellite production.</strong> V3s debuted on Flight 13 (suborbital); Flight 14 put the first <strong>26 operational V3s</strong> into orbit, with on-orbit checkout under way. Manufacturing 40,000+ V3 satellites at $600K each is another factory build-out. AI1 payloads add thermal + compute complexity on top.</li>
           <li><strong>V3 dispenser at cadence.</strong> Flight 14 deployed 26 V3s over ~30 minutes (≈10× a Falcon 9 Starlink launch's capacity, per SpaceX). Full loads of up to 60 V3s (≈20×) per Starship are not yet proven — robotics + timing problem, tractable.</li>
           <li><strong>Direct-to-cell coverage.</strong> Currently ~500 satellites. Consumer expectation is 5-bar coverage; delivery has been intermittent. Fixes with more sats + more spectrum — both are money and time, not invention.</li>
-          <li><strong>Grok / xAI monetization.</strong> Nothing physical here — a business execution question. Lost $6.35B in FY2025 against ChatGPT + Gemini + Claude; in Q2'26 the segment was adj.-EBITDA positive mainly by <em>renting compute to rivals</em> (Anthropic, Google, Reflection) on contracts cancellable at 90 days' notice (Anthropic). Not a fixable "just launch harder" problem.</li>
+          <li><strong>Grok / xAI monetization.</strong> Nothing physical here — a business execution question. Lost $6.35B in FY2025 against ChatGPT + Gemini + Claude; in Q3'26 the segment (renamed SI) earned +$431M operating income, mainly by <em>renting compute to rivals</em> (Anthropic, Google, Reflection) on contracts cancellable at 90 days' notice (Anthropic). Not a fixable "just launch harder" problem.</li>
           <li><strong>Regulatory throughput.</strong> Each Starship flight still needs FAA licensing/mishap closure; the Flight 14 engine shutdown is the latest item to watch. FAA licensing + state environmental review + international spectrum coordination are all bottleneck-capable.</li>
           <li><strong>Political tail risks.</strong> Musk's political entanglement + concentration risk on one CEO. Executable via succession, but currently unmitigated.</li>
         </ul>
@@ -2591,7 +2663,7 @@
     <div class="eyebrow">What it means for the business</div>
     <h2>Starlink at scale — the 5-year projection.</h2>
     <p class="lead">
-      Starlink had <strong>12.0M subscribers</strong> at Jun 30, 2026 (doubling y/y) at a <strong>$66/mo ARPU</strong> (down from $85 a year earlier as it expands into cheaper markets), and the Connectivity segment ran a <strong>60.5% adjusted EBITDA margin</strong> in Q2'26 (62.1% for H1). Enterprise &amp; Government — aviation, maritime, enterprise, government/Starshield-related — is now 42% of Connectivity revenue and growing 108% y/y, so it gets its own line below. <span class="src-ref">Source: <a href="https://ir.spacex.com/files/doc_financials/2026/q2/SpaceX-Reports-Second-Quarter-2026-Results.pdf" target="_blank" rel="noopener">Q2'26 release</a>.</span> Pick a growth scenario, dial the inputs, and watch every year of the projection recompute — including both EV/EBITDA and price/sales multiples.
+      Starlink had <strong>13.6M subscribers</strong> at Sep 30, 2026 (+1.6M q/q) at a <strong>$69/mo ARPU</strong> (Q2 $66; the Q3 rise was mix-driven). The Connectivity segment ran a <strong>66.7% adjusted EBITDA margin</strong> in Q3'26, which includes a ~3-pt one-time benefit, so the default here is 64%. Enterprise &amp; Government (aviation, maritime, enterprise, government/Starshield-related) is ~41% of Connectivity revenue ($2.13B in Q3), so it gets its own line below. <span class="src-ref">Source: <a href="https://www.sec.gov/Archives/edgar/data/1181412/000162828026066482/spaceexplorationtechnologi.htm" target="_blank" rel="noopener">Q3'26 release</a>.</span> Pick a growth scenario, dial the inputs, and watch every year of the projection recompute — including both EV/EBITDA and price/sales multiples.
     </p>
 
     <div class="presets" id="growthPresets">
@@ -2608,8 +2680,8 @@
         <h3>Assumptions</h3>
         <div class="slider-row">
           <label>Starting subscribers (M)</label>
-          <input type="range" id="v_subs" min="1" max="60" step="0.5" value="12" />
-          <div class="val" id="v_subs_v">12.0 M</div>
+          <input type="range" id="v_subs" min="1" max="60" step="0.1" value="13.6" />
+          <div class="val" id="v_subs_v">13.6 M</div>
         </div>
         <div class="slider-row">
           <label>Annual sub growth (Y1)</label>
@@ -2617,9 +2689,9 @@
           <div class="val" id="v_growth_v">80%</div>
         </div>
         <div class="slider-row">
-          <label>Consumer ARPU ($/mo) · Q2'26: $66</label>
-          <input type="range" id="v_arpu" min="30" max="200" step="1" value="66" />
-          <div class="val" id="v_arpu_v">$66</div>
+          <label>Consumer ARPU ($/mo) · Q3'26: $69 (Q2 $66)</label>
+          <input type="range" id="v_arpu" min="30" max="200" step="1" value="69" />
+          <div class="val" id="v_arpu_v">$69</div>
         </div>
         <div class="slider-row">
           <label>ARPU drift per year (mix shift)</label>
@@ -2627,9 +2699,9 @@
           <div class="val" id="v_arpu_drift_v">-5%</div>
         </div>
         <div class="slider-row">
-          <label>Enterprise &amp; Gov revenue now ($B/yr) · Q2'26 run-rate $7.2B</label>
-          <input type="range" id="v_eg_rev" min="0" max="30" step="0.1" value="7.2" />
-          <div class="val" id="v_eg_rev_v">$7.2B</div>
+          <label>Enterprise &amp; Gov revenue now ($B/yr) · Q3'26 run-rate $8.5B</label>
+          <input type="range" id="v_eg_rev" min="0" max="30" step="0.1" value="8.5" />
+          <div class="val" id="v_eg_rev_v">$8.5B</div>
         </div>
         <div class="slider-row">
           <label>Enterprise &amp; Gov growth (Y1, decays like subs)</label>
@@ -2637,9 +2709,9 @@
           <div class="val" id="v_eg_growth_v">50%</div>
         </div>
         <div class="slider-row">
-          <label>Connectivity adj. EBITDA margin · Q2'26 60.5%</label>
-          <input type="range" id="v_margin" min="20" max="80" step="1" value="61" />
-          <div class="val" id="v_margin_v">61%</div>
+          <label>Connectivity adj. EBITDA margin · Q3'26 66.7% (≈64% ex one-time)</label>
+          <input type="range" id="v_margin" min="20" max="80" step="1" value="64" />
+          <div class="val" id="v_margin_v">64%</div>
         </div>
         <div class="slider-row">
           <label>Projection years</label>
@@ -2742,34 +2814,34 @@
       </div>
     </div>
 
-    <h3 style="margin-top: 48px;">Where Connectivity revenue actually comes from (Q2'26)</h3>
+    <h3 style="margin-top: 48px;">Where Connectivity revenue actually comes from (Q3'26)</h3>
     <p style="max-width: 1080px;">The old version of this section used an illustrative tier mix. SpaceX now reports Connectivity in two lines. Starshield is not broken out (it sits inside Enterprise &amp; Government; >$6B of multi-year US government Starshield awards were announced in Q2'26).</p>
 
     <div class="tier-mix" id="tierMix">
       <div class="tier-card">
         <div class="tier-icon">🏠</div>
         <div class="tier-name">Consumer</div>
-        <div class="tier-subs">12.0M subs</div>
-        <div class="tier-arpu">$66/mo ARPU</div>
-        <div class="tier-rev">Q2 $2.49B · ≈$9.9B/yr</div>
-        <div class="tier-bar"><div class="tier-bar-fill" style="width: 58%;"></div></div>
+        <div class="tier-subs">13.6M subs</div>
+        <div class="tier-arpu">$69/mo ARPU</div>
+        <div class="tier-rev">Q3 $3.12B · ≈$12.5B/yr</div>
+        <div class="tier-bar"><div class="tier-bar-fill" style="width: 59%;"></div></div>
       </div>
       <div class="tier-card">
         <div class="tier-icon">🏢</div>
         <div class="tier-name">Enterprise &amp; Government</div>
         <div class="tier-subs">aviation · maritime · enterprise · gov</div>
-        <div class="tier-arpu">+108% y/y</div>
-        <div class="tier-rev">Q2 $1.81B · ≈$7.2B/yr</div>
-        <div class="tier-bar"><div class="tier-bar-fill" style="width: 42%;"></div></div>
+        <div class="tier-arpu">3,800+ aircraft equipped</div>
+        <div class="tier-rev">Q3 $2.13B · ≈$8.5B/yr</div>
+        <div class="tier-bar"><div class="tier-bar-fill" style="width: 41%;"></div></div>
       </div>
     </div>
 
     <p style="font-size: 13px; color: var(--dim); margin-top: 12px; max-width: 1080px;">
-      <em>Note:</em> Q2'26 Connectivity revenue of $4.29B ÷ ~11.15M average subs ÷ 3 months ≈ $128/mo per subscriber all-in, vs. the reported $66 ARPU — the gap is Enterprise &amp; Government revenue, which is why it is modeled as its own line rather than by inflating ARPU. Source: <a href="https://ir.spacex.com/files/doc_financials/2026/q2/SpaceX-Reports-Second-Quarter-2026-Results.pdf" target="_blank" rel="noopener">Q2'26 release</a> (derived).
+      <em>Note:</em> Q3'26 Connectivity revenue of $5.25B ÷ ~12.8M average subs ÷ 3 months ≈ $137/mo per subscriber all-in, vs. the reported $69 ARPU — the gap is Enterprise &amp; Government revenue, which is why it is modeled as its own line rather than by inflating ARPU. Source: <a href="https://www.sec.gov/Archives/edgar/data/1181412/000162828026066482/spaceexplorationtechnologi.htm" target="_blank" rel="noopener">Q3'26 release</a> (derived).
     </p>
 
     <div class="callout" style="margin-top: 32px;">
-      <strong>How to read the multiples.</strong> Comcast (mature telco) trades at ~1× revenue / ~7× EBITDA. Hyperscaler cloud (AWS, Azure) at ~8× revenue / ~18× EBITDA. Growth SaaS at ~10–15× revenue. Starlink sits between hyperscaler and infrastructure telco — with defense optionality, 60%+ margin, and 80%+ growth. The base-case 18× EBITDA / 8× revenue multiples are aggressive-but-defendable. Bear case would be 8× EBITDA / 3× revenue. Note this is <em>just</em> Starlink connectivity — SpaceX consolidated (with ≈$100B cash + securities at 6/30, Falcon/Starship launch, Starshield, and AI compute) is trading at <span class="mkt-cap">$2.21T</span>. The bull/bear debate hinges on what fraction of that $2T the connectivity segment alone can support.
+      <strong>How to read the multiples.</strong> Comcast (mature telco) trades at ~1× revenue / ~7× EBITDA. Hyperscaler cloud (AWS, Azure) at ~8× revenue / ~18× EBITDA. Growth SaaS at ~10–15× revenue. Starlink sits between hyperscaler and infrastructure telco — with defense optionality, 60%+ margin, and 80%+ growth. The base-case 18× EBITDA / 8× revenue multiples are aggressive-but-defendable. Bear case would be 8× EBITDA / 3× revenue. Note this is <em>just</em> Starlink connectivity — SpaceX consolidated (with ≈$100B cash + securities at 6/30, Falcon/Starship launch, Starshield, and AI compute) is trading at <span class="mkt-cap">$2.01T</span>. The bull/bear debate hinges on what fraction of that $2T the connectivity segment alone can support.
     </div>
   </div>
 </section>
@@ -2866,7 +2938,7 @@
     <div class="eyebrow">Follow the dollars</div>
     <h2>What does $90/mo actually cost to deliver — and what if it were one price for the world?</h2>
     <p class="lead">
-      A ~63% adjusted EBITDA margin (Connectivity actual: 62.1% H1'26, 60.5% Q2'26) means Starlink spends about <strong>$33 to serve every $90 subscriber</strong>. Break that $33 into its constituents below and you can see where Starship+V3 collapses each line. Then the more interesting question: what if SpaceX bundled broadband + direct-to-cell cellular + roaming into one $100/mo plan that works anywhere on Earth? Legacy telcos have a <strong>$1.5T combined market cap</strong> defending exactly that geography.
+      A ~63% adjusted EBITDA margin (Connectivity actual: 60.5% Q2'26, 66.7% Q3'26 incl. a ~3-pt one-time item) means Starlink spends about <strong>$33 to serve every $90 subscriber</strong>. Break that $33 into its constituents below and you can see where Starship+V3 collapses each line. Then the more interesting question: what if SpaceX bundled broadband + direct-to-cell cellular + roaming into one $100/mo plan that works anywhere on Earth? Legacy telcos have a <strong>$1.5T combined market cap</strong> defending exactly that geography.
     </p>
 
     <div class="econ-grid">
@@ -3007,7 +3079,7 @@
     </div>
 
     <div class="callout" style="margin-top: 32px; border-left-color: var(--falcon);">
-      <strong>Update (Oct 2026): the compute business that exists today is on the ground.</strong> After merging with xAI (Feb 2026), SpaceX began renting Colossus capacity to other AI labs. Q2'26: <strong>$14.1B of contracted Cloud Services Agreements</strong>, 1.4 GW nameplate compute, AI segment adj. EBITDA +$1.15B. Named deals:
+      <strong>Update (Oct 2026): the compute business that exists today is on the ground.</strong> After merging with xAI (Feb 2026), SpaceX began renting Colossus capacity to other AI labs. Q2'26: <strong>$14.1B of contracted Cloud Services Agreements</strong>, 1.4 GW nameplate compute, AI segment adj. EBITDA +$1.15B. Q3'26: 1.7 GW, SI revenue $7.56B, adj. EBITDA +$4.95B, backlog $63B, new deals slightly above $50/W, and a Q1'27 company revenue guide of $33–37B. Named deals:
       <strong>Anthropic</strong> — Colossus 1, up to $1.25B/month through May 2029, terminable on 90 days' notice (<a href="https://www.datacenterdynamics.com/en/news/spacex-ipo-filing-reveals-anthropic-set-to-pay-musks-firm-125bn-a-month-to-rent-xai-data-center-space/" target="_blank" rel="noopener">DCD</a>, <a href="https://x.ai/news/anthropic-compute-partnership" target="_blank" rel="noopener">x.ai</a>);
       <strong>Google</strong> — $920M/month from Oct 2026 through Jun 2029 <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span>;
       <strong>Reflection AI</strong> — GB300s at Colossus 2, $150M/month from Jul 2026 through 2029 (<a href="https://www.cnbc.com/2026/06/22/spacex-ai-colossus-data-center-reflection.html" target="_blank" rel="noopener">CNBC</a>);
@@ -3183,7 +3255,7 @@
     <div class="eyebrow">The bull case</div>
     <h2>Sum-of-parts: if they execute, the $2T holds — and grows.</h2>
     <p class="lead">
-      Everything you've played with above is the input to this final number. If Starship hits its cost curve, if V3/AI1 deploy on schedule, if Direct-to-Cell scales, and if AI compute in orbit becomes a real revenue line — then the <span class="mkt-cap">$2.21T</span> market cap today <strong>isn't the ceiling, it's the entry point.</strong> Here's the segment math at year 5. Rows other than Starlink and orbital compute are now editable inputs (type in the boxes); each shows where its default comes from. Note: this is a <em>Year-5</em> value, not today's — the DCF section below discounts it back.
+      Everything you've played with above is the input to this final number. If Starship hits its cost curve, if V3/AI1 deploy on schedule, if Direct-to-Cell scales, and if AI compute in orbit becomes a real revenue line — then the <span class="mkt-cap">$2.01T</span> market cap today <strong>isn't the ceiling, it's the entry point.</strong> Here's the segment math at year 5. Rows other than Starlink and orbital compute are now editable inputs (type in the boxes); each shows where its default comes from. Note: this is a <em>Year-5</em> value, not today's — the DCF section below discounts it back.
     </p>
 
     <div class="table-scroll"><table class="sop-table">
@@ -3294,12 +3366,12 @@
     </div>
 
     <div class="callout" style="margin-top: 32px; border-left-color: var(--gain); background: rgba(52, 211, 153, 0.06);">
-      <strong>The bull's punchline.</strong> At <span class="mkt-cap">$2.21T</span> market cap today, the market is essentially pricing in the base-case sum-of-parts with modest execution risk — <strong>roughly <span id="punchline_pct">87%</span> probability of execution</strong> (<span id="punchline_mcap">2.21</span> / <span id="punchline_base">2.5</span>T ≈ same %; ignores discounting — see DCF). That's aggressive but not insane if you believe in the physics-is-solved thesis. The bear thinks the execution success rate is closer to 30%. The bull thinks it's 95%+ and thinks the market is missing the AI compute upside entirely. Reasonable people disagree because the physics is settled and the engineering isn't — and the market has to price a probability distribution, not a certainty.
+      <strong>The bull's punchline.</strong> At <span class="mkt-cap">$2.01T</span> market cap today, the market is essentially pricing in the base-case sum-of-parts with modest execution risk — <strong>roughly <span id="punchline_pct">87%</span> probability of execution</strong> (<span id="punchline_mcap">2.21</span> / <span id="punchline_base">2.5</span>T ≈ same %; ignores discounting — see DCF). That's aggressive but not insane if you believe in the physics-is-solved thesis. The bear thinks the execution success rate is closer to 30%. The bull thinks it's 95%+ and thinks the market is missing the AI compute upside entirely. Reasonable people disagree because the physics is settled and the engineering isn't — and the market has to price a probability distribution, not a certainty.
     </div>
 
     <div class="kpi-grid" style="margin-top: 32px;">
       <div class="kpi">
-        <div class="kpi-num mkt-cap">$2.21T</div>
+        <div class="kpi-num mkt-cap">$2.01T</div>
         <div class="kpi-lbl">Market cap today</div>
       </div>
       <div class="kpi">
@@ -3344,12 +3416,15 @@
             <button data-cad="conservative" class="active">Conservative</button>
             <button data-cad="musk">Musk targets</button>
             <button data-cad="faa">FAA-limited</button>
+            <button data-cad="pending_faa">Pending FAA (Starbase 100/yr)</button>
             <div class="preset-info" id="scCadenceInfo"></div>
           </div>
           <div class="slider-row"><label>Starship Starlink flights, 2026 (Flight 14 = 1)</label><input type="range" id="sc_ss26" min="0" max="10" step="1" /><div class="val" id="sc_ss26_v">1</div></div>
           <div class="slider-row"><label>Starship Starlink flights, 2027</label><input type="range" id="sc_ss27" min="0" max="200" step="1" /><div class="val" id="sc_ss27_v">30</div></div>
           <div class="slider-row"><label>Starship Starlink flights, 2028</label><input type="range" id="sc_ss28" min="0" max="500" step="1" /><div class="val" id="sc_ss28_v">80</div></div>
           <div class="slider-row"><label>Starship Starlink flights/yr, 2029+</label><input type="range" id="sc_ss29" min="0" max="1000" step="1" /><div class="val" id="sc_ss29_v">150</div></div>
+          <div class="slider-row"><label>Starbase Louisiana total Starship flights/yr from 2029 (adds to the FAA presets) <span class="unv" style="background:#9aa3c7" title="Author assumption — not a reported figure">assumption</span></label><input type="range" id="sc_lou" min="0" max="200" step="5" value="0" /><div class="val" id="sc_lou_v">0</div></div>
+          <div class="seg-src">Starbase Louisiana was announced Aug 25 2026: up to $100B, 5 launch complexes, first launch targeted 2029 (reaffirmed on the Q3 call). The flight rate is an author assumption, with a default of 0. It is added to the 2029+ value of the FAA-limited and Pending FAA presets only. Sources: <a href="https://www.spacex.com/sites/starbase-la" target="_blank" rel="noopener">SpaceX</a>, <a href="https://arstechnica.com/space/2026/08/spacex-intends-to-invest-up-to-100-billion-in-massive-louisiana-spaceport/" target="_blank" rel="noopener">Ars Technica</a>.</div>
           <div class="seg-src">The sliders count <em>Starlink</em> Starship flights. The presets convert total Starship flights using an <strong>80% Starlink share</strong> <span class="unv" style="background:#9aa3c7" title="Author assumption — not a reported figure">assumption</span>. Starlink is the main payload, but HLS demo and tanker flights, direct-to-cell satellites and outside customers also need Starship flights. R40's weekly-Starship model assumes 90%, and that figure is a third-party assumption, not SpaceX guidance. Approved Starship launch envelopes: Starbase 25/yr (FAA, May 2025), LC-39A 44/yr (FAA ROD, early 2026) and SLC-37 76/yr (Air Force ROD 2025; the FAA's supplemental review opened Sep 29 2026). Together that is <strong>145/yr</strong>, which is the source of the "~145 flights" figure. It is not a Starbase-only limit. Satellite supply is also a constraint the model doesn't include: Redmond's ~70 satellites a week (S-1) is about 3,640 a year, or ~140 flights at 26 per flight and ~61 at 60.</div>
           <div class="slider-row"><label>V3s per Starship flight</label><input type="range" id="sc_v3pf" min="10" max="60" step="1" /><div class="val" id="sc_v3pf_v">26</div></div>
           <div class="slider-row"><label>Downlink per V3 (Gbps, design 1,000)</label><input type="range" id="sc_v3gbps" min="200" max="1500" step="50" /><div class="val" id="sc_v3gbps_v">1,000</div></div>
@@ -3451,7 +3526,7 @@
     <div class="eyebrow">What is it worth today?</div>
     <h2>DCF fair value — discount the plan back to today.</h2>
     <p class="lead">
-      Everything above values SpaceX at <em>Year 5</em> with multiples. A discounted-cash-flow model asks a harder question: after ~$65B of capex in 2026 alone, do the free cash flows ever arrive, and what are they worth <strong>today</strong>? Segments are projected 2027–2036 from 2026E, then valued with either a perpetual-growth or an exit-multiple terminal value. Connectivity can be driven directly by the Starlink sliders above, and the orbital-compute calculator can be added as an extra segment.
+      Everything above values SpaceX at <em>Year 5</em> with multiples. A discounted-cash-flow model asks a harder question: after ~$19.6B of capex in Q3'26 alone (and $35–40B guided for Q4), do the free cash flows ever arrive, and what are they worth <strong>today</strong>? Segments are projected 2027–2036 from the Q3'26 annualized run-rate, then valued with either a perpetual-growth or an exit-multiple terminal value. Connectivity can be driven directly by the Starlink sliders above, and the orbital-compute calculator can be added as an extra segment.
     </p>
 
     <div class="presets" id="dcfPresets">
@@ -3462,10 +3537,20 @@
       <button data-dcf="ms_bear">MS Bear $75</button>
       <button data-dcf="ms_base">MS Base $300</button>
       <button data-dcf="ms_bull">MS Bull $600</button>
-      <button data-dcf="gs">Goldman $220</button>
-      <button data-dcf="jpm">JPMorgan $225</button>
+      <button data-dcf="jpm">JPMorgan $500</button>
+      <button data-dcf="cantor">Cantor $345</button>
+      <button data-dcf="barclays">Barclays $300</button>
+      <button data-dcf="evercore">Evercore $275</button>
+      <button data-dcf="pivotal">Pivotal $260</button>
+      <button data-dcf="needham">Needham $250</button>
+      <button data-dcf="gs">Goldman $245</button>
+      <button data-dcf="citi">Citi $240</button>
+      <button data-dcf="db">Deutsche $235</button>
+      <button data-dcf="tdcowen">TD Cowen $224</button>
+      <button data-dcf="mizuho">Mizuho $205</button>
+      <button data-dcf="stifel">Stifel $190</button>
       <button data-dcf="damodaran">Damodaran ~$100</button>
-      <div class="preset-info" id="dcfPresetInfo">Base: 2026E revenue ≈$47B (Goldman 2026E $47.6B), 2030 ≈$373B, FCF positive 2031 (Goldman: Q4 2030). WACC 9.5% (between Damodaran 8.37% and Goldman 12%).</div>
+      <div class="preset-info" id="dcfPresetInfo"></div>
     </div>
     <div class="presets" id="dcfMethod">
       <span class="preset-label">Terminal value</span>
@@ -3473,6 +3558,7 @@
       <button data-method="exit">Exit multiple</button>
     </div>
     <div class="dcf-toggles">
+      <label><input type="checkbox" id="dcf_compute" checked /> Drive 2027 AI-infrastructure revenue from compute (average GW online × $/W per year)</label>
       <label><input type="checkbox" id="dcf_link_conn" /> Drive Starlink consumer + E&amp;G from the valuation sliders above (subs, growth scenario, ARPU, drift, E&amp;G, margin)</label>
       <label><input type="checkbox" id="dcf_link_orbital" /> Add orbital compute (from the Space DCs calculator, ramps over 5 yrs)</label>
       <span id="dcf_cap_status" style="font-size:13px;color:var(--muted);">V3 capacity constraint: off (toggle in the V3 scale-up section)</span>
@@ -3483,68 +3569,93 @@
         <h3>Segments</h3>
           <div class="dcf-seg" id="dcfseg_consumer">
             <h4>Starlink consumer </h4>
-            <div class="seg-src">Base-year default ≈ Q2'26 consumer run-rate $9.9B, rising. Target margin vs Damodaran 60% Connectivity. Link → uses the Starlink sliders above.</div>
-            <div class="slider-row"><label>2026E revenue ($B)</label><input type="range" id="dcf_consumer_rev" min="0" max="40" step="0.1" /><div class="val" id="dcf_consumer_rev_v">$10.5B</div></div>
-            <div class="slider-row"><label>2027 growth (decays toward terminal)</label><input type="range" id="dcf_consumer_g1" min="0" max="300" step="0.25" /><div class="val" id="dcf_consumer_g1_v">40.0%</div></div>
+            <div class="seg-src">Base year = Q3'26 consumer revenue $3,121M × 4 ≈ $12.5B (13.6M subs, $69 ARPU). Target margin vs Damodaran 60% Connectivity. Link → uses the Starlink sliders above.</div>
+            <div class="slider-row"><label>Base year: Q3'26 run-rate ($B)</label><input type="range" id="dcf_consumer_rev" min="0" max="40" step="0.1" /><div class="val" id="dcf_consumer_rev_v">$10.5B</div></div>
+            <div class="slider-row"><label>2027 growth (decays toward terminal)</label><input type="range" id="dcf_consumer_g1" min="0" max="300" step="0.01" /><div class="val" id="dcf_consumer_g1_v">40.0%</div></div>
             <div class="slider-row"><label>Target EBITDA margin</label><input type="range" id="dcf_consumer_mT" min="-20" max="80" step="1" /><div class="val" id="dcf_consumer_mT_v">62%</div></div>
           </div>
           <div class="dcf-seg" id="dcfseg_eg">
             <h4>Starlink enterprise &amp; government (incl. Starshield-related) </h4>
-            <div class="seg-src">Q2'26 run-rate $7.2B, +108% y/y; >$6B Starshield awards in Q2.</div>
-            <div class="slider-row"><label>2026E revenue ($B)</label><input type="range" id="dcf_eg_rev" min="0" max="30" step="0.1" /><div class="val" id="dcf_eg_rev_v">$8.0B</div></div>
-            <div class="slider-row"><label>2027 growth (decays toward terminal)</label><input type="range" id="dcf_eg_g1" min="0" max="300" step="0.25" /><div class="val" id="dcf_eg_g1_v">50.0%</div></div>
+            <div class="seg-src">Q3'26 E&amp;G $2,127M × 4 ≈ $8.5B. Connectivity adj. EBITDA margin 66.7% (incl. ~3 pts one-time).</div>
+            <div class="slider-row"><label>Base year: Q3'26 run-rate ($B)</label><input type="range" id="dcf_eg_rev" min="0" max="30" step="0.1" /><div class="val" id="dcf_eg_rev_v">$8.0B</div></div>
+            <div class="slider-row"><label>2027 growth (decays toward terminal)</label><input type="range" id="dcf_eg_g1" min="0" max="300" step="0.01" /><div class="val" id="dcf_eg_g1_v">50.0%</div></div>
             <div class="slider-row"><label>Target EBITDA margin</label><input type="range" id="dcf_eg_mT" min="-20" max="80" step="1" /><div class="val" id="dcf_eg_mT_v">60%</div></div>
           </div>
           <div class="dcf-seg" id="dcfseg_launch">
             <h4>Launch (external + government) </h4>
-            <div class="seg-src">Q2'26 $962M → ≈$3.85B/yr; Damodaran target Space margin 45%.</div>
-            <div class="slider-row"><label>2026E revenue ($B)</label><input type="range" id="dcf_launch_rev" min="0" max="20" step="0.1" /><div class="val" id="dcf_launch_rev_v">$4.0B</div></div>
-            <div class="slider-row"><label>2027 growth (decays toward terminal)</label><input type="range" id="dcf_launch_g1" min="0" max="300" step="0.25" /><div class="val" id="dcf_launch_g1_v">25.0%</div></div>
+            <div class="seg-src">Q3'26 Space $1,767M (favorable mix); 9M'26 annualized ≈$4.5B. Flight 14 = first revenue Starship mission. Damodaran target Space margin 45%.</div>
+            <div class="slider-row"><label>Base year: Q3'26 run-rate ($B)</label><input type="range" id="dcf_launch_rev" min="0" max="20" step="0.1" /><div class="val" id="dcf_launch_rev_v">$4.0B</div></div>
+            <div class="slider-row"><label>2027 growth (decays toward terminal)</label><input type="range" id="dcf_launch_g1" min="0" max="300" step="0.01" /><div class="val" id="dcf_launch_g1_v">25.0%</div></div>
             <div class="slider-row"><label>Target EBITDA margin</label><input type="range" id="dcf_launch_mT" min="-20" max="80" step="1" /><div class="val" id="dcf_launch_mT_v">45%</div></div>
           </div>
           <div class="dcf-seg" id="dcfseg_ai_infra">
             <h4>AI infrastructure (compute rentals) </h4>
-            <div class="seg-src">≈$1.6B Q2 increment; named contracts ≈$27.8B/yr by Dec 2026; Goldman 2 GW → 36 GW (2030).</div>
-            <div class="slider-row"><label>2026E revenue ($B)</label><input type="range" id="dcf_ai_infra_rev" min="0" max="80" step="0.1" /><div class="val" id="dcf_ai_infra_rev_v">$20.0B</div></div>
-            <div class="slider-row"><label>2027 growth (decays toward terminal)</label><input type="range" id="dcf_ai_infra_g1" min="0" max="300" step="0.25" /><div class="val" id="dcf_ai_infra_g1_v">150.0%</div></div>
+            <div class="seg-src">Q3'26 SI solutions &amp; infrastructure $7,022M less Cursor $608M, × 4 ≈ $25.7B; SI segment op income already positive (+$431M, adj. EBITDA margin 65.5%). 1.7 GW at 9/30 → 2.5–3 GW YE26; Musk: ~13 GW YE27. New-deal pricing "slightly above $50/W" (Q3 call).</div>
+            <div class="slider-row"><label>2027 average compute online (GW)</label><input type="range" id="dcf_gw" min="1" max="20" step="0.1" /><div class="val" id="dcf_gw_v">4.9 GW</div></div>
+            <div class="slider-row"><label>Revenue per watt per year ($/W)</label><input type="range" id="dcf_ppw" min="5" max="80" step="0.5" /><div class="val" id="dcf_ppw_v">$30/W</div></div>
+            <div class="presets" id="dcfGwPresets">
+              <span class="preset-label">Compute path</span>
+              <button data-gwp="evercore">Evercore 4.4 GW</button>
+              <button data-gwp="gs">Goldman 4.7 GW</button>
+              <button data-gwp="ms">MS 4.9 GW</button>
+              <button data-gwp="jpm">JPM bull ~13 GW YE27</button>
+              <div class="preset-info" id="dcfGwInfo"></div>
+            </div>
+            <div class="seg-src" id="dcf_gw_check"></div>
+            <div class="slider-row"><label>Base year: Q3'26 run-rate ($B)</label><input type="range" id="dcf_ai_infra_rev" min="0" max="80" step="0.1" /><div class="val" id="dcf_ai_infra_rev_v">$20.0B</div></div>
+            <div class="slider-row"><label id="dcf_ai_infra_g1_lbl">2027 growth (decays toward terminal)</label><input type="range" id="dcf_ai_infra_g1" min="0" max="300" step="0.01" /><div class="val" id="dcf_ai_infra_g1_v">150.0%</div></div>
             <div class="slider-row"><label>Target EBITDA margin</label><input type="range" id="dcf_ai_infra_mT" min="-20" max="80" step="1" /><div class="val" id="dcf_ai_infra_mT_v">45%</div></div>
           </div>
           <div class="dcf-seg" id="dcfseg_ai_sw">
             <h4>AI software (Grok, X subs/ads, Cursor) <span class="unv" style="background:#9aa3c7" title="Author assumption — not a reported figure">assumption</span></h4>
-            <div class="seg-src">Revenue split and Cursor ARR not disclosed — base-year value is an author assumption. Damodaran target AI margin 25%.</div>
-            <div class="slider-row"><label>2026E revenue ($B)</label><input type="range" id="dcf_ai_sw_rev" min="0" max="30" step="0.1" /><div class="val" id="dcf_ai_sw_rev_v">$4.0B</div></div>
-            <div class="slider-row"><label>2027 growth (decays toward terminal)</label><input type="range" id="dcf_ai_sw_g1" min="0" max="300" step="0.25" /><div class="val" id="dcf_ai_sw_g1_v">80.0%</div></div>
+            <div class="seg-src">Q3'26 SI advertising $538M + Cursor $608M, × 4 ≈ $4.6B. Grok subscriptions not split out; starting margin is an author assumption. Damodaran target AI margin 25%.</div>
+            <div class="slider-row"><label>Base year: Q3'26 run-rate ($B)</label><input type="range" id="dcf_ai_sw_rev" min="0" max="30" step="0.1" /><div class="val" id="dcf_ai_sw_rev_v">$4.0B</div></div>
+            <div class="slider-row"><label>2027 growth (decays toward terminal)</label><input type="range" id="dcf_ai_sw_g1" min="0" max="300" step="0.01" /><div class="val" id="dcf_ai_sw_g1_v">80.0%</div></div>
             <div class="slider-row"><label>Target EBITDA margin</label><input type="range" id="dcf_ai_sw_mT" min="-20" max="80" step="1" /><div class="val" id="dcf_ai_sw_mT_v">30%</div></div>
           </div>
           <div class="dcf-seg" id="dcfseg_mobile">
             <h4>Starlink Mobile / direct-to-cell <span class="unv" style="background:#9aa3c7" title="Author assumption — not a reported figure">assumption</span></h4>
             <div class="seg-src">Spectrum: Grain 800 MHz deal (Oct 8 2026, pending FCC). No disclosed revenue — author assumption.</div>
-            <div class="slider-row"><label>2026E revenue ($B)</label><input type="range" id="dcf_mobile_rev" min="0" max="10" step="0.1" /><div class="val" id="dcf_mobile_rev_v">$0.3B</div></div>
-            <div class="slider-row"><label>2027 growth (decays toward terminal)</label><input type="range" id="dcf_mobile_g1" min="0" max="300" step="0.25" /><div class="val" id="dcf_mobile_g1_v">200.0%</div></div>
+            <div class="slider-row"><label>Base year: Q3'26 run-rate ($B)</label><input type="range" id="dcf_mobile_rev" min="0" max="10" step="0.1" /><div class="val" id="dcf_mobile_rev_v">$0.3B</div></div>
+            <div class="slider-row"><label>2027 growth (decays toward terminal)</label><input type="range" id="dcf_mobile_g1" min="0" max="300" step="0.01" /><div class="val" id="dcf_mobile_g1_v">200.0%</div></div>
             <div class="slider-row"><label>Target EBITDA margin</label><input type="range" id="dcf_mobile_mT" min="-20" max="80" step="1" /><div class="val" id="dcf_mobile_mT_v">45%</div></div>
           </div>
 
         <h3 style="margin-top:18px;">Capital, tax &amp; discounting</h3>
           <div class="slider-row"><label>WACC (Damodaran 8.37% · Goldman 12%)</label><input type="range" id="dcf_wacc" min="6" max="15" step="0.01" /><div class="val" id="dcf_wacc_v">9.50%</div></div>
           <div class="slider-row"><label>Terminal growth (perpetual method)</label><input type="range" id="dcf_tg" min="0" max="5" step="0.25" /><div class="val" id="dcf_tg_v">3.00%</div></div>
-          <div class="slider-row"><label>Exit EV/EBITDA on 2036 (exit method)</label><input type="range" id="dcf_exit" min="5" max="40" step="1" /><div class="val" id="dcf_exit_v">18×</div></div>
+          <div class="slider-row"><label>Exit EV/EBITDA on 2036 (exit method)</label><input type="range" id="dcf_exit" min="5" max="40" step="0.1" /><div class="val" id="dcf_exit_v">18×</div></div>
           <div class="slider-row"><label>Growth decay per year</label><input type="range" id="dcf_decay" min="0.5" max="0.95" step="0.01" /><div class="val" id="dcf_decay_v">0.70</div></div>
-          <div class="slider-row"><label>Capex % revenue, 2027 (2026E ≈136%)</label><input type="range" id="dcf_capex0" min="20" max="150" step="1" /><div class="val" id="dcf_capex0_v">75%</div></div>
+          <div class="slider-row"><label>Capex % revenue, 2027 (Q3'26 ≈134%)</label><input type="range" id="dcf_capex0" min="20" max="150" step="1" /><div class="val" id="dcf_capex0_v">75%</div></div>
           <div class="slider-row"><label>Capex % revenue, mature</label><input type="range" id="dcf_capexT" min="5" max="40" step="1" /><div class="val" id="dcf_capexT_v">18%</div></div>
           <div class="slider-row"><label>D&amp;A % revenue</label><input type="range" id="dcf_da" min="2" max="20" step="0.5" /><div class="val" id="dcf_da_v">8.0%</div></div>
           <div class="slider-row"><label>Working capital % revenue</label><input type="range" id="dcf_nwc" min="0" max="5" step="0.5" /><div class="val" id="dcf_nwc_v">1.0%</div></div>
           <div class="slider-row"><label>Cash tax rate, 2027 (NOL shield)</label><input type="range" id="dcf_tax0" min="0" max="30" step="1" /><div class="val" id="dcf_tax0_v">5%</div></div>
           <div class="slider-row"><label>Cash tax rate, 2036 (US federal 21%)</label><input type="range" id="dcf_taxT" min="10" max="35" step="1" /><div class="val" id="dcf_taxT_v">21%</div></div>
-          <div class="slider-row"><label>Net cash ($B) · ≈$60.6B at 6/30 less Q3 burn</label><input type="range" id="dcf_netcash" min="-100" max="150" step="1" /><div class="val" id="dcf_netcash_v">$50B</div></div>
+          <div class="slider-row"><label>Net cash ($B) · $89.9B cash + securities − $38.8B debt ≈ $51.0B at 9/30</label><input type="range" id="dcf_netcash" min="-100" max="150" step="1" /><div class="val" id="dcf_netcash_v">$50B</div></div>
           <div class="slider-row"><label>Annual dilution, next 3 yrs (SBC/raises)</label><input type="range" id="dcf_dil" min="0" max="5" step="0.25" /><div class="val" id="dcf_dil_v">1.50%</div></div>
           <div class="slider-row"><label>Orbital compute first revenue year (if linked)</label><input type="range" id="dcf_orbital_start" min="2027" max="2036" step="1" /><div class="val" id="dcf_orbital_start_v">2029</div></div>
+
+        <h3 style="margin-top:18px;">Financing the build-out</h3>
+          <div class="presets" id="dcfFinance">
+            <span class="preset-label">Debt plan</span>
+            <button data-fin="none" class="active">None</button>
+            <button data-fin="ms">MS $60B/$80B/$90B (2027–29)</button>
+            <button data-fin="gs">Goldman ~$270B</button>
+            <button data-fin="nvda">+ Nvidia chip financing ~$40B</button>
+            <button data-fin="pivotal">Pivotal $225B raise (2027)</button>
+            <div class="preset-info" id="dcfFinInfo">No new debt assumed.</div>
+          </div>
+          <div class="slider-row"><label>Planned new debt, 2027–2029 ($B)</label><input type="range" id="dcf_newdebt" min="0" max="400" step="5" /><div class="val" id="dcf_newdebt_v">$0B</div></div>
+          <div class="seg-src" id="dcf_fin_out"></div>
+          <div class="seg-src">Informational only: debt funds the FCF gap but does not change enterprise value or the per-share value here (WACC already prices the capital mix). Sources: Morgan Stanley pre-Q3 note (Oct 19 2026, secondary summaries); Goldman; Pivotal (Oct 21, Investing.com); Nvidia chip-financing talks ~$40B <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span>.</div>
       </div>
 
       <div>
         <div class="val-output" style="position:sticky; top:80px;">
           <div class="big-label">Fair value per share (<span id="dcf_method_lbl">perpetual growth 3.00%</span>)</div>
           <div class="dcf-out-big" id="dcf_ps">$127</div>
-          <div id="dcf_vs_price" style="font-size:15px; margin-top:4px;">vs $162.57 close (Oct 9, 2026) · −22%</div>
+          <div id="dcf_vs_price" style="font-size:15px; margin-top:4px;"></div>
           <div class="dcf-kpis">
             <div class="dcf-kpi"><div class="v" id="dcf_alt_ps">$303</div><div class="l" id="dcf_alt_lbl">Exit-multiple method (18×)</div></div>
             <div class="dcf-kpi"><div class="v" id="dcf_tv_share">81%</div><div class="l">of EV from terminal value</div></div>
@@ -3553,10 +3664,12 @@
             <div class="dcf-kpi"><div class="v" id="dcf_pv_fcff">$331B</div><div class="l">PV of 2027–2036 free cash flow</div></div>
             <div class="dcf-kpi"><div class="v" id="dcf_fcf_pos">2031</div><div class="l">First FCF-positive year</div></div>
             <div class="dcf-kpi"><div class="v" id="dcf_funding">$110B</div><div class="l">Peak cumulative cash need (funding gap)</div></div>
-            <div class="dcf-kpi"><div class="v" id="dcf_rev2030">$373B</div><div class="l">2030 revenue (GS $474B · JPM $470B)</div></div>
+            <div class="dcf-kpi"><div class="v" id="dcf_rev2030">$373B</div><div class="l">2030 revenue (GS $474B · JPM $470B, pre-Q3)</div></div>
+            <div class="dcf-kpi"><div class="v" id="dcf_rev2027">$192B</div><div class="l">2027 revenue (Q1'27 guide $33–37B ×4 = $132–148B)</div></div>
+            <div class="dcf-kpi"><div class="v" id="dcf_gw_delta">+$0</div><div class="l">This DCF: Δ value per share for +1 GW in 2027 (MS rule of thumb ≈$27)</div></div>
           </div>
           <div class="disclaimer">
-            <strong>Not investment advice.</strong> This is a teaching model. Bank presets only <em>approximate</em> each firm's published target by tuning this model's growth, discount rate and terminal inputs — they are not the banks' own DCFs, and the firms mostly use multiples rather than DCFs. Published targets: MS $75/$300/$600, Goldman $220 (raised from $205 Aug 6 <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span>), JPMorgan $225, Damodaran ≈$100.
+            <strong>Not investment advice.</strong> This is a teaching model. Bank presets only <em>approximate</em> each firm's published target by tuning this model's growth, discount rate and terminal inputs — they are not the banks' own DCFs, and the firms mostly use multiples rather than DCFs. Published targets, updated for the post-Q3 revisions of Oct 21: JPMorgan $500 (from $240), Cantor $345 (from $246), Barclays $300 (from $254), Pivotal $260 (from $230), Needham $250 (from $200), Goldman $245 (from $230), Citi $240 (from $200), TD Cowen $224 (from $200), Mizuho $205 (from $200). Held on Oct 21: MS $75/$300/$600 (MS $300 is a 2040 sum-of-parts at 11.2% WACC, not a DCF), Raymond James $800, Macquarie $250, Wedbush $225, Stifel $190, Piper Sandler $140 (Neutral). Unchanged since before Q3: Evercore ISI $275 (Oct 16), Deutsche Bank $235 (Oct 19). Damodaran ≈$100 (Jun 4, pre-IPO data). Each bank preset solves one knob (named in its note) to hit the target.
           </div>
         </div>
       </div>
@@ -3581,8 +3694,8 @@
     </div>
 
     <div class="callout" style="margin-top: 24px;">
-      <strong>Why the Street and the DCF disagree.</strong> At default inputs a perpetual-growth DCF lands near Damodaran (≈$100) and MoffettNathanson ($131). Getting to today's price and the bank cluster ($200–255) needs either a WACC near 8% with 4% terminal growth, or a 15–18× EBITDA exit multiple on 2036 — and in every scenario most of the value sits in the terminal year. That is what you're buying: a decade of funded build-out, then the terminal value.
-      <span class="src-ref">Defaults and sources: Q2'26 release, Goldman (Jul 7 / Aug 6 2026), JPMorgan (Jul 8 2026), Morgan Stanley (Jul 7 2026), Damodaran (Jun 4 2026). See the Sources section.</span>
+      <strong>Why the Street and the DCF disagree.</strong> After re-basing on Q3'26, a perpetual-growth DCF at default inputs lands around $164: above Damodaran (≈$100, pre-Q3) and close to the Oct 20 close. The bank cluster ($190–275) needs roughly an 8–15× EBITDA exit multiple on 2036 at 9.5% WACC. At MS's 11.2% WACC, the perpetual-growth value falls to ≈$119. In every scenario most of the value sits in the terminal year. That is what you're buying: a decade of funded build-out, then the terminal value.
+      <span class="src-ref">Defaults and sources: SpaceX Q3'26 release and call (Oct 20 2026), post-Q3 revisions on Oct 21 (JPMorgan, Cantor, Barclays, Pivotal, Needham, Goldman, Citi, TD Cowen, Mizuho), Morgan Stanley (Oct 19 2026 note, secondary), Evercore ISI (Oct 16), Deutsche Bank (Oct 19), Stifel (Oct 12), Damodaran (Jun 4 2026). See the Sources section.</span>
     </div>
   </div>
 </section>
@@ -3658,8 +3771,129 @@
     <div class="eyebrow">Show your work</div>
     <h2>Sources &amp; assumptions.</h2>
     <p class="lead">
-      This app synthesizes SpaceX's SEC filings and Q2'26 results, sell-side and independent valuations, and the original Rob Maurer / Mach33 analyses. All numbers in the calculator are editable — nothing is baked into the visualization that you can't overwrite.
+      This app synthesizes SpaceX's SEC filings and Q3'26 results (Oct 20 2026), sell-side and independent valuations, and the original Rob Maurer / Mach33 analyses. All numbers in the calculator are editable — nothing is baked into the visualization that you can't overwrite.
     </p>
+
+
+    <h3>Added: Q3 2026 update (Oct 20 2026)</h3>
+    <div class="src-list">
+      <a href="https://www.sec.gov/Archives/edgar/data/1181412/000162828026066482/spaceexplorationtechnologi.htm" target="_blank" rel="noopener">
+        <div class="src-title">SpaceX Q3 2026 earnings release (SEC 8-K exhibit, Oct 20 2026)</div>
+        <div class="src-url">www.sec.gov/Archives/edgar/data/1181412/000162828026066482/spaceexplorationtechnologi.htm</div>
+      </a>
+      <a href="https://www.cnbc.com/2026/10/20/spacex-spcx-earnings-live-updates-q3-2026html.html" target="_blank" rel="noopener">
+        <div class="src-title">CNBC Q3 live blog: Q1'27 guide $33–37B, Musk $500B–$1T ARR target, merger committees (Oct 20)</div>
+        <div class="src-url">www.cnbc.com/2026/10/20/spacex-spcx-earnings-live-updates-q3-2026html.html</div>
+      </a>
+      <a href="https://www.nbcnews.com/business/business-news/spacex-quarterly-revenue-jumps-data-center-rcna604655" target="_blank" rel="noopener">
+        <div class="src-title">Reuters via NBC: Q3 results and the after-hours move (Oct 20)</div>
+        <div class="src-url">www.nbcnews.com/business/business-news/spacex-quarterly-revenue-jumps-data-center-rcna6046</div>
+      </a>
+      <a href="https://stockanalysis.com/stocks/spcx/" target="_blank" rel="noopener">
+        <div class="src-title">stockanalysis: SPCX Oct 21 close $159.31 (Oct 20 $147.79), Q3 call transcript</div>
+        <div class="src-url">stockanalysis.com/stocks/spcx/</div>
+      </a>
+      <a href="https://www.cnbc.com/2026/10/21/jpmorgan-says-spacex-to-triple-after-huge-third-quarter-earnings-beat-.html" target="_blank" rel="noopener">
+        <div class="src-title">JPMorgan raises its target to $500 from $240; ~$254B 2027 revenue, ~13 GW compute by 2027 (CNBC, Oct 21)</div>
+        <div class="src-url">www.cnbc.com/2026/10/21/jpmorgan-says-spacex-to-triple-after-huge-third-quarter-earnin</div>
+      </a>
+      <a href="https://www.investing.com/news/analyst-ratings/pivotal-research-raises-spacex-stock-price-target-on-strong-results-93CH-4963436" target="_blank" rel="noopener">
+        <div class="src-title">Pivotal Research raises its target to $260; $168B 2027 revenue, $320B capex, $225B raise (Investing.com, Oct 21)</div>
+        <div class="src-url">www.investing.com/news/analyst-ratings/pivotal-research-raises-spacex-stock-price-target</div>
+      </a>
+      <a href="https://www.investing.com/news/analyst-ratings/goldman-sachs-raises-spacex-stock-price-target-to-245-on-growth-outlook-93CH-4962792" target="_blank" rel="noopener">
+        <div class="src-title">Goldman raises its target to $245; Mizuho $205, MS / Raymond James / Stifel held (Investing.com, Oct 21)</div>
+        <div class="src-url">www.investing.com/news/analyst-ratings/goldman-sachs-raises-spacex-stock-price-target-to-245</div>
+      </a>
+      <a href="https://www.tipranks.com/news/the-fly/spacex-price-target-raised-to-240-from-200-at-citi-thefly-news" target="_blank" rel="noopener">
+        <div class="src-title">Citi raises its target to $240 from $200 (TheFly, Oct 21)</div>
+        <div class="src-url">www.tipranks.com/news/the-fly/spacex-price-target-raised-to-240-from-200-at-citi-thefly-news</div>
+      </a>
+      <a href="https://www.tipranks.com/news/the-fly/spacex-price-target-raised-to-224-from-200-at-td-cowen-thefly-news" target="_blank" rel="noopener">
+        <div class="src-title">TD Cowen raises its target to $224 from $200 (TheFly, Oct 21)</div>
+        <div class="src-url">www.tipranks.com/news/the-fly/spacex-price-target-raised-to-224-from-200-at-td-cowen-thefly-ne</div>
+      </a>
+      <a href="https://www.tradingview.com/news/tradingview:ed615a1e2e3d9:0-cantor-fitzgerald-maintains-overweight-rating-on-spacex-345-price-target/" target="_blank" rel="noopener">
+        <div class="src-title">Cantor Fitzgerald $345 (~$260B 2027 AI sales); Needham $250, Macquarie $250 (TradingView, Oct 21)</div>
+        <div class="src-url">www.tradingview.com/news/tradingview:ed615a1e2e3d9:0-cantor-fitzgerald-maintains-overwe</div>
+      </a>
+      <a href="https://blog.tipranks.com/spacex-price-target-raised-to-300-from-254-at-barclays-thefly-news/" target="_blank" rel="noopener">
+        <div class="src-title">Barclays raises its target to $300 from $254 (TheFly, Oct 21)</div>
+        <div class="src-url">blog.tipranks.com/spacex-price-target-raised-to-300-from-254-at-barclays-thefly-news</div>
+      </a>
+      <a href="https://finance.yahoo.com/markets/stocks/articles/spacex-q3-beat-analysts-looking-123644183.html" target="_blank" rel="noopener">
+        <div class="src-title">Post-Q3 analyst recap: Cantor, Morgan Stanley, Citi (Yahoo Finance, Oct 21)</div>
+        <div class="src-url">finance.yahoo.com/markets/stocks/articles/spacex-q3-beat-analysts-looking-123644183.html</div>
+      </a>
+      <a href="https://arstechnica.com/space/2026/10/spacex-will-attempt-to-reach-weekly-starship-launches-by-early-2027/" target="_blank" rel="noopener">
+        <div class="src-title">Musk: weekly Starship flights in H1 2027, twice weekly in H2; Flight 15 double catch in November (Ars Technica, Oct 21)</div>
+        <div class="src-url">arstechnica.com/space/2026/10/spacex-will-attempt-to-reach-weekly-starship-launches-by-ear</div>
+      </a>
+      <a href="https://communicationsdaily.com/article/2026/10/21/spacexs-gen3-constellation-plans-catch-flack-from-commenters-2610160057" target="_blank" rel="noopener">
+        <div class="src-title">Gen3 constellation draws Viasat and DirecTV opposition at the FCC (Communications Daily, Oct 21)</div>
+        <div class="src-url">communicationsdaily.com/article/2026/10/21/spacexs-gen3-constellation-plans-catch-flack</div>
+      </a>
+      <a href="https://stockanalysis.com/stocks/spcx/forecast/" target="_blank" rel="noopener">
+        <div class="src-title">stockanalysis: analyst targets (Cantor $246, Deutsche Bank $235, Mizuho $200, Stifel $190, Wedbush $225)</div>
+        <div class="src-url">stockanalysis.com/stocks/spcx/forecast/</div>
+      </a>
+      <a href="https://www.streetinsider.com/AI/SpaceX+%28SPCX%29+PT+Raised+to+%24230+at+Goldman+Sachs+ahead+of+earnings+release/27149374.html" target="_blank" rel="noopener">
+        <div class="src-title">Goldman raises its target to $230 (StreetInsider, Oct 5)</div>
+        <div class="src-url">www.streetinsider.com/AI/SpaceX+%28SPCX%29+PT+Raised+to+%24230+at+Goldman+Sachs+ahead+of+e</div>
+      </a>
+      <a href="https://www.cnbc.com/2026/10/16/spacex-evercore-isi-price-target.html" target="_blank" rel="noopener">
+        <div class="src-title">Evercore ISI raises its target to $275 (CNBC, Oct 16)</div>
+        <div class="src-url">www.cnbc.com/2026/10/16/spacex-evercore-isi-price-target.html</div>
+      </a>
+      <a href="https://www.tipranks.com/news/the-fly/spacex-price-target-raised-to-230-from-220-at-pivotal-research-thefly-news" target="_blank" rel="noopener">
+        <div class="src-title">Pivotal Research raises its target to $230 (TheFly, Oct 12)</div>
+        <div class="src-url">www.tipranks.com/news/the-fly/spacex-price-target-raised-to-230-from-220-at-pivotal-resear</div>
+      </a>
+      <a href="https://www.tipranks.com/news/the-fly/spacex-remains-attractive-into-q3-earnings-says-cantor-fitzgerald-thefly-news" target="_blank" rel="noopener">
+        <div class="src-title">Cantor Fitzgerald Overweight $246 (TheFly, Oct 20)</div>
+        <div class="src-url">www.tipranks.com/news/the-fly/spacex-remains-attractive-into-q3-earnings-says-cantor-fitzg</div>
+      </a>
+      <a href="https://orply.com/articles/bloomberg-technology/why-spacex-s-future-depends-on-starship-d39bf0c3" target="_blank" rel="noopener">
+        <div class="src-title">Mizuho $200 note context (Bloomberg Technology summary, Oct 19)</div>
+        <div class="src-url">orply.com/articles/bloomberg-technology/why-spacex-s-future-depends-on-starship-d39bf0c3</div>
+      </a>
+      <a href="https://www.sec.gov/Archives/edgar/data/1318605/000110465926116700/0001104659-26-116700-index.htm" target="_blank" rel="noopener">
+        <div class="src-title">Tesla DEF 14A: annual meeting Dec 3 2026, no merger proposal (Oct 19)</div>
+        <div class="src-url">www.sec.gov/Archives/edgar/data/1318605/000110465926116700/0001104659-26-116700-index.htm</div>
+      </a>
+      <a href="https://www.tipranks.com/news/the-fly/tesla-spacex-merger-possible-before-annual-meeting-says-barclays-thefly-news" target="_blank" rel="noopener">
+        <div class="src-title">Barclays: Tesla–SpaceX merger announcement possible before the AGM (TheFly, Oct 14)</div>
+        <div class="src-url">www.tipranks.com/news/the-fly/tesla-spacex-merger-possible-before-annual-meeting-says-barc</div>
+      </a>
+      <a href="https://www.marketscreener.com/news/certain-class-a-common-stock-of-space-exploration-technologies-corp-are-subject-to-a-lock-up-agreem-ce785ddfdf88f221" target="_blank" rel="noopener">
+        <div class="src-title">SPCX lock-up terms (MarketScreener)</div>
+        <div class="src-url">www.marketscreener.com/news/certain-class-a-common-stock-of-space-exploration-technologies</div>
+      </a>
+      <a href="https://www.cnbc.com/2026/10/19/elon-musk-spacex-shares-giveaway-kids.html" target="_blank" rel="noopener">
+        <div class="src-title">Musk pledges one share per U.S. child (CNBC, Oct 19)</div>
+        <div class="src-url">www.cnbc.com/2026/10/19/elon-musk-spacex-shares-giveaway-kids.html</div>
+      </a>
+      <a href="https://spacenews.com/spacex-proposing-sharp-increase-in-starship-launches-from-texas/" target="_blank" rel="noopener">
+        <div class="src-title">FAA Starbase Programmatic EIS: Phase 1 up to 100/yr, comments due Nov 30 (SpaceNews, Oct 16)</div>
+        <div class="src-url">spacenews.com/spacex-proposing-sharp-increase-in-starship-launches-from-texas/</div>
+      </a>
+      <a href="https://www.spacex.com/sites/starbase-la" target="_blank" rel="noopener">
+        <div class="src-title">Starbase Louisiana (SpaceX; first launch targeted 2029)</div>
+        <div class="src-url">www.spacex.com/sites/starbase-la</div>
+      </a>
+      <a href="https://www.blumenthal.senate.gov/imo/media/doc/10192026_letter_to_spacex_re_ukraine_and_starshield_finalpdf.pdf" target="_blank" rel="noopener">
+        <div class="src-title">Senators' letter to SpaceX on Starshield/Ukraine, records due Nov 2 (Oct 19)</div>
+        <div class="src-url">www.blumenthal.senate.gov/imo/media/doc/10192026_letter_to_spacex_re_ukraine_and_starshiel</div>
+      </a>
+      <a href="https://www.telekom.com/en/newsroom/latest-updates/news/2026/10/deutsche-telekom-orange-telefonica-and-vodafone-have-signed-a-letter-of-intent" target="_blank" rel="noopener">
+        <div class="src-title">EU telcos' LoI for a joint 2 GHz MSS bid (Deutsche Telekom, Oct 19)</div>
+        <div class="src-url">www.telekom.com/en/newsroom/latest-updates/news/2026/10/deutsche-telekom-orange-telefonica</div>
+      </a>
+      <a href="https://www.satellitetoday.com/connectivity/2026/10/07/fcc-grants-spacex-approval-for-15000-direct-to-device-satellites-in-mss-spectrum/" target="_blank" rel="noopener">
+        <div class="src-title">FCC partial grant: 15,000 direct-to-device satellites (Via Satellite, Oct 7)</div>
+        <div class="src-url">www.satellitetoday.com/connectivity/2026/10/07/fcc-grants-spacex-approval-for-15000-direct</div>
+      </a>
+    </div>
 
     <h3>Added: V3 constellation scale-up</h3>
     <div class="src-list">
@@ -3949,13 +4183,13 @@ const DEFAULTS = {
   ss_costkg: 185,
   ss_satmass: 2000,
   ss_satgbps: 1000,
-  v_subs: 12,
+  v_subs: 13.6,        // Q3'26 Starlink consumer subscribers (SpaceX Q3 release)
   v_growth: 80,
-  v_arpu: 66,          // Q2'26 reported Starlink ARPU (SpaceX Q2 release)
+  v_arpu: 69,          // Q3'26 reported consumer ARPU (SpaceX Q3 release; Q2 $66, Q3 helped by mix)
   v_arpu_drift: -5,    // %/yr mix shift (ARPU fell $85 -> $66 y/y) — author assumption
-  v_eg_rev: 7.2,       // $B/yr: Q2'26 Enterprise & Government $1,806M x 4
+  v_eg_rev: 8.5,       // $B/yr: Q3'26 Enterprise & Government $2,127M x 4
   v_eg_growth: 50,     // % Y1 (Q2'26 actual +108% y/y) — author assumption
-  v_margin: 61,        // Connectivity adj. EBITDA: Q2'26 60.5%, H1'26 62.1%
+  v_margin: 64,        // Connectivity adj. EBITDA: Q3'26 66.7% incl. ~3-pt one-time benefit -> ~64% underlying (derived)
   v_years: 5,
   v_multiple: 18,
   v_ps_mult: 8,
@@ -4000,12 +4234,13 @@ const DEFAULTS = {
    Cash+securities ~$100.0B, debt incl. leases ~$39.4B at 6/30/26 (10-Q).
    ============================================================ */
 const MARKET = {
-  price: 162.57,
-  asOf: 'Oct 9, 2026',
-  sharesM: 13176 + 389.29 + 1.75,   // ≈13,567M
-  cashB: 100.0,
-  debtB: 39.4,
-  ttmRevB: 23.07,                   // FY25 $18.7B + H1'26 $12.51B − H1'25 $8.14B (derived)
+  price: 159.31,                    // Oct 21, 2026 close, +7.79% vs $147.79 (stockanalysis); day after Q3 results
+  asOf: 'Oct 21, 2026',
+  afterHours: 156.80,               // ~$156.50–157.02 after hours Oct 21 (secondary); not used in any calculation
+  sharesM: 8240 + 5339,             // Class A + Class B outstanding, Q3'26 release ≈13,579M
+  cashB: 51.294 + 38.561,           // cash + marketable securities at 9/30/26 ≈$89.9B
+  debtB: 2.698 + 36.146,            // current + long-term debt at 9/30/26 ≈$38.8B
+  ttmRevB: 32.07,                   // 9M'26 $27.083B + FY25 $18.7B − 9M'25 $13.714B (derived)
 };
 MARKET.mcap = MARKET.price * MARKET.sharesM * 1e6;
 MARKET.ev = MARKET.mcap - (MARKET.cashB - MARKET.debtB) * 1e9;
@@ -4021,6 +4256,7 @@ function applyMarket() {
   document.querySelectorAll('.mkt-date').forEach(el => el.textContent = MARKET.asOf);
   document.querySelectorAll('.mkt-shares').forEach(el => el.textContent = (MARKET.sharesM / 1000).toFixed(2) + 'B');
   const ev = document.getElementById('mkt_ev'); if (ev) ev.textContent = fmtT(MARKET.ev);
+  document.querySelectorAll('.mkt-ah').forEach(el => el.textContent = '$' + MARKET.afterHours.toFixed(2) + ' (' + ((MARKET.afterHours / MARKET.price - 1) * 100 >= 0 ? '+' : '−') + Math.abs((MARKET.afterHours / MARKET.price - 1) * 100).toFixed(1) + '%)');
   const ps = document.getElementById('mkt_ps'); if (ps) ps.textContent = '≈' + (MARKET.mcap / (MARKET.ttmRevB * 1e9)).toFixed(0) + '×';
 }
 
@@ -5269,14 +5505,23 @@ const SC_CADENCE = {
   conservative: { v: [1, 30, 80, 150],
     info: 'Conservative (default) <span class="unv" style="background:#9aa3c7" title="Author assumption — not a reported figure">assumption</span>: 1 / 30 / 80 / 150 Starlink flights for 2026 / 2027 / 2028 / 2029+. Well below Musk\'s targets. The steady state of 150/yr at 26 V3s each (~3,900 V3s/yr) is about Redmond\'s current ~70 satellites/week. Above ~116/yr it assumes approvals beyond today\'s 145-flight envelope.' },
   musk: { v: [1, Math.round(78 * SC_STARLINK_SHARE), Math.round(365 * SC_STARLINK_SHARE), Math.round(1000 * SC_STARLINK_SHARE)],
-    info: 'Musk targets × 80% Starlink share. 2026: Flight 14 only. 2027: "weekly or twice weekly" (Sep 29 2026) = 52–104 flights, midpoint 78 → 62. 2028: "at least one flight a day" a year after the Q2 call (Aug 2026) = 365 → 292. 2029+: "faster thereafter". SpaceX targets "thousands of flights per year", and Musk has said "every hour in 3 years" <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span>. Modeled as 1,000/yr → 800, the slider maximum. Hourly (8,760/yr) is not modeled. This exceeds today\'s approved envelope (145/yr). With the production constraint at default settings, this cadence is <strong>production-limited from 2028</strong>: there are more flights than satellites to fill them, so it is an upper bound.' },
+    info: 'Musk targets × 80% Starlink share. 2026: Flight 14 only. 2027: "weekly or twice weekly" (Sep 29 2026) = 52–104 flights, midpoint 78 → 62. 2028: "at least one flight a day" a year after the Q2 call (Aug 2026) = 365 → 292. 2029+: "faster thereafter". SpaceX targets "thousands of flights per year", and Musk has said "every hour in 3 years" <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span>. Modeled as 1,000/yr → 800, the slider maximum. Q3 call (Oct 21, Ars Technica): weekly flights in H1 2027 and twice weekly in H2 2027, about 75–80 flights in 2027, consistent with the 78 used here. Hourly (8,760/yr) is not modeled. This exceeds today\'s approved envelope (145/yr; Starbase alone is 25/yr until the EIS). With the production constraint at default settings, this cadence is <strong>production-limited from 2028</strong>: there are more flights than satellites to fill them, so it is an upper bound.' },
   faa: { v: [1, Math.round(69 * SC_STARLINK_SHARE), Math.round(145 * SC_STARLINK_SHARE), Math.round(145 * SC_STARLINK_SHARE)],
     info: 'FAA-limited × 80% Starlink share. Total Starship flights are capped at approved launch envelopes. 2027: Starbase 25 + LC-39A 44 = 69 → 55. 2028+: adds SLC-37\'s 76 = 145 → 116 (the Air Force approved SLC-37; the FAA\'s supplemental review is still open). The often-quoted "~145/yr" is this three-site total, not a Starbase-only limit <span class="unv" title="Single secondary source or not confirmed against a primary filing">unverified</span>. Pad readiness dates (first LC-39A and SLC-37 Starship launches) are assumptions <span class="unv" style="background:#9aa3c7" title="Author assumption — not a reported figure">assumption</span>.' },
+  pending_faa: { v: [1, Math.round(69 * SC_STARLINK_SHARE), Math.round(220 * SC_STARLINK_SHARE), Math.round(220 * SC_STARLINK_SHARE)],
+    info: 'Pending FAA × 80% Starlink share: assumes the FAA approves Phase 1 of the Starbase Programmatic EIS (up to 100 launches/yr, up from 25). The three-site total is then 100 + 44 + 76 = 220 → 176 Starlink flights from 2028; 2027 stays at today\'s 69 → 55. <strong>This is a review, not an approval</strong>: the FAA notice of intent came out Oct 13, comments are due Nov 30 2026, and no draft-EIS date has been given. Approval timing (2028) is an assumption <span class="unv" style="background:#9aa3c7" title="Author assumption — not a reported figure">assumption</span>. Phase 2 (up to 456/yr) is not modeled.' },
 };
 let scCadenceKey = 'conservative';
+// Starbase Louisiana (first launch targeted 2029): extra flights added to the FAA presets' 2029+ value
+const SC_LOU_PRESETS = ['faa', 'pending_faa'];
 function applyCadencePreset(key) {
   const c = SC_CADENCE[key]; if (!c) return;
-  ['sc_ss26', 'sc_ss27', 'sc_ss28', 'sc_ss29'].forEach((id, i) => { document.getElementById(id).value = c.v[i]; });
+  const louEl = document.getElementById('sc_lou');
+  const lou = louEl ? +louEl.value : 0;
+  if (louEl) document.getElementById('sc_lou_v').textContent = lou;
+  const v = c.v.slice();
+  if (SC_LOU_PRESETS.includes(key)) v[3] = Math.min(1000, v[3] + Math.round(lou * SC_STARLINK_SHARE));
+  ['sc_ss26', 'sc_ss27', 'sc_ss28', 'sc_ss29'].forEach((id, i) => { document.getElementById(id).value = v[i]; });
   scCadenceKey = key;
   document.querySelectorAll('#scCadence button').forEach(b => b.classList.toggle('active', b.dataset.cad === key));
   document.getElementById('scCadenceInfo').innerHTML = c.info;
@@ -5319,6 +5564,10 @@ function bindScale() {
     updateScale();
   }));
   document.getElementById('sc_feed_dcf').addEventListener('change', () => { clearDcfPreset(); updateDcf(); });
+  document.getElementById('sc_lou').addEventListener('input', () => {
+    document.getElementById('sc_lou_v').textContent = document.getElementById('sc_lou').value;
+    if (SC_LOU_PRESETS.includes(scCadenceKey)) applyCadencePreset(scCadenceKey);
+  });
   document.getElementById('scFcc').addEventListener('click', e => {
     const b = e.target.closest('button[data-fcc]'); if (b) applyFccPreset(b.dataset.fcc);
   });
@@ -5331,52 +5580,73 @@ function bindScale() {
   });
 }
 
+// Base year = Q3'26 annualized run-rate (SpaceX Q3 2026 release, Oct 20 2026). m0 = starting EBITDA margin.
+// Connectivity Q3 adj. EBITDA margin 66.7% incl. a ~3-pt one-time benefit (CFO, Q3 call) -> 64% underlying (derived).
+// SI (AI) segment Q3 adj. EBITDA margin 65.5% ($4,953M / $7,560M) -> AI infra starts at 65%; AI software at 0% (assumption).
 const DCF_SEGS = [
-  { id: 'consumer', gT: 0.06, m0: 0.60 },
-  { id: 'eg',       gT: 0.06, m0: 0.60 },
+  { id: 'consumer', gT: 0.06, m0: 0.64 },
+  { id: 'eg',       gT: 0.06, m0: 0.64 },
   { id: 'launch',   gT: 0.05, m0: 0.10 },
-  { id: 'ai_infra', gT: 0.06, m0: 0.55 },
-  { id: 'ai_sw',    gT: 0.08, m0: -0.20 },
+  { id: 'ai_infra', gT: 0.06, m0: 0.65 },
+  { id: 'ai_sw',    gT: 0.08, m0: 0.00 },
   { id: 'mobile',   gT: 0.06, m0: -0.50 },
 ];
-const DCF_GLOBALS = ['wacc', 'tg', 'exit', 'decay', 'capex0', 'capexT', 'da', 'nwc', 'tax0', 'taxT', 'netcash', 'dil', 'orbital_start'];
+const DCF_GLOBALS = ['wacc', 'tg', 'exit', 'decay', 'capex0', 'capexT', 'da', 'nwc', 'tax0', 'taxT', 'netcash', 'dil', 'orbital_start', 'gw', 'ppw'];
 const DCF_BASE = {
-  consumer_rev: 10.5, consumer_g1: 40,  consumer_mT: 62,
-  eg_rev: 8.0,        eg_g1: 50,        eg_mT: 60,
-  launch_rev: 4.0,    launch_g1: 25,    launch_mT: 45,
-  ai_infra_rev: 20,   ai_infra_g1: 150, ai_infra_mT: 45,
-  ai_sw_rev: 4.0,     ai_sw_g1: 80,     ai_sw_mT: 30,
+  consumer_rev: 12.5, consumer_g1: 40,  consumer_mT: 62,   // Q3 consumer $3,121M x 4
+  eg_rev: 8.5,        eg_g1: 50,        eg_mT: 60,         // Q3 E&G $2,127M x 4
+  launch_rev: 4.5,    launch_g1: 25,    launch_mT: 45,     // 9M'26 Space $3,348M annualized (Q3 had favorable mix)
+  ai_infra_rev: 25.7, ai_infra_g1: 60,  ai_infra_mT: 50,   // Q3 SI solutions & infra $7,022M less Cursor $608M, x 4; g1 = 2028 growth in compute mode
+  ai_sw_rev: 4.6,     ai_sw_g1: 80,     ai_sw_mT: 30,      // Q3 advertising $538M + Cursor $608M, x 4
   mobile_rev: 0.3,    mobile_g1: 200,   mobile_mT: 45,
-  wacc: 9.5, tg: 3, exit: 18, decay: 0.70, capex0: 75, capexT: 18, da: 8, nwc: 1,
-  tax0: 5, taxT: 21, netcash: 50, dil: 1.5, orbital_start: 2029, method: 'gordon',
+  wacc: 9.5, tg: 3, exit: 18, decay: 0.70, capex0: 80, capexT: 18, da: 8, nwc: 1,
+  tax0: 5, taxT: 21, netcash: 51, dil: 1.5, orbital_start: 2029, gw: 4.9, ppw: 30, compute: true, method: 'gordon',
 };
 function dcfDerive(over, growthMult) {
   const p = Object.assign({}, DCF_BASE);
   if (growthMult) Object.entries(growthMult).forEach(([k, m]) => { p[k + '_g1'] = Math.round(DCF_BASE[k + '_g1'] * m * 100) / 100; });
   return Object.assign(p, over || {});
 }
-const ALL_115 = { consumer: 1.15, eg: 1.15, launch: 1.15, ai_infra: 1.15, ai_sw: 1.15, mobile: 1.15 };
-const BEAR_MULT = { consumer: 0.6, eg: 0.6, launch: 0.6, ai_infra: 0.45, ai_sw: 0.4, mobile: 0.3 };
-const BULL_MULT = { consumer: 1.25, eg: 1.25, launch: 1.4, ai_infra: 1.35, ai_sw: 1.3, mobile: 1.3 };
+// Presets are generated by /workspace/spacex-research/q3/calib.py (each bank preset solves one knob to hit the published target).
 const DCF_PRESETS = {
-  bear: { v: dcfDerive({ ai_infra_mT: 40, ai_sw_mT: 20, wacc: 11, tg: 2.5, capex0: 60, capexT: 15, taxT: 23 }, BEAR_MULT),
-          info: 'Bear: growth cut 40–70% by segment, AI infra margin 40%, WACC 11%, 2.5% terminal growth. Starship/AI build-out slips; Starlink still compounds.' },
+  bear: { v: dcfDerive({ consumer_g1: 24.0, eg_g1: 30.0, launch_g1: 15.0, ai_infra_g1: 27.0, ai_infra_mT: 40, ai_sw_g1: 32.0, ai_sw_mT: 20, mobile_g1: 60.0, wacc: 11, tg: 2.5, capex0: 70, capexT: 15, taxT: 23, gw: 3.5, ppw: 20 }),
+          info: "Bear: growth cut 40\u201370% by segment, 3.5 GW in 2027 at $20/W, AI infra margin 40%, WACC 11%, 2.5% terminal growth. The compute build slips and pricing normalizes; Starlink still compounds." },
   base: { v: dcfDerive({}),
-          info: 'Base: 2026E revenue ≈$47B (Goldman 2026E $47.6B), 2030 ≈$373B, FCF positive 2031 (Goldman: Q4 2030). WACC 9.5% (between Damodaran 8.37% and Goldman 12%).' },
-  bull: { v: dcfDerive({ ai_infra_mT: 50, wacc: 9, tg: 3.5, capexT: 16 }, BULL_MULT),
-          info: 'Bull: growth +25–40%, AI infra margin 50%, WACC 9%, 3.5% terminal growth — Starship + V3 + compute rentals all scale.' },
-  ms_bear: { v: dcfDerive({ wacc: 12, tg: 2 }),
-          info: 'Approximates Morgan Stanley bear $75 (Jul 7 2026, "intentionally wide"): base operating path but funding/execution risk priced as a 12% WACC and 2% terminal growth.' },
-  ms_base: { v: dcfDerive({ exit: 18, method: 'exit' }),
-          info: 'Approximates Morgan Stanley base $300 (≈25× 2028E sales; half Space+Connectivity, half AI): base path with an 18× EBITDA exit on 2036.' },
-  ms_bull: { v: dcfDerive({ ai_infra_mT: 50, wacc: 9, tg: 3.5, capexT: 16, exit: 13, method: 'exit' }, BULL_MULT),
-          info: 'Approximates Morgan Stanley bull $600 (>$3T revenue by 2040, ~$8T market cap): bull path with a 13× EBITDA exit.' },
-  gs: { v: dcfDerive({ wacc: 12, exit: 11, method: 'exit' }, ALL_115),
-          info: 'Approximates Goldman $220 (Aug 6 2026; SOTP on 2029E, discounted 1.5 yrs at 12%): growth ×1.15 so 2030 revenue ≈$476B (GS $474B), 12% WACC, 11× exit.' },
-  jpm: { v: dcfDerive({ wacc: 11, exit: 10, method: 'exit' }, ALL_115),
-          info: 'Approximates JPMorgan $225 (Dec 2027 PT; 41× 2028E EPS $5.50; 2030E revenue ≈$470B): growth ×1.15, WACC 11%, 10× exit.' },
-  damodaran: { v: dcfDerive({ wacc: 8.37, tg: 3, ai_infra_g1: 120, ai_sw_mT: 25 }),
-          info: 'Approximates Damodaran ≈$100 (Jun 4 2026): cost of capital 8.37%, AI software margin 25% (his AI target), slower AI infrastructure growth, perpetual-growth terminal value.' },
+          info: "Base: Q3'26 run-rate base year. 2027E \u2248$192B revenue: Q1'27 guide $33\u201337B (\u00d74 = $132\u2013148B) plus the 2027 compute build (4.9 GW average at $30/W). 2030 \u2248$549B. WACC 9.5%, 3% terminal growth." },
+  bull: { v: dcfDerive({ consumer_g1: 50.0, eg_g1: 62.5, launch_g1: 35.0, ai_infra_g1: 81.0, ai_infra_mT: 55, ai_sw_g1: 104.0, mobile_g1: 260.0, wacc: 9, tg: 3.5, capexT: 16, gw: 8, ppw: 40 }),
+          info: "Bull: growth +25\u201340%, 8 GW average online in 2027 (Musk: \"surprised if less than 13 GW\" by YE27) at $40/W, AI infra margin 55%, WACC 9%, 3.5% terminal growth." },
+  ms_bear: { v: dcfDerive({ consumer_g1: 29.4, eg_g1: 36.75, launch_g1: 18.38, ai_infra_g1: 44.1, ai_sw_g1: 58.8, mobile_g1: 147.0, wacc: 11.2, tg: 2 }),
+          info: "Approximates Morgan Stanley bear $75 at MS's 11.2% WACC and 2% terminal growth. Calibration knob: every segment's growth \u00d70.735 (solved to hit $75)." },
+  ms_base: { v: dcfDerive({ wacc: 11.2, exit: 17.1, method: "exit" }),
+          info: "Morgan Stanley base $300 at MS's 11.2% WACC. Caveat: MS's $300 is a 2040 sum-of-parts (Enterprise AI $165 after a 50% execution haircut + Connectivity $118 + Space $8 + X/Grok $8) discounted to Jun 30 2027, not a standard DCF. Here a 17.1\u00d7 EBITDA exit on 2036 (solved) gets this DCF to $300. The perpetual-growth value at 11.2% is shown alongside. MS models 4.9 GW for FY27 (secondary summaries of the Oct 19 note)." },
+  ms_bull: { v: dcfDerive({ consumer_g1: 50.0, eg_g1: 62.5, launch_g1: 35.0, ai_infra_g1: 81.0, ai_infra_mT: 55, ai_sw_g1: 104.0, mobile_g1: 260.0, wacc: 11.2, exit: 8.6, capexT: 16, gw: 8, ppw: 40, method: "exit" }),
+          info: "Approximates Morgan Stanley bull $600 (>$3T revenue by 2040): bull operating path at MS's 11.2% WACC with an 8.6\u00d7 exit (solved)." },
+  gs: { v: dcfDerive({ wacc: 12, exit: 15.3, gw: 4.7, method: "exit" }),
+          info: "Approximates Goldman $245 (Buy, raised from $230 on Oct 21 after Q3). 12% WACC (GS cost of equity), 4.7 GW average 2027 compute (GS pre-Q3 path 2.4 GW YE26 \u2192 7.0 GW YE27, averaged), 15.3\u00d7 exit (solved)." },
+  jpm: { v: dcfDerive({ wacc: 11, exit: 21.2, gw: 7, method: "exit" }),
+          info: "Approximates JPMorgan $500 (Overweight, raised from $240 on Oct 21). JPM models ~$254B of 2027 revenue and compute of 2\u20133 GW at YE26 rising to ~13 GW by 2027 (mostly Nvidia Vera Rubin). Here: 7.0 GW average online in 2027 (the 2.5 \u2192 ~13 GW ramp, averaged) at $30/W gives \u2248$255B of 2027 revenue; WACC 11%, 21.2\u00d7 exit (solved)." },
+  damodaran: { v: dcfDerive({ ai_infra_mT: 34.0, ai_sw_mT: 25, wacc: 8.37 }),
+          info: "Approximates Damodaran \u2248$100 (Jun 4 2026, pre-Q3): 8.37% cost of capital, AI software margin 25% (his AI target), perpetual growth. Calibration knob: AI infra target EBITDA margin solved to 34%." },
+  evercore: { v: dcfDerive({ exit: 14.5, gw: 4.4, method: "exit" }),
+          info: "Approximates Evercore ISI $275 (Outperform, raised from $230 on Oct 16): 2.3 GW YE26 \u2192 6.5 GW YE27 at $30/W (averaged to 4.4 GW for 2027). Evercore uses 15.3\u00d7 EV/EBITDA on 2029E ($266B); here a 14.5\u00d7 exit on 2036 (solved)." },
+  pivotal: { v: dcfDerive({ wacc: 13, exit: 20.4, gw: 4.1, method: "exit" }),
+          info: "Approximates Pivotal Research $260 (Buy, raised from $230 on Oct 21). Pivotal: 2027 revenue $168B, EBITDA $90B, capex $320B, a $225B capital raise; DCF at a 13% discount rate and 16\u00d7 2037 terminal EBITDA. Here: 13% WACC, 4.1 GW average 2027 compute so 2027 revenue \u2248$168B, and a 20.4\u00d7 exit on 2036 (solved; this model's 2036 EBITDA is lower than Pivotal's path implies)." },
+  cantor: { v: dcfDerive({ gw: 8.4, exit: 9.9, method: "exit" }),
+          info: "Approximates Cantor Fitzgerald $345 (Overweight, raised from $246 on Oct 21). Cantor models ~$260B of AI segment sales in 2027. Here: 8.4 GW average 2027 compute at $30/W so AI infrastructure + software \u2248$260B in 2027 (total \u2248$297B), base path otherwise, 9.9\u00d7 exit (solved)." },
+  mizuho: { v: dcfDerive({ ai_infra_mT: 40, exit: 12.1, method: "exit" }),
+          info: "Approximates Mizuho $205 (Outperform, raised from $200 on Oct 21; valuation anchored on 2029 with a large haircut to AI/orbital data centers): AI infra margin cut to 40%, 12.1\u00d7 exit (solved)." },
+  stifel: { v: dcfDerive({ exit: 8.4, method: "exit" }),
+          info: "Approximates Stifel $190 (Buy, reiterated Oct 12): base path, 8.4\u00d7 exit (solved)." },
+  db: { v: dcfDerive({ exit: 10.9, method: "exit" }),
+          info: "Approximates Deutsche Bank $235 (Buy, maintained Oct 19; replaces the earlier $255 pick): base path, 10.9\u00d7 exit (solved)." },
+  barclays: { v: dcfDerive({ exit: 14.5, method: "exit" }),
+          info: "Approximates Barclays $300 (Overweight, raised from $254 on Oct 21 after the Q3 beat): base path, 14.5\u00d7 exit (solved)." },
+  needham: { v: dcfDerive({ exit: 11.7, method: "exit" }),
+          info: "Approximates Needham $250 (Buy, reiterated at $250 on Oct 21; earlier $200): base path, 11.7\u00d7 exit (solved)." },
+  citi: { v: dcfDerive({ exit: 11.2, method: "exit" }),
+          info: "Approximates Citi $240 (Buy, raised from $200 on Oct 21): base path, 11.2\u00d7 exit (solved)." },
+  tdcowen: { v: dcfDerive({ exit: 10.3, method: "exit" }),
+          info: "Approximates TD Cowen $224 (Buy, raised from $200 on Oct 21): base path, 10.3\u00d7 exit (solved)." },
 };
 let dcfMethod = 'gordon';
 let dcfChart = null;
@@ -5392,7 +5662,12 @@ function dcfRun(p) {
     p.seg.forEach(v => {
       let r, m;
       if (v.path) { r = v.path[i]; m = v.m0 !== undefined ? v.m0 + (v.mT - v.m0) * Math.min(1, t * 1.5) : v.mT; }
-      else {
+      else if (v.lvl0 !== undefined) {
+        // Compute-driven: 2027 revenue = GW × $/W; g1 applies from 2028 and decays toward terminal
+        revs[v.id] = i === 0 ? v.lvl0 : revs[v.id] * (1 + v.gT + (v.g1 - v.gT) * Math.pow(p.decay, i - 1));
+        r = revs[v.id];
+        m = v.m0 + (v.mT - v.m0) * Math.min(1, t * 1.5);
+      } else {
         const g = v.gT + (v.g1 - v.gT) * Math.pow(p.decay, i);
         revs[v.id] *= 1 + g;
         r = revs[v.id];
@@ -5455,6 +5730,8 @@ function dcfParams(opts) {
     c.rev = y0[key] * y0.arpu * 12 / 1e9; c.g1 = c.path[0] / c.rev - 1; c.m0 = m;
     e.rev = y0.egDemand / 1e9; e.g1 = e.path[0] / e.rev - 1; e.m0 = m;
   }
+  const compute = document.getElementById('dcf_compute') && document.getElementById('dcf_compute').checked;
+  if (compute) { const ai = seg[3]; ai.lvl0 = dcfVal('gw') * dcfVal('ppw'); }
   if (linkOrb && typeof computeSegmentRevenue !== 'undefined') {
     const start = dcfVal('orbital_start');
     const full = computeSegmentRevenue / 1e9;
@@ -5463,7 +5740,7 @@ function dcfParams(opts) {
     seg.push({ id: 'orbital', path, mT: +document.getElementById('c_margin').value / 100 });
   }
   return {
-    seg, linkConn, linkOrb, feed,
+    seg, linkConn, linkOrb, feed, compute, gw: dcfVal('gw'), ppw: dcfVal('ppw'), newdebt: dcfVal('newdebt'),
     wacc: dcfVal('wacc') / 100, tg: dcfVal('tg') / 100, exit: dcfVal('exit'), decay: dcfVal('decay'),
     capex0: dcfVal('capex0') / 100, capexT: dcfVal('capexT') / 100, da: dcfVal('da') / 100, nwc: dcfVal('nwc') / 100,
     tax0: dcfVal('tax0') / 100, taxT: dcfVal('taxT') / 100, netcash: dcfVal('netcash'), dil: dcfVal('dil') / 100,
@@ -5493,6 +5770,13 @@ function updateDcf() {
     document.getElementById(`dcf_${sg.id}_rev`).disabled = linked;
     document.getElementById(`dcf_${sg.id}_g1`).disabled = linked;
   });
+  // Compute mode: AI infra 2027 level = GW × $/W; growth slider becomes 2028 growth
+  document.getElementById('dcf_ai_infra_rev').disabled = !!p.compute;
+  document.getElementById('dcf_ai_infra_g1_lbl').textContent = p.compute ? '2028 growth (after the compute-driven 2027 level; decays)' : '2027 growth (decays toward terminal)';
+  ['dcf_gw', 'dcf_ppw'].forEach(id => { document.getElementById(id).disabled = !p.compute; });
+  document.getElementById('dcf_gw_v').textContent = dcfVal('gw').toFixed(1) + ' GW';
+  document.getElementById('dcf_ppw_v').textContent = '$' + dcfVal('ppw') + '/W';
+  document.getElementById('dcf_newdebt_v').textContent = fmtB(dcfVal('newdebt'));
   const pct = (id, d) => { document.getElementById(`dcf_${id}_v`).textContent = dcfVal(id).toFixed(d) + '%'; };
   pct('wacc', 2); pct('tg', 2); pct('capex0', 0); pct('capexT', 0); pct('da', 1); pct('nwc', 1); pct('tax0', 0); pct('taxT', 0); pct('dil', 2);
   document.getElementById('dcf_exit_v').textContent = dcfVal('exit') + '×';
@@ -5522,6 +5806,22 @@ function updateDcf() {
   r.rows.forEach(x => { cum += x.fcff; minCum = Math.min(minCum, cum); });
   setText('dcf_funding', fmtB(-minCum));
   setText('dcf_rev2030', fmtB(r.rows[3].rev));
+  setText('dcf_rev2027', fmtB(r.rows[0].rev));
+  // +1 GW check vs Morgan Stanley's ~$27/share rule of thumb ($50/W × 1 GW × 70% margin × 10× EBITDA / shares)
+  const msRule = (w) => w * 0.7 * 10 / p.shares;
+  let gwDelta = null;
+  if (p.compute) {
+    const p2 = dcfParams(); p2.seg[3].lvl0 = (p.gw + 1) * p.ppw;
+    const r2 = dcfRun(p2); gwDelta = (dcfMethod === 'exit' ? r2.exit.ps : r2.gordon.ps) - sel.ps;
+  }
+  setText('dcf_gw_delta', gwDelta === null ? 'compute off' : (gwDelta >= 0 ? '+' : '−') + '$' + Math.abs(gwDelta).toFixed(0));
+  setText('dcf_gw_check', p.compute
+    ? `2027 AI-infrastructure revenue = ${p.gw.toFixed(1)} GW × $${p.ppw}/W = ${fmtB(p.gw * p.ppw)}. +1 GW adds ${gwDelta >= 0 ? '+' : '−'}$${Math.abs(gwDelta).toFixed(1)}/share in this DCF. MS's rule of thumb gives ≈$${msRule(50).toFixed(1)}/share at $50/W (MS: ~$27) and ≈$${msRule(p.ppw).toFixed(1)} at $${p.ppw}/W. Note the rule of thumb is a one-year EBITDA multiple, while this DCF carries the extra GW through every later year. For context, the Q3 SI segment earned ≈$16.6/W annualized on 1.7 GW (derived; Cursor excluded).`
+    : 'Compute mode off: AI infrastructure grows from the base-year run-rate.');
+  // Financing (informational)
+  const nd = dcfVal('newdebt');
+  const need = -minCum, avail = p.netcash + nd;
+  setText('dcf_fin_out', `Peak cumulative cash need ${fmtB(need)} vs net cash ${fmtB(p.netcash)} + new debt ${fmtB(nd)} = ${fmtB(avail)} → ${avail >= need ? 'covered' : 'gap of ' + fmtB(need - avail) + ' left for equity or more debt'}.`);
   setText('hero_dcf_inline', fmtPS(sel.ps) + '/share');
 
   const tb = document.getElementById('dcfTable');
@@ -5554,6 +5854,7 @@ function updateDcf() {
   const st = document.getElementById('dcf_cap_status');
   if (st) st.textContent = p.feed ? 'V3 capacity constraint: ON (consumer + E&G fed from the V3 scale-up section)' : 'V3 capacity constraint: off (toggle in the V3 scale-up section)';
   window.__dcf = { params: p, result: r, method: dcfMethod, selected: sel };
+  updateMerger();
   if (typeof updateScaleDcf === 'function') updateScaleDcf();
 }
 
@@ -5580,6 +5881,7 @@ function applyDcfPreset(key) {
   const v = pr.v;
   DCF_SEGS.forEach(sg => ['rev', 'g1', 'mT'].forEach(f => dcfSet(`${sg.id}_${f}`, v[`${sg.id}_${f}`])));
   DCF_GLOBALS.forEach(g => dcfSet(g, v[g]));
+  document.getElementById('dcf_compute').checked = v.compute !== false;
   // Presets are calibrated with their own Connectivity inputs and no orbital line
   document.getElementById('dcf_link_conn').checked = false;
   document.getElementById('dcf_link_orbital').checked = false;
@@ -5594,6 +5896,85 @@ function setDcfMethod(m, silent) {
   document.querySelectorAll('#dcfMethod button').forEach(b => b.classList.toggle('active', b.dataset.method === dcfMethod));
   if (!silent) updateDcf();
 }
+// Financing presets: informational, not inputs to EV
+const DCF_FINANCE = {
+  none: { debt: 0, info: 'No new debt assumed.' },
+  ms:   { debt: 230, info: 'Morgan Stanley assumes investment-grade issuance of $60B (2027), $80B (2028) and $90B (2029), for $230B in total. MS calls financing "the biggest risk to our model" (Oct 19 2026 note, secondary summaries).' },
+  gs:   { debt: 270, info: 'Goldman: the build-out needs ~$270B of debt over 2026–30, and FCF turns positive only in Q4 2030 (secondary summaries of the GS model).' },
+  pivotal: { debt: 225, info: 'Pivotal Research (Oct 21): 2027 capex of $320B (from $186B) funded partly by a $225B capital raise in 2027 (from $100B), via debt plus vendor financing. Modeled here as $225B of new debt. Source: Investing.com, Oct 21.' },
+  nvda: { debt: 40, info: 'Early-stage talks to raise ~$40B (~$10B bank loans + ~$30B investment-grade bonds) to buy Nvidia chips (FT/Reuters/CNBC, Oct 6–7). Talks only; they may end without a deal. Unverified.' },
+};
+// Compute-path presets: set 2027 average GW and $/W only (clears the DCF scenario like the sliders do)
+const DCF_GW_PATHS = {
+  evercore: { gw: 4.4, ppw: 30, info: 'Evercore ISI: 2.3 GW YE26 \u2192 6.5 GW YE27, averaged to 4.4 GW for 2027, at $30/W (Oct 16).' },
+  gs:       { gw: 4.7, ppw: 30, info: 'Goldman: 2.4 GW YE26 \u2192 7.0 GW YE27, averaged to 4.7 GW (pre-Q3 path; secondary summaries).' },
+  ms:       { gw: 4.9, ppw: 30, info: 'Morgan Stanley: 4.9 GW for FY27 (Oct 19 note, secondary summaries). This is the base default.' },
+  jpm:      { gw: 7.0, ppw: 30, info: 'JPMorgan bull path (Oct 21): 2\u20133 GW at YE26 rising to ~13 GW by 2027, the ~10 GW added almost all Nvidia Vera Rubin. Averaged to ~7 GW online in 2027; at $30/W that is \u2248$210B of AI-infrastructure revenue and \u2248$255B in total, close to JPM\'s ~$254B 2027 revenue. Source: CNBC, Oct 21.' },
+};
+function applyGwPath(key) {
+  const g = DCF_GW_PATHS[key]; if (!g) return;
+  document.getElementById('dcf_compute').checked = true;
+  dcfSet('gw', g.gw); dcfSet('ppw', g.ppw);
+  clearDcfPreset();
+  document.querySelectorAll('#dcfGwPresets button').forEach(b => b.classList.toggle('active', b.dataset.gwp === key));
+  document.getElementById('dcfGwInfo').textContent = g.info;
+  updateDcf();
+}
+function applyFinancePreset(key) {
+  const f = DCF_FINANCE[key]; if (!f) return;
+  document.getElementById('dcf_newdebt').value = f.debt;
+  document.querySelectorAll('#dcfFinance button').forEach(b => b.classList.toggle('active', b.dataset.fin === key));
+  document.getElementById('dcfFinInfo').textContent = f.info;
+  updateDcf();
+}
+// Lock-up calendar (share supply; informational)
+const LOCKUP_STEPS = [
+  { d: 'Oct 9, 2026',  m: 328.4,  note: '7% tranche of the 180-day lock-up group.' },
+  { d: 'Oct 22, 2026', m: 1300,   note: 'Earnings-linked release of up to 28% (~1.3B). The date is derived: the second full trading day after the Oct 20 results.' },
+  { d: 'Oct 26, 2026', m: 328.4,  note: '7% tranche (lock-up ends Oct 24, first trading day Oct 26).' },
+  { d: 'Dec 8, 2026',  m: 797.6,  note: 'Final 17% of the lock-up group.' },
+  { d: 'Jun 12, 2027', m: 4800,   note: "Musk's own lock-up ends (~4.8B shares per CNBC; secondary)." },
+];
+function updateLockup() {
+  const el = document.getElementById('lk_step'); if (!el) return;
+  const k = +el.value, st = LOCKUP_STEPS[k];
+  const cum = LOCKUP_STEPS.slice(0, k + 1).reduce((a, x) => a + x.m, 0);
+  const fm = m => m >= 1000 ? (m / 1000).toFixed(2) + 'B' : Math.round(m) + 'M';
+  document.getElementById('lk_step_v').textContent = st.d;
+  document.getElementById('lk_new').textContent = '~' + fm(st.m);
+  document.getElementById('lk_cum').textContent = '~' + fm(cum);
+  document.getElementById('lk_pct').textContent = (cum / MARKET.sharesM * 100).toFixed(1) + '%';
+  document.getElementById('lk_note').textContent = st.note;
+  window.__lockup = { step: k, cumM: cum };
+}
+// Tesla–SpaceX merger scenario (off by default; never feeds the DCF headline)
+function updateMerger() {
+  const on = document.getElementById('mg_on'); if (!on) return;
+  const body = document.getElementById('mg_body');
+  body.style.display = on.checked ? '' : 'none';
+  const px = +document.getElementById('mg_tsla_px').value, sh = +document.getElementById('mg_tsla_sh').value, prem = +document.getElementById('mg_prem').value / 100;
+  document.getElementById('mg_tsla_px_v').textContent = '$' + px.toFixed(2);
+  document.getElementById('mg_tsla_sh_v').textContent = sh.toLocaleString('en-US') + 'M';
+  document.getElementById('mg_prem_v').textContent = (prem * 100).toFixed(0) + '%';
+  const ratio = px / MARKET.price * (1 + prem);
+  const newB = sh * ratio / 1000;
+  const d = window.__dcf;
+  const spcxSh = d ? d.params.shares * Math.pow(1 + d.params.dil, 3) : MARKET.sharesM / 1000;
+  const pf = spcxSh + newB;
+  const own = spcxSh / pf;
+  const mcr = (px * sh * 1e6) / MARKET.mcap;
+  const eqB = d ? d.selected.eq : NaN;
+  const pfPS = (eqB + px * sh / 1000) / pf;
+  const standalone = d ? d.selected.ps : NaN;
+  document.getElementById('mg_ratio').textContent = ratio.toFixed(2);
+  document.getElementById('mg_new').textContent = newB.toFixed(1) + 'B';
+  document.getElementById('mg_own').textContent = (own * 100).toFixed(0) + '%';
+  document.getElementById('mg_mcr').textContent = mcr.toFixed(2);
+  document.getElementById('mg_ps').textContent = isFinite(pfPS) ? fmtPS(pfPS) : '—';
+  const dl = (pfPS / standalone - 1) * 100;
+  document.getElementById('mg_delta').textContent = isFinite(dl) ? (dl >= 0 ? '+' : '−') + Math.abs(dl).toFixed(0) + '%' : '—';
+  window.__merger = { on: on.checked, ratio, newB, own, mcr, pfPS };
+}
 function clearDcfPreset() {
   document.querySelectorAll('#dcfPresets button').forEach(b => b.classList.remove('active'));
   document.getElementById('dcfPresetInfo').textContent = 'Custom inputs — no preset selected.';
@@ -5603,7 +5984,14 @@ function bindDcf() {
   DCF_SEGS.forEach(sg => ['rev', 'g1', 'mT'].forEach(f => ids.push(`dcf_${sg.id}_${f}`)));
   DCF_GLOBALS.forEach(g => ids.push('dcf_' + g));
   ids.forEach(id => document.getElementById(id).addEventListener('input', () => { clearDcfPreset(); updateDcf(); }));
-  ['dcf_link_conn', 'dcf_link_orbital'].forEach(id => document.getElementById(id).addEventListener('change', () => { clearDcfPreset(); updateDcf(); }));
+  document.getElementById('dcf_newdebt').addEventListener('input', () => { document.querySelectorAll('#dcfFinance button').forEach(b => b.classList.remove('active')); document.getElementById('dcfFinInfo').textContent = 'Custom debt amount.'; updateDcf(); });
+  document.getElementById('dcfFinance').addEventListener('click', e => { const b = e.target.closest('button'); if (b) applyFinancePreset(b.dataset.fin); });
+  document.getElementById('dcfGwPresets').addEventListener('click', e => { const b = e.target.closest('button[data-gwp]'); if (b) applyGwPath(b.dataset.gwp); });
+  ['dcf_gw', 'dcf_ppw'].forEach(id => document.getElementById(id).addEventListener('input', () => { document.querySelectorAll('#dcfGwPresets button').forEach(b => b.classList.remove('active')); document.getElementById('dcfGwInfo').textContent = ''; }));
+  document.getElementById('lk_step').addEventListener('input', updateLockup);
+  ['mg_tsla_px', 'mg_tsla_sh', 'mg_prem'].forEach(id => document.getElementById(id).addEventListener('input', updateMerger));
+  document.getElementById('mg_on').addEventListener('change', updateMerger);
+  ['dcf_link_conn', 'dcf_link_orbital', 'dcf_compute'].forEach(id => document.getElementById(id).addEventListener('change', () => { clearDcfPreset(); updateDcf(); }));
   document.getElementById('dcfPresets').addEventListener('click', e => { const b = e.target.closest('button'); if (b) applyDcfPreset(b.dataset.dcf); });
   document.getElementById('dcfMethod').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { clearDcfPreset(); setDcfMethod(b.dataset.method); } });
 }
@@ -5721,7 +6109,13 @@ function resetDefaults() {
   updateOnePlan();
   updateComputePerLaunch();
   applyFccPreset('best');
+  document.getElementById('sc_lou').value = 0;
   applyCadencePreset('conservative');
+  applyFinancePreset('none');
+  document.querySelectorAll('#dcfGwPresets button').forEach(b => b.classList.remove('active')); document.getElementById('dcfGwInfo').textContent = '';
+  document.getElementById('lk_step').value = 0; updateLockup();
+  document.getElementById('mg_on').checked = false;
+  document.getElementById('mg_tsla_px').value = 373.71; document.getElementById('mg_tsla_sh').value = 3752; document.getElementById('mg_prem').value = 0;
   applyDcfPreset('base');
 }
 
@@ -5753,7 +6147,13 @@ document.addEventListener('DOMContentLoaded', () => {
   updateComputePerLaunch(); // Sets computeSegmentEV/Rev/Ebitda + calls updateValuation() (+ updateTam, updateDcf)
   updateTam();
   applyFccPreset('best');
+  document.getElementById('sc_lou').value = 0;
   applyCadencePreset('conservative');
+  applyFinancePreset('none');
+  document.querySelectorAll('#dcfGwPresets button').forEach(b => b.classList.remove('active')); document.getElementById('dcfGwInfo').textContent = '';
+  document.getElementById('lk_step').value = 0; updateLockup();
+  document.getElementById('mg_on').checked = false;
+  document.getElementById('mg_tsla_px').value = 373.71; document.getElementById('mg_tsla_sh').value = 3752; document.getElementById('mg_prem').value = 0;
   applyDcfPreset('base');
 });
 
