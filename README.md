@@ -5,7 +5,7 @@ An interactive one-page webapp that lays out the investment case for SpaceX (SPC
 **Live demo:** https://vanmsft.github.io/spacex-opportunity/  
 **Local preview:** just double-click `index.html`.
 
-> **Oct 22, 2026 update** — New bank presets: BofA $275, Wells Fargo $274, Clear Street $248, Susquehanna $176; Morningstar FV $70 noted. Lock-up slider's ~328M tranche moved to Oct 24 (DefiLlama). Merger note: Reuters says timing may slip past Tesla's Dec 3 meeting (no terms; toggle stays off). FCC AWS-3 uplink spectrum approval added as a risk/catalyst note. Default price unchanged.
+> **Oct 22, 2026 update** — New bank presets: BofA $275, Wells Fargo $274, Clear Street $248, Susquehanna $176; Morningstar FV $70 noted. Lock-up slider's ~328M tranche on Mon Oct 26 (The Closing Print), ~798M on Dec 8. Notes added: Bloomberg tower-lease / 4th-carrier report (scenario only), Space Force NSSL no-bid risk, Oct 22 close ~$144.75 (−9.1%). Merger note: Reuters says timing may slip past Tesla's Dec 3 meeting (no terms; toggle stays off). FCC AWS-3 uplink spectrum approval added as a risk/catalyst note. Default price unchanged.
 >
 > **Q3 2026 update** (market data as of the **Oct 21, 2026 close: $159.31**, +7.79% the day after Q3 results; bank presets updated for the Oct 21–22 post-Q3 target revisions). Base year re-based on the Q3'26 release (revenue $14.6B, net income $4.4B, Q1'27 revenue guide $33–37B). The update adds a compute-driven AI segment (GW × $/W), six more bank presets, informational financing presets, a dated lock-up calendar, a Tesla–SpaceX merger scenario (off by default), a Pending-FAA cadence preset with an optional Starbase Louisiana slider, and a Q3 risk/catalyst card.
 >
