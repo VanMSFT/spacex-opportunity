@@ -3,6 +3,7 @@
 This is the technical map of `index.html`. Useful if you (or Copilot / another AI) want to modify a section, add a new one, or debug something.
 
 > **Oct 2026 update:** line numbers below predate the update and are now approximate. Search by name instead. New pieces:
+> - Oct 23 update: `DCF_PRESETS` adds `phillip` (PhillipCapital $250, base path, 11.7× exit solved; button before Needham). New global `obsdebt` in `DCF_GLOBALS`/`DCF_BASE` (default 0) with slider `#dcf_obsdebt` and note `#dcf_obs_note`; `dcfParams()` reads it and `dcfRun()` computes equity = EV + netcash − obsdebt, so it flows through the headline, sensitivity grid, scale-up 26 vs 60 delta and merger card. WACC note `#dcf_wacc_note`. Risk card adds off-BS AI debt, FCC Oct 29 vote, Flight 15 / Artemis.
 > - Oct 22 update: `DCF_PRESETS` adds `bofa` ($275), `wells` ($274), `clearstreet` ($248), `susq` ($176) (base path, exit multiple solved); `LOCKUP_STEPS` third step Oct 26 (The Closing Print); Starlink Mobile seg note adds tower-carrier scenario; risk card adds NSSL no-bid and tower leases; merger card notes Reuters' possible slip past Dec 3; risk card adds the FCC AWS-3 uplink approval.
 > - `#dcf` section (between `#bull` and `#unlocks`)
 > - `MARKET` constant and `applyMarket()` (right after `DEFAULTS`)
