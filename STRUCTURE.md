@@ -3,6 +3,12 @@
 This is the technical map of `index.html`. Useful if you (or Copilot / another AI) want to modify a section, add a new one, or debug something.
 
 > **Oct 2026 update:** line numbers below predate the update and are now approximate. Search by name instead. New pieces:
+> - Nov 13 tab layout: `<main>` now holds seven `<div class="tabpanel" id="tab-<name>" data-tab="<name>">` panels (summary, model, scenarios, analysts, tech, news, sources); only one is shown at a time (`hidden`). `<nav class="top" id="topbar">` holds the live header (`#hdr_fv`, `#hdr_px`, `#hdr_up`, `#hdr_m`, filled in `updateDcf()`) and the tab links (`.tab[data-tab]`, `href="#<name>"`). Router: `TABS`, `showTab(name)`, `routeHash()` on `hashchange` (a tab name opens the tab; any element id opens the tab holding it, opens its `<details>` and scrolls to it; anything else opens Summary). `window.__showFor(selector)` does the same for tests. `--hdr-h` (header height, from a ResizeObserver) drives `scroll-margin-top` and the sticky output panels. New sections: `#headline` (Summary: `#hv_ps`, `#hv_method`, `#hv_vs`, `#hv_alt`, `#hv_preset`, `#hv_scen`; `#dcfPresets` and `#dcfMethod` moved here), `#scen` (Scenarios: cards `#scen-ai`, `#scen-mobile`, `#scen-balance`, `#scen-cadence`, live strip `#scen_fv`/`#scen_cap`, plus `#mergerCard`), `#results` (Analysts: segments + `#q3card`), `#risks` (News: `#riskCard` with earlier items in `#riskOlder`, and `#lockupCard`). Elements were moved, not copied, so every id and handler is unchanged. Long single-line `.seg-src` notes (>280 characters) and the DCF disclaimer are wrapped in `<details class="fold">` with a "show details" summary; the id stays on the inner note. `.tab-hint` lines point to controls on other tabs. `window.syncHeadlineMeta()` refreshes the active-preset and toggles-on labels.
+> - Nov 13 update: `#dcf_starbase` check now covers Starbase + Arizona (`window.__starbase.azCapex/azGw/azPerGw/total`); new note `#dcf_arizona_note`; `#dcf_starbase_note` adds the Nov 12 statement. Merger dilution: checkbox `#dcf_mgdil` (`mgdil: false`, reset by presets) and `DCF_GLOBALS`/`DCF_BASE` keys `mgratio` (3.2), `mgprob` (54); `dcfParams()` also reads `mg_tsla_px`/`mg_tsla_sh` as `tslaPx`/`tslaShM`. `mergerTerms()`/`mergerWeightedPS()`; `dcfRun()`'s `mk()` now returns `psSA` (standalone) and `ps` (probability-weighted when on); EV/equity untouched. `updateMerger()` uses `psSA` as standalone; merger-card inputs re-run `updateDcf()` when the toggle is on. Outputs `#dcf_mgdil_out`, `window.__mgdil`; notes `#dcf_mgdil_note`, `#mg_nov12`; risk card now Oct 9–Nov 12.
+> - Nov 11 update: `DCF_PRESETS` adds `ms_nov` (wacc 11.3, gw 8.3, gordon; sensitivity, not calibrated; button after MS Bull); `ms_base` info text updated to the Nov 9 SOTP (calibration unchanged at 11.2%). New `DCF_GLOBALS`/`DCF_BASE` keys `anthmo` (6.5), `reletgap` (6), `relethc` (20) plus checkboxes `dcf_anthexit`/`dcf_anthrelet` (`anthexit`/`anthrelet: false`, reset by presets); `anthExitRows()` gives the lost/re-rented Anthropic revenue by year and `dcfRun()` subtracts its PV as `p.anthpv` in the equity bridge (test `py_from` mirrors it). Toggling `dcf_anthexit` sets `dcf_anthhc` to 60/30. `#dcf_starbase` is check-only (`#dcf_starbase_out`, `window.__starbase`). `#dcfOrbStart` buttons set `dcf_orbital_start` (2027/2028 also tick `dcf_link_orbital`). V3 section: `#sc_v4` checkbox + `sc_v4yr`/`sc_v4x` sliders (in `SC_IDS`, `DEFAULTS`, `scParams()`; `scaleRun()` and `scaleup_model.py` use V3 Gbps × `v4x` for satellites deployed from `v4yr` when on); `#sc_boca_delay` makes `applyCadencePreset('pending_faa')` use the FAA-limited 2028 value. New notes: `#dcf_anthexit_note`, `#dcf_anth_musk`, `#dcf_anthexit_out`, `#dcf_starbase_note`, `#dcf_orb_note`, `#sc_v4_note`, `#sc_boca_note`, `#sop_ms_note`; risk card now Oct 9–Nov 11.
+> - Oct 30 update: `DCF_PRESETS` adds `bernstein` (gw 7.8, exit 7.9) and re-targets `db` to $250 (gw 7.8, exit 7.2); `DCF_GW_PATHS` adds `db`, `bernstein`. New `DCF_GLOBALS`/`DCF_BASE` keys `arpu` (0), `capexgw` (35, check only), `anthhc` (30, check only), `mobcapex` (20), `mobopex` (4) plus checkbox `dcf_mobbuild` (`mobbuild: false`, reset by presets); `mobBuildPV()` is subtracted in `dcfRun()`'s equity bridge as `p.mobpv`. `#dcfLease` chips set `dcf_obsdebt` to 0 / 40. `#sc_lou_bull` sets `sc_lou` to 200. New notes: `#dcf_obs_note` (finance lease), `#dcf_anth_note`, `#dcf_arpu_note`, `#dcf_mob_note`, `#dcf_fcc_note`, `#sc_lou_note`, `#mg_china`; risk card now Oct 9–30.
+> - Oct 23 update: `DCF_PRESETS` adds `phillip` (PhillipCapital $250, base path, 11.7× exit solved; button before Needham). New global `obsdebt` in `DCF_GLOBALS`/`DCF_BASE` (default 0) with slider `#dcf_obsdebt` and note `#dcf_obs_note`; `dcfParams()` reads it and `dcfRun()` computes equity = EV + netcash − obsdebt, so it flows through the headline, sensitivity grid, scale-up 26 vs 60 delta and merger card. WACC note `#dcf_wacc_note`. Risk card adds off-BS AI debt, FCC Oct 29 vote, Flight 15 / Artemis.
+> - Oct 22 update: `DCF_PRESETS` adds `bofa` ($275), `wells` ($274), `clearstreet` ($248), `susq` ($176) (base path, exit multiple solved); `LOCKUP_STEPS` third step Oct 26 (The Closing Print); Starlink Mobile seg note adds tower-carrier scenario; risk card adds NSSL no-bid and tower leases; merger card notes Reuters' possible slip past Dec 3; risk card adds the FCC AWS-3 uplink approval.
 > - `#dcf` section (between `#bull` and `#unlocks`)
 > - `MARKET` constant and `applyMarket()` (right after `DEFAULTS`)
 > - DCF engine: `DCF_SEGS`, `DCF_BASE`, `DCF_PRESETS`, `dcfRun()`, `dcfParams()`, `updateDcf()`, `applyDcfPreset()`, `bindDcf()`, `buildDcfChart()`
@@ -39,9 +45,9 @@ spacex-opportunity/
 │       └── Media queries (mobile responsive)
 │
 ├── <body>
-│   ├── <nav class="top"> — Sticky nav with 15 anchor links
+│   ├── <nav class="top" id="topbar"> — Sticky header: live fair value / price / upside + 7 tab links
 │   └── <main>
-│       ├── 16 <section> blocks (see section map below)
+│       ├── 7 .tabpanel divs holding 22 <section> blocks (see tab map below)
 │       └── <footer> — Reset button + disclaimer
 │
 └── <script>  — all JS (~700 lines)
@@ -54,6 +60,20 @@ spacex-opportunity/
     ├── resetDefaults() — invoked by the footer button
     └── DOMContentLoaded — force DEFAULTS on load, build charts, wire inputs, initial render
 ```
+
+## Tab map (Nov 13)
+
+| Tab (`#hash`) | Sections in order |
+|---|---|
+| Summary (`#summary`) | `#hero`, `#spcx` (market strip only), `#headline` (headline value, `#dcfPresets`, `#dcfMethod`) |
+| Model (`#model`) | `#dcf`, `#scaleup`, `#calculator`, `#unit-econ` |
+| Scenarios (`#scenarios`) | `#scen` (optional overlays moved out of `#dcf` and `#scaleup`, plus `#mergerCard`) |
+| Analysts (`#analysts`) | `#results` (segments + `#q3card`), `#valuation`, `#bull`, `#bear` |
+| Tech & market (`#tech`) | `#physics`, `#timeline`, `#cost-curves`, `#bandwidth`, `#compare`, `#tam`, `#compute` |
+| News & risks (`#news`) | `#risks` (`#riskCard`, `#lockupCard`), `#unlocks` |
+| Sources (`#sources`) | `#sources` |
+
+The older section map below lists the original sections; line numbers are out of date.
 
 ## Section map
 
@@ -168,7 +188,7 @@ Segment color mapping (used throughout):
 
 ## How to add a new section
 
-1. Add an anchor link to the nav: `<a href="#new-section">New</a>`
+1. Put the section inside the right `.tabpanel` (see the tab map). Links to it can use `#new-section`; the router opens the tab. A new tab needs a `.tab` link in `#topbar`, a panel `id="tab-<name>"` and an entry in `TABS`.
 2. Add a new `<section id="new-section">` — copy any existing section as a template
 3. If it's interactive, add new IDs to `DEFAULTS`, write an `update*()` function, and add the IDs to `bindInputs()`
 4. If it needs a chart, write a `build*Chart()` function and call it from `DOMContentLoaded`
